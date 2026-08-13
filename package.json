@@ -4,7 +4,11 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "generate:locations": "node scripts/generate-location-pages.mjs",
+    "validate:locations": "node scripts/validate-location-pages.mjs",
+    "predev": "npm run generate:locations",
     "dev": "vite --host 0.0.0.0",
+    "prebuild": "npm run generate:locations",
     "build": "vite build",
     "preview": "vite preview --host 0.0.0.0"
   },

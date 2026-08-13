@@ -1,14 +1,31 @@
-import { resolve } from 'node:path';
+import { readdirSync } from 'node:fs';
+import { basename, dirname, relative, resolve, sep } from 'node:path';
 import { defineConfig } from 'vite';
+
+const projectRoot = import.meta.dirname;
+
+const collectHtmlFiles = (directory) => readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
+  const entryPath = resolve(directory, entry.name);
+  if (entry.isDirectory()) return collectHtmlFiles(entryPath);
+  return entry.isFile() && entry.name === 'index.html' ? [entryPath] : [];
+});
+
+const locationInputs = Object.fromEntries(
+  collectHtmlFiles(resolve(projectRoot, 'location')).map((file) => {
+    const relativePath = relative(projectRoot, dirname(file)).split(sep).join('-');
+    return [`location-${relativePath || basename(dirname(file))}`, file];
+  }),
+);
 
 export default defineConfig({
   build: {
     rollupOptions: {
       input: {
-        home: resolve(import.meta.dirname, 'index.html'),
-        about: resolve(import.meta.dirname, 'about.html'),
-        blog: resolve(import.meta.dirname, 'blog.html'),
-        contact: resolve(import.meta.dirname, 'contact.html'),
+        home: resolve(projectRoot, 'index.html'),
+        about: resolve(projectRoot, 'about.html'),
+        blog: resolve(projectRoot, 'blog.html'),
+        contact: resolve(projectRoot, 'contact.html'),
+        ...locationInputs,
       },
     },
   },

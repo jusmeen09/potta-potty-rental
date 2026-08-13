@@ -2,6 +2,8 @@ const menuToggle = document.querySelector('[data-menu-toggle]');
 const mobileMenu = document.querySelector('[data-mobile-menu]');
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+window.dataLayer = window.dataLayer || [];
+
 document.documentElement.classList.add('js-motion');
 
 const scrollProgress = document.createElement('div');
@@ -33,6 +35,32 @@ window.addEventListener(
 
 updateScrollEffects();
 
+document.querySelectorAll('a[href^="tel:"]').forEach((link) => {
+  link.addEventListener('click', () => {
+    const placement = link.dataset.ctaLocation
+      || (link.matches('.mobile-call') && 'mobile_sticky')
+      || (link.closest('.mobile-menu') && 'mobile_menu')
+      || (link.closest('.site-header') && 'header')
+      || (link.closest('.location-call-card') && 'location_call_card')
+      || (link.closest('.location-hero-actions') && 'location_hero')
+      || (link.closest('.state-intro-copy') && 'state_intro')
+      || (link.closest('.state-planning-card') && 'rental_planning')
+      || (link.closest('.location-faq-layout') && 'faq')
+      || (link.closest('.location-final-cta, .cta-panel') && 'final_cta')
+      || (link.closest('.footer') && 'footer')
+      || 'page_content';
+
+    window.dataLayer.push({
+      event: 'phone_click',
+      page_path: window.location.pathname,
+      location_state: document.body.dataset.locationState || undefined,
+      cta_placement: placement,
+      cta_text: link.textContent.trim().replace(/\s+/g, ' '),
+      phone_number: link.getAttribute('href')?.replace(/^tel:/, ''),
+    });
+  });
+});
+
 if (menuToggle && mobileMenu) {
   menuToggle.addEventListener('click', () => {
     const isOpen = mobileMenu.classList.toggle('open');
@@ -58,13 +86,27 @@ document.querySelectorAll('[data-faq-item]').forEach((item) => {
   });
 });
 
+const testimonialTrack = document.querySelector('[data-testimonial-track]');
+const testimonialSet = document.querySelector('[data-testimonial-set]');
+
+if (testimonialTrack && testimonialSet) {
+  const testimonialClone = testimonialSet.cloneNode(true);
+  testimonialClone.removeAttribute('data-testimonial-set');
+  testimonialClone.setAttribute('aria-hidden', 'true');
+  testimonialTrack.append(testimonialClone);
+  testimonialTrack.classList.add('is-ready');
+}
+
 const revealSelectors = [
   '.hero-copy',
+  '.hero-call-card',
   '.hero-visual',
   '.page-hero-inner',
   '.section-heading',
   '.trust-item',
   '.product-card',
+  '.rental-guide-intro',
+  '.rental-guide-card',
   '.use-card',
   '.process-photo',
   '.step-card',
@@ -87,11 +129,21 @@ const revealSelectors = [
   '.blog-featured',
   '.blog-card',
   '.newsletter',
+  '.location-call-card',
+  '.state-intro-photo',
+  '.state-intro-copy',
+  '.location-option-card',
+  '.state-planning-card',
+  '.location-use-grid article',
+  '.location-process-steps article',
+  '.hub-content-points article',
+  '.home-location-regions article',
+  '.related-location-links a',
 ];
 
 const revealElements = document.querySelectorAll(revealSelectors.join(','));
 const staggerContainers = document.querySelectorAll(
-  '.trust-grid, .product-grid, .use-grid, .steps, .stats-grid, .testimonial-grid, .value-grid, .standards-grid, .blog-grid',
+  '.trust-grid, .product-grid, .rental-guide-grid, .use-grid, .steps, .stats-grid, .testimonial-grid, .value-grid, .standards-grid, .blog-grid, .location-options-grid, .location-use-grid, .location-process-steps, .state-card-grid, .hub-content-points, .home-location-regions, .related-location-links',
 );
 
 staggerContainers.forEach((container) => {
@@ -103,11 +155,11 @@ staggerContainers.forEach((container) => {
 revealElements.forEach((element) => {
   element.classList.add('reveal');
 
-  if (element.matches('.hero-copy, .story-copy, .contact-card')) {
+  if (element.matches('.hero-copy, .rental-guide-intro, .story-copy, .contact-card, .state-intro-copy')) {
     element.classList.add('reveal-left');
   }
 
-  if (element.matches('.hero-visual, .story-visual, .quote-form')) {
+  if (element.matches('.hero-visual, .hero-call-card, .story-visual, .quote-form, .location-call-card, .state-intro-photo')) {
     element.classList.add('reveal-right');
   }
 });
@@ -167,7 +219,7 @@ if (!reducedMotion && 'IntersectionObserver' in window) {
 }
 
 const pressableElements = document.querySelectorAll(
-  '.btn, .filter-btn, .product-card, .use-card, .step-card, .value-card, .testimonial-card, .blog-card',
+  '.btn, .filter-btn, .product-card, .use-card, .step-card, .value-card, .testimonial-card, .blog-card, .location-option-card, .state-link-card, .related-location-links a, .home-state-links a',
 );
 
 pressableElements.forEach((element) => {
