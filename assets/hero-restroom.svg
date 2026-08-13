@@ -1,0 +1,47 @@
+<svg width="760" height="640" viewBox="0 0 760 640" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="sky" x1="380" y1="0" x2="380" y2="640" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#EEF6FF"/>
+      <stop offset="1" stop-color="#BFD8F4"/>
+    </linearGradient>
+    <linearGradient id="unit" x1="405" y1="114" x2="405" y2="568" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1784E8"/>
+      <stop offset="1" stop-color="#0755B2"/>
+    </linearGradient>
+    <filter id="shadow" x="125" y="84" width="565" height="556" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="24" stdDeviation="24" flood-color="#001B3F" flood-opacity="0.24"/>
+    </filter>
+  </defs>
+  <rect width="760" height="640" rx="48" fill="url(#sky)"/>
+  <circle cx="628" cy="108" r="54" fill="#FFD34E"/>
+  <path d="M0 462C118 412 217 438 318 480C438 530 589 540 760 450V640H0V462Z" fill="#A7C77D"/>
+  <path d="M0 515C153 475 291 511 392 544C506 582 625 570 760 518V640H0V515Z" fill="#6B9D50"/>
+  <g opacity="0.55" fill="#FFFFFF">
+    <path d="M101 117C101 98.2 116.2 83 135 83H201C219.8 83 235 98.2 235 117C235 135.8 219.8 151 201 151H135C116.2 151 101 135.8 101 117Z"/>
+    <path d="M519 185C519 168.4 532.4 155 549 155H606C622.6 155 636 168.4 636 185C636 201.6 622.6 215 606 215H549C532.4 215 519 201.6 519 185Z"/>
+  </g>
+  <g filter="url(#shadow)">
+    <path d="M206 177C206 153.8 224.8 135 248 135H562C585.2 135 604 153.8 604 177V542C604 565.2 585.2 584 562 584H248C224.8 584 206 565.2 206 542V177Z" fill="url(#unit)"/>
+    <path d="M194 177C194 153.8 212.8 135 236 135H574C597.2 135 616 153.8 616 177V198H194V177Z" fill="#F8FAFC"/>
+    <path d="M235 198H575V566H235V198Z" fill="#0B69C7"/>
+    <path d="M272 225C272 216.2 279.2 209 288 209H522C530.8 209 538 216.2 538 225V566H272V225Z" fill="#0879DD"/>
+    <rect x="300" y="246" width="210" height="45" rx="12" fill="#F8FAFC"/>
+    <rect x="317" y="257" width="27" height="27" rx="8" fill="#0B1220"/>
+    <path d="M325 277V267C325 263.7 327.7 261 331 261C334.3 261 337 263.7 337 267V277" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+    <text x="352" y="276" fill="#111827" font-family="Arial, sans-serif" font-size="18" font-weight="700">STAR RESTROOMS</text>
+    <rect x="306" y="319" width="198" height="137" rx="12" fill="#075CB6"/>
+    <path d="M327 319H483L468 429H342L327 319Z" fill="#D8EDFF"/>
+    <path d="M357 337H453L444 409H366L357 337Z" fill="#B2D7F9"/>
+    <rect x="477" y="476" width="16" height="36" rx="8" fill="#EAF4FF"/>
+    <path d="M220 560H590L607 584H203L220 560Z" fill="#094A91"/>
+    <path d="M194 198H235V566H194V198Z" fill="#0958A8"/>
+    <path d="M575 198H616V566H575V198Z" fill="#064B96"/>
+  </g>
+  <g>
+    <rect x="75" y="415" width="168" height="106" rx="20" fill="white" fill-opacity="0.92"/>
+    <circle cx="113" cy="455" r="21" fill="#D8EBFF"/>
+    <path d="M103 455L110 462L124 447" stroke="#0967D2" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="145" y="450" fill="#111827" font-family="Arial, sans-serif" font-size="16" font-weight="700">Sanitized</text>
+    <text x="145" y="474" fill="#526071" font-family="Arial, sans-serif" font-size="13">before delivery</text>
+  </g>
+</svg>
