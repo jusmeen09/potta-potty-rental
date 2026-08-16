@@ -50,8 +50,10 @@ npm run generate:locations
 Validate titles, descriptions, canonicals, headings, schema, FAQ parity, call paths, sitemap URLs, and homepage location links:
 
 ```bash
-npm run validate:locations
+npm run validate
 ```
+
+Run only the sitewide JSON-LD audit with `npm run validate:schema`, or only the location-page SEO audit with `npm run validate:locations`.
 
 Create the production build:
 

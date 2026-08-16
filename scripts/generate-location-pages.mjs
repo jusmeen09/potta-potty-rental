@@ -14,6 +14,22 @@ const clarityTrackingScript = `<script type="text/javascript">
       y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
   })(window, document, "clarity", "script", "y3adfg123t");
 </script>`;
+const organizationSchema = {
+  '@type': 'Organization',
+  '@id': `${siteUrl}/#organization`,
+  name: 'Star Portable Restrooms',
+  url: `${siteUrl}/`,
+  logo: `${siteUrl}/assets/logo-mark.png`,
+  telephone: phoneHref,
+  email: 'hello@starportablerestrooms.com',
+  contactPoint: {
+    '@type': 'ContactPoint',
+    telephone: phoneHref,
+    contactType: 'rentals and customer service',
+    areaServed: 'US',
+    availableLanguage: 'English',
+  },
+};
 
 const states = [
   { name: 'Alabama', code: 'AL', region: 'South', capital: 'Montgomery', cities: ['Birmingham', 'Montgomery', 'Mobile', 'Huntsville', 'Tuscaloosa'], focus: 'construction, college events, festivals, and industrial projects', note: 'Hot, humid summers, heavy rain, and changing site conditions make placement, ventilation, service frequency, and truck access important planning details.' },
@@ -131,7 +147,7 @@ const stateFaqs = (state) => [
 const stateSchema = (state, title, description, faqs) => ({
   '@context': 'https://schema.org',
   '@graph': [
-    { '@type': 'Organization', '@id': `${siteUrl}/#organization`, name: 'Star Portable Restrooms', url: `${siteUrl}/`, logo: `${siteUrl}/assets/logo-mark.png`, telephone: phoneHref, email: 'hello@starportablerestrooms.com' },
+    organizationSchema,
     { '@type': 'WebSite', '@id': `${siteUrl}/#website`, url: `${siteUrl}/`, name: 'Star Portable Restrooms', publisher: { '@id': `${siteUrl}/#organization` }, inLanguage: 'en-US' },
     { '@type': 'WebPage', '@id': `${siteUrl}/location/${state.slug}/#webpage`, url: `${siteUrl}/location/${state.slug}/`, name: title, description, isPartOf: { '@id': `${siteUrl}/#website` }, about: { '@id': `${siteUrl}/location/${state.slug}/#service` }, mainEntity: [{ '@id': `${siteUrl}/location/${state.slug}/#service` }, { '@id': `${siteUrl}/location/${state.slug}/#faq` }], breadcrumb: { '@id': `${siteUrl}/location/${state.slug}/#breadcrumb` }, inLanguage: 'en-US' },
     { '@type': 'Service', '@id': `${siteUrl}/location/${state.slug}/#service`, name: `Porta Potty Rental in ${state.name}`, serviceType: 'Porta potty and portable toilet rental', description, provider: { '@id': `${siteUrl}/#organization` }, areaServed: { '@type': 'AdministrativeArea', name: state.name }, hasOfferCatalog: offerCatalog },
@@ -312,7 +328,7 @@ const hubDescription = 'Find porta potty rental locations by state. Call Star fo
 const hubSchema = {
   '@context': 'https://schema.org',
   '@graph': [
-    { '@type': 'Organization', '@id': `${siteUrl}/#organization`, name: 'Star Portable Restrooms', url: `${siteUrl}/`, logo: `${siteUrl}/assets/logo-mark.png`, telephone: phoneHref, email: 'hello@starportablerestrooms.com' },
+    organizationSchema,
     { '@type': 'WebSite', '@id': `${siteUrl}/#website`, url: `${siteUrl}/`, name: 'Star Portable Restrooms', publisher: { '@id': `${siteUrl}/#organization` }, inLanguage: 'en-US' },
     { '@type': 'CollectionPage', '@id': `${siteUrl}/location/#webpage`, url: `${siteUrl}/location/`, name: hubTitle, description: hubDescription, isPartOf: { '@id': `${siteUrl}/#website` }, breadcrumb: { '@id': `${siteUrl}/location/#breadcrumb` }, mainEntity: { '@id': `${siteUrl}/location/#states` }, inLanguage: 'en-US' },
     { '@type': 'ItemList', '@id': `${siteUrl}/location/#states`, name: 'Porta potty rental locations by state', numberOfItems: states.length, itemListElement: states.map((state, index) => ({ '@type': 'ListItem', position: index + 1, name: `Porta Potty Rental in ${state.name}`, url: `${siteUrl}/location/${state.slug}/` })) },
