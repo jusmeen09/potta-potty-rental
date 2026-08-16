@@ -97,7 +97,7 @@ for (const page of pages) {
 
 const sitemap = read(resolve(root, 'public', 'sitemap.xml'));
 const sitemapUrls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((item) => item[1]);
-if (sitemapUrls.length !== 55) fail(`Expected 55 sitemap URLs; found ${sitemapUrls.length}.`);
+if (sitemapUrls.length !== 59) fail(`Expected 59 sitemap URLs; found ${sitemapUrls.length}.`);
 if (new Set(sitemapUrls).size !== sitemapUrls.length) fail('Sitemap contains duplicate URLs.');
 pages.forEach((page) => {
   if (!sitemapUrls.includes(page.expectedCanonical)) fail(`Sitemap is missing ${page.expectedCanonical}.`);

@@ -4,13 +4,15 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "generate:services": "node scripts/generate-service-pages.mjs",
     "generate:locations": "node scripts/generate-location-pages.mjs",
+    "generate": "npm run generate:services && npm run generate:locations",
     "validate:locations": "node scripts/validate-location-pages.mjs",
     "validate:schema": "node scripts/validate-schema.mjs",
     "validate": "npm run validate:schema && npm run validate:locations",
-    "predev": "npm run generate:locations",
+    "predev": "npm run generate",
     "dev": "vite --host 0.0.0.0",
-    "prebuild": "npm run generate:locations && npm run validate",
+    "prebuild": "npm run generate && npm run validate",
     "build": "vite build",
     "preview": "vite preview --host 0.0.0.0"
   },

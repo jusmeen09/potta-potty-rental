@@ -10,11 +10,22 @@ const locationDirectories = readdirSync(resolve(root, 'location'), { withFileTyp
   .map((entry) => entry.name)
   .sort();
 
+const serviceDirectories = readdirSync(resolve(root, 'service'), { withFileTypes: true })
+  .filter((entry) => entry.isDirectory() && existsSync(resolve(root, 'service', entry.name, 'index.html')))
+  .map((entry) => entry.name)
+  .sort();
+
 const pages = [
   { label: 'home', file: 'index.html', canonical: `${siteUrl}/`, required: ['Organization', 'WebSite', 'WebPage', 'Service', 'FAQPage'] },
   { label: 'about', file: 'about.html', canonical: `${siteUrl}/about.html`, required: ['Organization', 'WebSite', 'AboutPage', 'BreadcrumbList'] },
   { label: 'blog', file: 'blog.html', canonical: `${siteUrl}/blog.html`, required: ['Organization', 'WebSite', 'CollectionPage', 'ItemList', 'BreadcrumbList'] },
   { label: 'contact', file: 'contact.html', canonical: `${siteUrl}/contact.html`, required: ['Organization', 'WebSite', 'ContactPage', 'Service', 'BreadcrumbList', 'FAQPage'] },
+  ...serviceDirectories.map((slug) => ({
+    label: `service: ${slug}`,
+    file: `service/${slug}/index.html`,
+    canonical: `${siteUrl}/service/${slug}/`,
+    required: ['Organization', 'WebSite', 'WebPage', 'Service', 'BreadcrumbList', 'FAQPage'],
+  })),
   { label: 'location hub', file: 'location/index.html', canonical: `${siteUrl}/location/`, required: ['Organization', 'WebSite', 'CollectionPage', 'ItemList', 'BreadcrumbList'] },
   ...locationDirectories.map((slug) => ({
     label: slug,
@@ -66,7 +77,8 @@ for (const page of pages) {
   }
 }
 
-if (pages.length !== 55) errors.push(`Expected schema audit coverage for 55 pages; found ${pages.length}.`);
+if (serviceDirectories.length !== 4) errors.push(`Expected four generated service pages; found ${serviceDirectories.length}.`);
+if (pages.length !== 59) errors.push(`Expected schema audit coverage for 59 pages; found ${pages.length}.`);
 
 if (errors.length) {
   errors.forEach((error) => console.error(`ERROR: ${error}`));

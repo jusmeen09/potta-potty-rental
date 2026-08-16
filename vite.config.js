@@ -17,6 +17,13 @@ const locationInputs = Object.fromEntries(
   }),
 );
 
+const serviceInputs = Object.fromEntries(
+  collectHtmlFiles(resolve(projectRoot, 'service')).map((file) => {
+    const relativePath = relative(projectRoot, dirname(file)).split(sep).join('-');
+    return [`service-${relativePath || basename(dirname(file))}`, file];
+  }),
+);
+
 export default defineConfig({
   build: {
     rollupOptions: {
@@ -25,6 +32,7 @@ export default defineConfig({
         about: resolve(projectRoot, 'about.html'),
         blog: resolve(projectRoot, 'blog.html'),
         contact: resolve(projectRoot, 'contact.html'),
+        ...serviceInputs,
         ...locationInputs,
       },
     },

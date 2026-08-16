@@ -2,6 +2,8 @@
 
 These prompts are designed to look like genuine photographs taken for a local portable-restroom rental company—not luxury advertising or cinematic AI artwork. Generate images without company logos or readable text, then add the real Star Portable Restrooms logo during website editing.
 
+Use `STYLE.md` as the visual-system reference. Images should support the documented typography, spacing, contrast, and call-first hierarchy rather than compete with headings or phone CTAs.
+
 ## Current Website Delivery Requirements
 
 - Export production images as optimized WebP or AVIF files at the rendered dimensions whenever practical.

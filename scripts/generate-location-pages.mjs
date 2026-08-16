@@ -105,18 +105,18 @@ const header = (active = '') => `
   <header class="site-header">
     <div class="container nav-inner">
       <a class="brand" href="/" aria-label="Star Portable Restrooms home"><img src="/assets/logo-mark.png" alt="" /><span class="brand-name">Star Portable <small>Restrooms</small></span></a>
-      <nav class="desktop-nav" aria-label="Primary navigation"><a href="/">Home</a><a href="/about.html">About</a><a href="/blog.html">Blog</a><a${active === 'locations' ? ' class="active"' : ''} href="/location/">Locations</a><a href="/contact.html">Contact</a></nav>
+      <nav class="desktop-nav" aria-label="Primary navigation"><a href="/">Home</a><a href="/about.html">About</a><a href="/blog.html">Blog</a><a href="/#rentals">Services</a><a${active === 'locations' ? ' class="active"' : ''} href="/location/">Locations</a><a href="/contact.html">Contact</a></nav>
       <div class="nav-actions"><a class="header-phone" href="tel:${phoneHref}"><span class="header-phone-icon" aria-hidden="true">☎</span><span><small>Call Us Now</small>${phoneDisplay}</span></a><button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" data-menu-toggle><span></span></button></div>
     </div>
   </header>
-  <nav class="mobile-menu" aria-label="Mobile navigation" data-mobile-menu><a href="/">Home</a><a href="/about.html">About</a><a href="/blog.html">Blog</a><a href="/location/">Locations</a><a href="/contact.html">Contact</a><a class="btn btn-call mobile-menu-call" href="tel:${phoneHref}">☎ Call Us Now · ${phoneDisplay}</a></nav>`;
+  <nav class="mobile-menu" aria-label="Mobile navigation" data-mobile-menu><a href="/">Home</a><a href="/about.html">About</a><a href="/blog.html">Blog</a><a href="/#rentals">Services</a><a href="/location/">Locations</a><a href="/contact.html">Contact</a><a class="btn btn-call mobile-menu-call" href="tel:${phoneHref}">☎ Call Us Now · ${phoneDisplay}</a></nav>`;
 
 const footer = () => `
   <footer class="footer">
     <div class="container footer-grid">
       <div class="footer-about"><a class="brand" href="/"><img src="/assets/logo-mark.png" alt="" /><span class="brand-name">Star Portable <small>Restrooms</small></span></a><p>Porta potty, portable toilet, restroom trailer, and handwashing station rentals for events, job sites, and long-term projects. Availability is confirmed by ZIP code.</p></div>
       <div><h4>Company</h4><nav class="footer-links"><a href="/">Home</a><a href="/about.html">About us</a><a href="/blog.html">Blog</a><a href="/location/">Locations</a><a href="/contact.html">Contact</a></nav></div>
-      <div><h4>Rental Solutions</h4><nav class="footer-links"><a href="/#rentals">Standard restrooms</a><a href="/#rentals">ADA-accessible units</a><a href="/#rentals">Restroom trailers</a><a href="/#rentals">Handwashing stations</a></nav></div>
+      <div><h4>Rental Solutions</h4><nav class="footer-links"><a href="/service/standard-porta-potty-rental/">Standard restrooms</a><a href="/service/ada-portable-toilet-rental/">ADA-accessible units</a><a href="/service/restroom-trailer-rental/">Restroom trailers</a><a href="/service/portable-handwashing-station-rental/">Handwashing stations</a></nav></div>
       <div><h4>Talk to Us</h4><div class="footer-contact"><a href="tel:${phoneHref}"><strong>Phone</strong>${phoneDisplay}</a><a href="mailto:hello@starportablerestrooms.com"><strong>Email</strong>hello@starportablerestrooms.com</a><span><strong>Hours</strong>Mon–Sat · 7:00 AM–7:00 PM</span></div></div>
     </div>
     <div class="container footer-bottom"><span>© <span data-current-year></span> starportablerestrooms.com. All rights reserved.</span><span>Availability confirmed by delivery ZIP.</span></div>
@@ -392,6 +392,10 @@ const staticUrls = [
   { path: '/blog.html', changefreq: 'weekly', priority: '0.8' },
   { path: '/contact.html', changefreq: 'monthly', priority: '0.9' },
   { path: '/location/', changefreq: 'weekly', priority: '0.9' },
+  { path: '/service/standard-porta-potty-rental/', changefreq: 'monthly', priority: '0.9' },
+  { path: '/service/ada-portable-toilet-rental/', changefreq: 'monthly', priority: '0.9' },
+  { path: '/service/restroom-trailer-rental/', changefreq: 'monthly', priority: '0.9' },
+  { path: '/service/portable-handwashing-station-rental/', changefreq: 'monthly', priority: '0.9' },
 ];
 const locationUrls = states.map((state) => ({ path: `/location/${state.slug}/`, changefreq: 'monthly', priority: '0.8' }));
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
