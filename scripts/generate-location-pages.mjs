@@ -6,6 +6,7 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const siteUrl = 'https://starportablerestrooms.com';
 const phoneDisplay = '+1 (833) 920-1299';
 const phoneHref = '+18339201299';
+const sitemapLastModified = new Date().toISOString().slice(0, 10);
 const clarityTrackingScript = `<script type="text/javascript">
   (function(c,l,a,r,i,t,y){
       c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
@@ -379,8 +380,9 @@ const staticUrls = [
 const locationUrls = states.map((state) => ({ path: `/location/${state.slug}/`, changefreq: 'monthly', priority: '0.8' }));
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${[...staticUrls, ...locationUrls].map((item) => `  <url><loc>${siteUrl}${item.path}</loc><lastmod>2026-08-13</lastmod><changefreq>${item.changefreq}</changefreq><priority>${item.priority}</priority></url>`).join('\n')}
+${[...staticUrls, ...locationUrls].map((item) => `  <url><loc>${siteUrl}${item.path}</loc><lastmod>${sitemapLastModified}</lastmod><changefreq>${item.changefreq}</changefreq><priority>${item.priority}</priority></url>`).join('\n')}
 </urlset>\n`;
+writeFileSync(resolve(root, 'sitemap.xml'), sitemap);
 writeFileSync(resolve(root, 'public', 'sitemap.xml'), sitemap);
 
 console.log(`Generated location hub, ${states.length} state pages, and ${staticUrls.length + locationUrls.length} sitemap URLs.`);
