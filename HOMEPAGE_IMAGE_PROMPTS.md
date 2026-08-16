@@ -2,6 +2,15 @@
 
 These prompts are designed to look like genuine photographs taken for a local portable-restroom rental company—not luxury advertising or cinematic AI artwork. Generate images without company logos or readable text, then add the real Star Portable Restrooms logo during website editing.
 
+## Current Website Delivery Requirements
+
+- Export production images as optimized WebP or AVIF files at the rendered dimensions whenever practical.
+- Keep the homepage hero composition readable beneath the dark overlay and leave clear space for the call-first headline and phone CTA.
+- Do not embed phone numbers, calls to action, logos, or other readable text inside generated images; HTML provides the accessible content.
+- Preserve existing asset paths and descriptive alt text when replacing an image, or update the corresponding HTML references.
+- Keep the hero image lightweight because it is the homepage Largest Contentful Paint candidate; avoid oversized source files and unnecessary transparency.
+- Use lazy loading for below-the-fold images. The hero image should remain eagerly discoverable and preloaded by the page.
+
 ## Best Method for Realistic Results
 
 Whenever possible, begin with a real photograph of a local venue, construction site, service yard, or event setup and use image editing to add or replace only the portable restroom. Generating both the location and equipment from scratch is more likely to produce an artificial result.

@@ -4,8 +4,15 @@ import { fileURLToPath } from 'node:url';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const siteUrl = 'https://starportablerestrooms.com';
-const phoneDisplay = '(833) 920-1299';
+const phoneDisplay = '+1 (833) 920-1299';
 const phoneHref = '+18339201299';
+const clarityTrackingScript = `<script type="text/javascript">
+  (function(c,l,a,r,i,t,y){
+      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+  })(window, document, "clarity", "script", "y3adfg123t");
+</script>`;
 
 const states = [
   { name: 'Alabama', code: 'AL', region: 'South', capital: 'Montgomery', cities: ['Birmingham', 'Montgomery', 'Mobile', 'Huntsville', 'Tuscaloosa'], focus: 'construction, college events, festivals, and industrial projects', note: 'Hot, humid summers, heavy rain, and changing site conditions make placement, ventilation, service frequency, and truck access important planning details.' },
@@ -74,7 +81,7 @@ const listSentence = (items) => `${items.slice(0, -1).join(', ')}, and ${items.a
 const header = (active = '') => `
   <div class="topbar">
     <div class="container topbar-inner">
-      <div class="topbar-items"><span>Mon–Sat · 7:00 AM–7:00 PM</span><span>Availability confirmed by delivery ZIP</span><a href="mailto:hello@starportablerestrooms.com">hello@starportablerestrooms.com</a></div>
+      <div class="topbar-items"><span>Mon–Sat · 7:00 AM–7:00 PM</span><span>Availability confirmed by delivery ZIP</span><a href="tel:${phoneHref}">Call ${phoneDisplay}</a></div>
       <span>Clean units. Clear pricing. Reliable coordination.</span>
     </div>
   </div>
@@ -171,6 +178,7 @@ const statePage = (state) => {
   <link rel="icon" href="/assets/logo-mark.png" type="image/png" />
   <link rel="preload" as="image" href="/assets/homepage/cover.webp" fetchpriority="high" />
   <link rel="stylesheet" href="/styles.css" />
+  ${clarityTrackingScript}
   <script type="application/ld+json">${serializeSchema(schema)}</script>
 </head>
 <body class="location-page state-location-page" data-location-state="${escapeHtml(state.name)}">
@@ -214,7 +222,7 @@ ${header('locations')}
         <p>Portable restroom needs vary across ${escapeHtml(state.name)}. Projects in ${escapeHtml(state.cities.slice(0, 3).join(', '))}, and surrounding communities may need different quantities, delivery windows, and service schedules based on attendance, crew size, rental length, and site access.</p>
         <p>${escapeHtml(state.note)}</p>
         <p>Common requests include ${escapeHtml(state.focus)}. Call with the exact address so the rental desk can confirm what is currently available for your part of ${escapeHtml(state.name)}.</p>
-        <a class="text-link location-text-link" href="tel:${phoneHref}">Check ${escapeHtml(state.name)} availability <span class="arrow">→</span></a>
+        <a class="text-link location-text-link" href="tel:${phoneHref}">Call ${phoneDisplay} for ${escapeHtml(state.name)} availability <span class="arrow">→</span></a>
       </div>
     </div>
   </section>
@@ -227,6 +235,11 @@ ${header('locations')}
         <article class="location-option-card"><img src="/assets/homepage/ada-restroom.webp" alt="Accessible portable restroom rental unit" loading="lazy" /><div><span>Accessible option</span><h3>Accessible Portable Restroom</h3><p>Ground-level entry and additional interior space for events, public sites, and inclusive sanitation plans.</p></div></article>
         <article class="location-option-card"><img src="/assets/homepage/restroom-trailer.webp" alt="Portable restroom trailer rental" loading="lazy" /><div><span>Upgraded comfort</span><h3>Portable Restroom Trailer</h3><p>Restroom trailers for weddings, corporate events, VIP areas, and projects with suitable power, water, and access.</p></div></article>
         <article class="location-option-card"><img src="/assets/homepage/handwash-station.webp" alt="Portable handwashing station rental" loading="lazy" /><div><span>Hygiene add-on</span><h3>Handwashing Station</h3><p>Standalone sinks with fresh water, soap dispensers, and hands-free operation for events and job sites.</p></div></article>
+      </div>
+      <div class="call-cta">
+        <span class="call-cta-mark" aria-hidden="true">☎</span>
+        <div class="call-cta-copy"><small>Which rental fits your ${escapeHtml(state.name)} site?</small><strong>Get availability, recommendations, and pricing by phone.</strong><span>Share the delivery ZIP code, dates, and expected guest or crew count.</span></div>
+        <a class="call-cta-phone" href="tel:${phoneHref}" aria-label="Call Star Portable Restrooms at ${phoneDisplay}"><span class="call-cta-phone-icon" aria-hidden="true">☎</span><span><small>Call the rental desk</small><strong>${phoneDisplay}</strong></span></a>
       </div>
     </div>
   </section>
@@ -243,7 +256,7 @@ ${header('locations')}
         <span class="state-planning-icon">◎</span>
         <h3>What affects delivery and pricing?</h3>
         <ul><li>Distance and current route availability</li><li>Unit type, quantity, and rental duration</li><li>Delivery surface, gate, and truck clearance</li><li>Cleaning, pumping, and restocking frequency</li><li>Event timing, pickup window, and special access</li></ul>
-        <a class="btn btn-call" href="tel:${phoneHref}">☎ Call for a rental recommendation</a>
+        <a class="btn btn-call" href="tel:${phoneHref}">☎ Call ${phoneDisplay}</a>
       </aside>
     </div>
   </section>
@@ -273,7 +286,7 @@ ${header('locations')}
 
   <section class="section surface" id="state-faqs">
     <div class="container location-faq-layout">
-      <div><span class="eyebrow">${state.name} rental questions</span><h2>Porta Potty Rental FAQs for ${escapeHtml(state.name)}</h2><p>Answers about pricing, local availability, event quantities, construction rentals, restroom trailers, and call preparation.</p><a class="btn btn-call" href="tel:${phoneHref}">☎ Ask the rental desk</a></div>
+      <div><span class="eyebrow">${state.name} rental questions</span><h2>Porta Potty Rental FAQs for ${escapeHtml(state.name)}</h2><p>Answers about pricing, local availability, event quantities, construction rentals, restroom trailers, and call preparation.</p><a class="btn btn-call" href="tel:${phoneHref}">☎ Call ${phoneDisplay}</a></div>
       <div class="faq-list">${faqs.map(({ q, a }, index) => `<article class="faq-item${index === 0 ? ' open' : ''}" data-faq-item><button class="faq-question" type="button" aria-expanded="${index === 0}" data-faq-button>${escapeHtml(q)}<span class="faq-plus">+</span></button><div class="faq-answer"><div><p>${escapeHtml(a)}</p></div></div></article>`).join('')}</div>
     </div>
   </section>
@@ -320,6 +333,7 @@ const hubPage = `<!doctype html>
   <link rel="icon" href="/assets/logo-mark.png" type="image/png" />
   <link rel="preload" as="image" href="/assets/homepage/cover.webp" fetchpriority="high" />
   <link rel="stylesheet" href="/styles.css" />
+  ${clarityTrackingScript}
   <script type="application/ld+json">${serializeSchema(hubSchema)}</script>
 </head>
 <body class="location-page location-hub-page">
@@ -335,7 +349,7 @@ ${header('locations')}
   <section class="location-call-strip" aria-label="How state availability checks work"><div class="container location-call-strip-grid"><div><span>01</span><strong>Choose a state</strong><small>Review local planning guidance</small></div><div><span>02</span><strong>Share the ZIP code</strong><small>Confirm route availability</small></div><div><span>03</span><strong>Describe the project</strong><small>Estimate unit types and quantity</small></div><div><span>04</span><strong>Review service</strong><small>Discuss delivery and pricing</small></div></div></section>
 
   <section class="section state-directory-section" id="state-directory">
-    <div class="container"><div class="state-directory-head"><div><span class="eyebrow">Browse the service directory</span><h2>Find a Porta Potty Rental Location by State</h2><p>Each state page covers portable toilet options, common event and construction needs, delivery considerations, major markets, FAQs, and a direct call path.</p></div><label class="state-search"><span>Search states</span><input type="search" placeholder="Enter a state name" autocomplete="off" data-state-search /></label></div><p class="state-search-empty" data-state-empty hidden>No states match that search.</p><div class="state-region-groups">${groupedStates.map(({ region, states: regionStates }) => `<section class="state-region-group" data-state-region><div class="state-region-title"><span>${String(regionOrder.indexOf(region) + 1).padStart(2, '0')}</span><h3>${region}</h3><small>${regionStates.length} states</small></div><div class="state-card-grid">${regionStates.map((state) => `<a class="state-link-card" href="/location/${state.slug}/" data-state-card data-state-name="${state.name.toLowerCase()}"><span>${state.code}</span><div><strong>${escapeHtml(state.name)}</strong><small>Porta potty rental →</small></div></a>`).join('')}</div></section>`).join('')}</div></div>
+    <div class="container"><div class="state-directory-head"><div><span class="eyebrow">Browse the service directory</span><h2>Find a Porta Potty Rental Location by State</h2><p>Each state page covers portable toilet options, common event and construction needs, delivery considerations, major markets, FAQs, and a direct call path.</p></div><label class="state-search"><span>Search states</span><input type="search" placeholder="Enter a state name" autocomplete="off" data-state-search /></label></div><p class="state-search-empty" data-state-empty hidden>No states match that search.</p><div class="state-region-groups">${groupedStates.map(({ region, states: regionStates }) => `<section class="state-region-group" data-state-region><div class="state-region-title"><span>${String(regionOrder.indexOf(region) + 1).padStart(2, '0')}</span><h3>${region}</h3><small>${regionStates.length} states</small></div><div class="state-card-grid">${regionStates.map((state) => `<a class="state-link-card" href="/location/${state.slug}/" data-state-card data-state-name="${state.name.toLowerCase()}"><span>${state.code}</span><div><strong>${escapeHtml(state.name)}</strong><small>Porta potty rental →</small></div></a>`).join('')}</div></section>`).join('')}</div><div class="call-cta"><span class="call-cta-mark" aria-hidden="true">☎</span><div class="call-cta-copy"><small>Not sure which page to choose?</small><strong>Call with the delivery ZIP code for a direct availability check.</strong><span>We’ll help with unit options, quantities, service frequency, and pricing.</span></div><a class="call-cta-phone" href="tel:${phoneHref}" aria-label="Call Star Portable Restrooms at ${phoneDisplay}"><span class="call-cta-phone-icon" aria-hidden="true">☎</span><span><small>Call the rental desk</small><strong>${phoneDisplay}</strong></span></a></div></div>
   </section>
 
   <section class="section surface"><div class="container location-hub-content"><div><span class="eyebrow">Search intent, answered</span><h2>Portable Toilet Rental Help for Events and Job Sites</h2><p>Customers searching for a “porta potty rental near me” usually need fast answers about nearby inventory, delivery timing, rental cost, unit quantity, and servicing. State pages help organize that information, but the exact address is what determines real availability.</p><p>Rental options may include standard portable toilets, accessible portable restrooms, restroom trailers, and handwashing stations for construction, festivals, weddings, commercial sites, private gatherings, and temporary facilities.</p></div><div class="hub-content-points"><article><span>01</span><h3>Event rentals</h3><p>Plan around attendance, duration, food and alcohol service, accessibility, and venue access.</p></article><article><span>02</span><h3>Construction rentals</h3><p>Coordinate job-site placement, recurring cleaning, pumping, restocking, and pickup.</p></article><article><span>03</span><h3>Trailer rentals</h3><p>Review power, water, level ground, truck access, guest expectations, and utilities.</p></article></div></div></section>
