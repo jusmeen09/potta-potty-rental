@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Star Portable Restrooms">
+  <rect width="64" height="64" rx="14" fill="#091426"/>
+  <path d="M32 12.5l3.9 8.4 9.1 1.1-6.7 6.3 1.8 9.1-8.1-4.5-8.1 4.5 1.8-9.1-6.7-6.3 9.1-1.1z" fill="#ef3f4c"/>
+  <text x="32" y="55.5" text-anchor="middle" font-family="Manrope, 'DM Sans', Helvetica, Arial, sans-serif" font-size="19" font-weight="800" letter-spacing="0.5" fill="#ffffff">PPR</text>
+</svg>
