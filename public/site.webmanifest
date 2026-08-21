@@ -1,0 +1,23 @@
+{
+  "name": "Star Portable Restrooms",
+  "short_name": "Star Restrooms",
+  "description": "Porta potty, portable toilet, restroom trailer, and handwashing station rentals across the USA.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#091426",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

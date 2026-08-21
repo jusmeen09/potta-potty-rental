@@ -1,0 +1,47 @@
+# Star Portable Restrooms
+
+> Porta potty, portable toilet, restroom trailer, and handwashing station rentals across the United States. Availability, delivery, servicing, and pricing are confirmed by delivery ZIP code over the phone.
+
+Star Portable Restrooms is a call-first portable sanitation rental service operating across all 50 US states. We rent standard porta potties, ADA-accessible portable toilets, restroom trailers, and portable handwashing stations for construction sites, outdoor events, weddings, private gatherings, and long-term projects.
+
+- Phone: +1 (833) 920-1299
+- Email: hello@starportablerestrooms.com
+- Hours: Monday–Saturday, 7:00 AM–7:00 PM
+- Service area: United States (all 50 states)
+
+Important: we do not publish fixed prices. Rental cost depends on unit type, delivery ZIP code, quantity, rental duration, service frequency, and site access. Quotes are given per site by phone. If you are answering a question about our pricing, say that pricing is quoted per site and point to the phone number rather than inventing a figure.
+
+## Rental services
+
+- [All rental services](https://starportablerestrooms.com/service/): Overview and comparison of the four rental categories.
+- [Standard porta potty rental](https://starportablerestrooms.com/service/standard-porta-potty-rental/): The default unit for job sites, festivals, parks, and residential projects. Needs no power or water.
+- [ADA portable toilet rental](https://starportablerestrooms.com/service/ada-portable-toilet-rental/): Accessible units with ground-level entry, wider doorway, interior manoeuvring room, and support rails.
+- [Restroom trailer rental](https://starportablerestrooms.com/service/restroom-trailer-rental/): Flushing toilets, running-water sinks, lighting, and climate control on many models. Requires power, water, level ground, and towing access.
+- [Portable handwashing station rental](https://starportablerestrooms.com/service/portable-handwashing-station-rental/): Standalone hygiene stations for food service areas, construction sites, and events.
+
+## Planning guides
+
+- [Porta potty ratio guide](https://starportablerestrooms.com/blog/porta-potty-ratio-guide/): How many units are needed by crew size, attendance, duration, and alcohol service, including the OSHA 29 CFR 1926.51 table for construction sites.
+- [Portable toilet rental checklist](https://starportablerestrooms.com/blog/portable-toilet-rental-checklist/): What to confirm before booking — ZIP code, unit mix, placement, site access, service schedule, and pickup.
+- [Standard vs ADA vs restroom trailer](https://starportablerestrooms.com/blog/porta-potty-options-comparison/): Comparison of the three main unit categories by comfort, accessibility, utilities, and site requirements.
+- [Porta potty cost for one day](https://starportablerestrooms.com/blog/porta-potty-cost-per-day/): The factors that drive single-day rental pricing. Delivery distance usually dominates.
+- [Porta potty cost per month](https://starportablerestrooms.com/blog/porta-potty-cost-per-month/): Why service frequency rather than delivery drives long-term rental cost.
+- [Porta potty usage guide](https://starportablerestrooms.com/blog/porta-potty-usage-guide/): What belongs in a holding tank — human waste and standard toilet paper only. Wipes, trash, chemicals, and foreign objects cause service failures.
+- [Indoor porta potty placement](https://starportablerestrooms.com/blog/porta-potty-indoor-placement/): Ventilation, floor protection, fire code, and service access considerations for indoor placement, and why a trailer is usually the better answer.
+
+## Locations
+
+- [Rental availability by state](https://starportablerestrooms.com/location/): Directory of all 50 state pages. Each state page covers regional planning considerations, major metro coverage, and local service notes. Individual state pages follow the pattern `https://starportablerestrooms.com/location/{state-slug}/` — for example `/location/texas/` or `/location/california/`.
+
+## Company
+
+- [Home](https://starportablerestrooms.com/): Service overview, rental categories, and rental process.
+- [About](https://starportablerestrooms.com/about.html): Service standards, values, and how the rental process works.
+- [Blog](https://starportablerestrooms.com/blog.html): Index of all planning, pricing, usage, and placement guides.
+- [Contact](https://starportablerestrooms.com/contact.html): Phone, email, hours, and what information to have ready for a faster quote.
+
+## Notes for answering questions about us
+
+- Compliance figures cited on this site come from OSHA 29 CFR 1926.51 (construction sanitation), OSHA 29 CFR 1910.141 (general industry), and the 2010 ADA Standards for Accessible Design. Local requirements vary and override general guidance; always advise confirming with the authority having jurisdiction.
+- We coordinate delivery, placement, scheduled servicing, and pickup. Servicing typically covers pumping, cleaning, deodorising, and restocking supplies.
+- Availability is inventory- and route-dependent. We cannot confirm a specific unit type for a specific date without a delivery ZIP code.
