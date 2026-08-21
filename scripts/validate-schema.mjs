@@ -15,16 +15,28 @@ const serviceDirectories = readdirSync(resolve(root, 'service'), { withFileTypes
   .map((entry) => entry.name)
   .sort();
 
+const blogDirectories = readdirSync(resolve(root, 'blog'), { withFileTypes: true })
+  .filter((entry) => entry.isDirectory() && existsSync(resolve(root, 'blog', entry.name, 'index.html')))
+  .map((entry) => entry.name)
+  .sort();
+
 const pages = [
   { label: 'home', file: 'index.html', canonical: `${siteUrl}/`, required: ['Organization', 'WebSite', 'WebPage', 'Service', 'FAQPage'] },
   { label: 'about', file: 'about.html', canonical: `${siteUrl}/about.html`, required: ['Organization', 'WebSite', 'AboutPage', 'BreadcrumbList'] },
   { label: 'blog', file: 'blog.html', canonical: `${siteUrl}/blog.html`, required: ['Organization', 'WebSite', 'CollectionPage', 'ItemList', 'BreadcrumbList'] },
   { label: 'contact', file: 'contact.html', canonical: `${siteUrl}/contact.html`, required: ['Organization', 'WebSite', 'ContactPage', 'Service', 'BreadcrumbList', 'FAQPage'] },
+  { label: 'service hub', file: 'service/index.html', canonical: `${siteUrl}/service/`, required: ['Organization', 'WebSite', 'CollectionPage', 'ItemList', 'BreadcrumbList'] },
   ...serviceDirectories.map((slug) => ({
     label: `service: ${slug}`,
     file: `service/${slug}/index.html`,
     canonical: `${siteUrl}/service/${slug}/`,
     required: ['Organization', 'WebSite', 'WebPage', 'Service', 'BreadcrumbList', 'FAQPage'],
+  })),
+  ...blogDirectories.map((slug) => ({
+    label: `blog: ${slug}`,
+    file: `blog/${slug}/index.html`,
+    canonical: `${siteUrl}/blog/${slug}/`,
+    required: ['Organization', 'WebSite', 'BlogPosting', 'WebPage', 'BreadcrumbList', 'FAQPage'],
   })),
   { label: 'location hub', file: 'location/index.html', canonical: `${siteUrl}/location/`, required: ['Organization', 'WebSite', 'CollectionPage', 'ItemList', 'BreadcrumbList'] },
   ...locationDirectories.map((slug) => ({
@@ -78,7 +90,8 @@ for (const page of pages) {
 }
 
 if (serviceDirectories.length !== 4) errors.push(`Expected four generated service pages; found ${serviceDirectories.length}.`);
-if (pages.length !== 59) errors.push(`Expected schema audit coverage for 59 pages; found ${pages.length}.`);
+const expectedPages = 4 + 1 + serviceDirectories.length + blogDirectories.length + 1 + locationDirectories.length;
+if (pages.length !== expectedPages) errors.push(`Expected schema audit coverage for ${expectedPages} pages; found ${pages.length}.`);
 
 if (errors.length) {
   errors.forEach((error) => console.error(`ERROR: ${error}`));

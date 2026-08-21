@@ -6,7 +6,7 @@
   "scripts": {
     "generate:services": "node scripts/generate-service-pages.mjs",
     "generate:locations": "node scripts/generate-location-pages.mjs",
-    "generate": "npm run generate:services && npm run generate:locations",
+    "generate": "npm run generate:services && npm run generate:blog && npm run generate:locations && npm run generate:404 && npm run generate:dimensions",
     "validate:locations": "node scripts/validate-location-pages.mjs",
     "validate:schema": "node scripts/validate-schema.mjs",
     "validate": "npm run validate:schema && npm run validate:locations",
@@ -14,7 +14,10 @@
     "dev": "vite --host 0.0.0.0",
     "prebuild": "npm run generate && npm run validate",
     "build": "vite build",
-    "preview": "vite preview --host 0.0.0.0"
+    "preview": "vite preview --host 0.0.0.0",
+    "generate:blog": "node scripts/generate-blog-pages.mjs",
+    "generate:404": "node scripts/generate-404.mjs",
+    "generate:dimensions": "node scripts/add-image-dimensions.mjs"
   },
   "devDependencies": {
     "vite": "^7.1.1"

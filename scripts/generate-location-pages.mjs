@@ -1,4 +1,5 @@
 import { mkdirSync, writeFileSync } from 'node:fs';
+import { posts as blogPosts } from './lib/blog-posts.mjs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -105,11 +106,11 @@ const header = (active = '') => `
   <header class="site-header">
     <div class="container nav-inner">
       <a class="brand" href="/" aria-label="Star Portable Restrooms home"><img src="/assets/logo-mark.png" alt="" /><span class="brand-name">Star Portable <small>Restrooms</small></span></a>
-      <nav class="desktop-nav" aria-label="Primary navigation"><a href="/">Home</a><a href="/about.html">About</a><a href="/blog.html">Blog</a><a href="/#rentals">Services</a><a${active === 'locations' ? ' class="active"' : ''} href="/location/">Locations</a><a href="/contact.html">Contact</a></nav>
+      <nav class="desktop-nav" aria-label="Primary navigation"><a href="/">Home</a><a href="/about.html">About</a><a href="/blog.html">Blog</a><a href="/service/">Services</a><a${active === 'locations' ? ' class="active"' : ''} href="/location/">Locations</a><a href="/contact.html">Contact</a></nav>
       <div class="nav-actions"><a class="header-phone" href="tel:${phoneHref}"><span class="header-phone-icon" aria-hidden="true">☎</span><span><small>Call Us Now</small>${phoneDisplay}</span></a><button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" data-menu-toggle><span></span></button></div>
     </div>
   </header>
-  <nav class="mobile-menu" aria-label="Mobile navigation" data-mobile-menu><a href="/">Home</a><a href="/about.html">About</a><a href="/blog.html">Blog</a><a href="/#rentals">Services</a><a href="/location/">Locations</a><a href="/contact.html">Contact</a><a class="btn btn-call mobile-menu-call" href="tel:${phoneHref}">☎ Call Us Now · ${phoneDisplay}</a></nav>`;
+  <nav class="mobile-menu" aria-label="Mobile navigation" data-mobile-menu><a href="/">Home</a><a href="/about.html">About</a><a href="/blog.html">Blog</a><a href="/service/">Services</a><a href="/location/">Locations</a><a href="/contact.html">Contact</a><a class="btn btn-call mobile-menu-call" href="tel:${phoneHref}">☎ Call Us Now · ${phoneDisplay}</a></nav>`;
 
 const footer = () => `
   <footer class="footer">
@@ -192,7 +193,11 @@ const statePage = (state) => {
   <meta property="og:image" content="${siteUrl}/assets/homepage/cover.webp" />
   <meta name="twitter:card" content="summary_large_image" />
   <title>${escapeHtml(title)}</title>
-  <link rel="icon" href="/assets/logo-mark.png" type="image/png" />
+  <link rel="icon" href="/favicon.ico" sizes="32x32" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <meta name="theme-color" content="#091426" />
   <link rel="preload" as="image" href="/assets/homepage/cover.webp" fetchpriority="high" />
   <link rel="stylesheet" href="/styles.css" />
   ${clarityTrackingScript}
@@ -347,7 +352,11 @@ const hubPage = `<!doctype html>
   <meta property="og:type" content="website" /><meta property="og:site_name" content="Star Portable Restrooms" /><meta property="og:title" content="${escapeHtml(hubTitle)}" /><meta property="og:description" content="${escapeHtml(hubDescription)}" /><meta property="og:url" content="${siteUrl}/location/" /><meta property="og:image" content="${siteUrl}/assets/homepage/cover.webp" />
   <meta name="twitter:card" content="summary_large_image" />
   <title>${escapeHtml(hubTitle)}</title>
-  <link rel="icon" href="/assets/logo-mark.png" type="image/png" />
+  <link rel="icon" href="/favicon.ico" sizes="32x32" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <meta name="theme-color" content="#091426" />
   <link rel="preload" as="image" href="/assets/homepage/cover.webp" fetchpriority="high" />
   <link rel="stylesheet" href="/styles.css" />
   ${clarityTrackingScript}
@@ -392,17 +401,19 @@ const staticUrls = [
   { path: '/blog.html', changefreq: 'weekly', priority: '0.8' },
   { path: '/contact.html', changefreq: 'monthly', priority: '0.9' },
   { path: '/location/', changefreq: 'weekly', priority: '0.9' },
+  { path: '/service/', changefreq: 'monthly', priority: '0.9' },
   { path: '/service/standard-porta-potty-rental/', changefreq: 'monthly', priority: '0.9' },
   { path: '/service/ada-portable-toilet-rental/', changefreq: 'monthly', priority: '0.9' },
   { path: '/service/restroom-trailer-rental/', changefreq: 'monthly', priority: '0.9' },
   { path: '/service/portable-handwashing-station-rental/', changefreq: 'monthly', priority: '0.9' },
 ];
 const locationUrls = states.map((state) => ({ path: `/location/${state.slug}/`, changefreq: 'monthly', priority: '0.8' }));
+const blogUrls = blogPosts.map((post) => ({ path: `/blog/${post.slug}/`, changefreq: 'monthly', priority: '0.7' }));
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${[...staticUrls, ...locationUrls].map((item) => `  <url><loc>${siteUrl}${item.path}</loc><lastmod>${sitemapLastModified}</lastmod><changefreq>${item.changefreq}</changefreq><priority>${item.priority}</priority></url>`).join('\n')}
+${[...staticUrls, ...blogUrls, ...locationUrls].map((item) => `  <url><loc>${siteUrl}${item.path}</loc><lastmod>${sitemapLastModified}</lastmod><changefreq>${item.changefreq}</changefreq><priority>${item.priority}</priority></url>`).join('\n')}
 </urlset>\n`;
 writeFileSync(resolve(root, 'sitemap.xml'), sitemap);
 writeFileSync(resolve(root, 'public', 'sitemap.xml'), sitemap);
 
-console.log(`Generated location hub, ${states.length} state pages, and ${staticUrls.length + locationUrls.length} sitemap URLs.`);
+console.log(`Generated location hub, ${states.length} state pages, and ${staticUrls.length + blogUrls.length + locationUrls.length} sitemap URLs.`);

@@ -1,10 +1,8 @@
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
+import { siteUrl, phoneDisplay, phoneHref, organization, website, icons, clarity, header, footer, escapeLd } from './lib/site.mjs';
 
 const root = resolve(import.meta.dirname, '..');
-const siteUrl = 'https://starportablerestrooms.com';
-const phoneDisplay = '+1 (833) 920-1299';
-const phoneHref = '+18339201299';
 
 const services = [
   {
@@ -97,20 +95,6 @@ const services = [
   },
 ];
 
-const organization = {
-  '@type': 'Organization', '@id': `${siteUrl}/#organization`, name: 'Star Portable Restrooms', url: `${siteUrl}/`, logo: `${siteUrl}/assets/logo-mark.png`, telephone: phoneHref, email: 'hello@starportablerestrooms.com',
-  contactPoint: { '@type': 'ContactPoint', telephone: phoneHref, contactType: 'rentals and customer service', areaServed: 'US', availableLanguage: 'English' },
-};
-
-const header = `
-  <div class="topbar"><div class="container topbar-inner"><div class="topbar-items"><span>Mon–Sat · 7:00 AM–7:00 PM</span><span>Availability confirmed by delivery ZIP</span><a href="tel:${phoneHref}">Call ${phoneDisplay}</a></div><span>Clean units. Clear pricing. Reliable coordination.</span></div></div>
-  <header class="site-header"><div class="container nav-inner"><a class="brand" href="/" aria-label="Star Portable Restrooms home"><img src="/assets/logo-mark.png" alt="" /><span class="brand-name">Star Portable <small>Restrooms</small></span></a><nav class="desktop-nav" aria-label="Primary navigation"><a href="/">Home</a><a href="/about.html">About</a><a href="/blog.html">Blog</a><a class="active" href="/#rentals">Services</a><a href="/location/">Locations</a><a href="/contact.html">Contact</a></nav><div class="nav-actions"><a class="header-phone" href="tel:${phoneHref}"><span class="header-phone-icon" aria-hidden="true">☎</span><span><small>Call Us Now</small>${phoneDisplay}</span></a><button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" data-menu-toggle><span></span></button></div></div></header>
-  <nav class="mobile-menu" aria-label="Mobile navigation" data-mobile-menu><a href="/">Home</a><a href="/about.html">About</a><a href="/blog.html">Blog</a><a href="/#rentals">Services</a><a href="/location/">Locations</a><a href="/contact.html">Contact</a><a class="btn btn-call mobile-menu-call" href="tel:${phoneHref}">☎ Call Us Now · ${phoneDisplay}</a></nav>`;
-
-const footer = `
-  <footer class="footer"><div class="container footer-grid"><div class="footer-about"><a class="brand" href="/"><img src="/assets/logo-mark.png" alt="" /><span class="brand-name">Star Portable <small>Restrooms</small></span></a><p>Portable toilet, restroom trailer, and handwashing station rentals for events, job sites, and long-term projects. Availability is confirmed by ZIP code.</p></div><div><h4>Company</h4><nav class="footer-links"><a href="/">Home</a><a href="/about.html">About us</a><a href="/blog.html">Blog</a><a href="/location/">Locations</a><a href="/contact.html">Contact</a></nav></div><div><h4>Rental Solutions</h4><nav class="footer-links">${services.map((item) => `<a href="/service/${item.slug}/">${item.shortName}</a>`).join('')}</nav></div><div><h4>Talk to Us</h4><div class="footer-contact"><a href="tel:${phoneHref}"><strong>Phone</strong>${phoneDisplay}</a><a href="mailto:hello@starportablerestrooms.com"><strong>Email</strong>hello@starportablerestrooms.com</a><span><strong>Hours</strong>Mon–Sat · 7:00 AM–7:00 PM</span></div></div></div><div class="container footer-bottom"><span>© <span data-current-year></span> starportablerestrooms.com. All rights reserved.</span><span>Availability confirmed by delivery ZIP.</span></div></footer>
-  <a class="mobile-call" href="tel:${phoneHref}" aria-label="Call Star Portable Restrooms at ${phoneDisplay}"><span class="mobile-call-icon" aria-hidden="true">☎</span><span class="mobile-call-copy"><small>Call for availability</small><strong>${phoneDisplay}</strong></span><span class="mobile-call-action" aria-hidden="true">Call now</span></a>`;
-
 const renderPage = (service) => {
   const canonical = `${siteUrl}/service/${service.slug}/`;
   const related = services.filter((item) => item.slug !== service.slug);
@@ -118,12 +102,12 @@ const renderPage = (service) => {
     '@context': 'https://schema.org',
     '@graph': [
       organization,
-      { '@type': 'WebSite', '@id': `${siteUrl}/#website`, url: `${siteUrl}/`, name: 'Star Portable Restrooms', publisher: { '@id': `${siteUrl}/#organization` }, inLanguage: 'en-US' },
+      website,
       { '@type': 'WebPage', '@id': `${canonical}#webpage`, url: canonical, name: service.title, description: service.description, isPartOf: { '@id': `${siteUrl}/#website` }, about: { '@id': `${canonical}#service` }, breadcrumb: { '@id': `${canonical}#breadcrumb` }, mainEntity: [{ '@id': `${canonical}#service` }, { '@id': `${canonical}#faq` }], inLanguage: 'en-US' },
       { '@type': 'Service', '@id': `${canonical}#service`, name: service.name, serviceType: service.name, description: service.description, provider: { '@id': `${siteUrl}/#organization` }, areaServed: { '@type': 'Country', name: 'United States' } },
       { '@type': 'BreadcrumbList', '@id': `${canonical}#breadcrumb`, itemListElement: [
         { '@type': 'ListItem', position: 1, name: 'Home', item: `${siteUrl}/` },
-        { '@type': 'ListItem', position: 2, name: 'Rental Services', item: `${siteUrl}/#rentals` },
+        { '@type': 'ListItem', position: 2, name: 'Rental Services', item: `${siteUrl}/service/` },
         { '@type': 'ListItem', position: 3, name: service.name, item: canonical },
       ] },
       { '@type': 'FAQPage', '@id': `${canonical}#faq`, mainEntity: service.faqs.map(([question, answer]) => ({ '@type': 'Question', name: question, acceptedAnswer: { '@type': 'Answer', text: answer } })) },
@@ -141,19 +125,19 @@ const renderPage = (service) => {
   <meta property="og:type" content="website" /><meta property="og:site_name" content="Star Portable Restrooms" /><meta property="og:title" content="${service.title}" /><meta property="og:description" content="${service.description}" /><meta property="og:url" content="${canonical}" /><meta property="og:image" content="${siteUrl}${service.image}" />
   <meta name="twitter:card" content="summary_large_image" />
   <title>${service.title}</title>
-  <link rel="icon" href="/assets/logo-mark.png" type="image/png" />
+  ${icons}
   <link rel="preload" as="image" href="${service.image}" fetchpriority="high" />
   <link rel="stylesheet" href="/styles.css" />
-  <script type="text/javascript">(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","y3adfg123t");</script>
-  <script type="application/ld+json">${JSON.stringify(schema).replaceAll('<', '\\u003c')}</script>
+  ${clarity}
+  <script type="application/ld+json">${escapeLd(schema)}</script>
 </head>
 <body class="service-page" data-service="${service.slug}">
-${header}
+${header('/service/')}
 <main>
   <section class="service-hero">
     <div class="container service-hero-grid">
       <div class="service-hero-copy">
-        <div class="breadcrumb service-breadcrumb"><a href="/">Home</a><span>/</span><a href="/#rentals">Rental services</a><span>/</span><span>${service.shortName}</span></div>
+        <div class="breadcrumb service-breadcrumb"><a href="/">Home</a><span>/</span><a href="/service/">Rental services</a><span>/</span><span>${service.shortName}</span></div>
         <span class="eyebrow eyebrow-light">${service.kicker}</span>
         <h1>${service.name}</h1>
         <p>${service.lead}</p>
@@ -183,11 +167,89 @@ ${footer}
 </body></html>`;
 };
 
+// Hub page for /service/. Without this the host's catch-all served the homepage
+// at this URL — an unstyled soft 404 that the Services nav item pointed past.
+const renderHub = () => {
+  const canonical = `${siteUrl}/service/`;
+  const title = 'Portable Restroom Rental Services | Star';
+  const description = 'Compare portable restroom rental services: standard porta potties, ADA-accessible units, restroom trailers, and handwashing stations. Call for availability.';
+  const schema = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      organization,
+      website,
+      { '@type': 'CollectionPage', '@id': `${canonical}#webpage`, url: canonical, name: title, description, isPartOf: { '@id': `${siteUrl}/#website` }, breadcrumb: { '@id': `${canonical}#breadcrumb` }, mainEntity: { '@id': `${canonical}#services` }, inLanguage: 'en-US' },
+      { '@type': 'ItemList', '@id': `${canonical}#services`, name: 'Portable restroom rental services', numberOfItems: services.length, itemListElement: services.map((item, index) => ({ '@type': 'ListItem', position: index + 1, url: `${siteUrl}/service/${item.slug}/`, name: item.name })) },
+      { '@type': 'BreadcrumbList', '@id': `${canonical}#breadcrumb`, itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: `${siteUrl}/` },
+        { '@type': 'ListItem', position: 2, name: 'Rental Services', item: canonical },
+      ] },
+    ],
+  };
+
+  return `<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="${description}" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <link rel="canonical" href="${canonical}" />
+  <meta property="og:type" content="website" /><meta property="og:site_name" content="Star Portable Restrooms" /><meta property="og:title" content="${title}" /><meta property="og:description" content="${description}" /><meta property="og:url" content="${canonical}" /><meta property="og:image" content="${siteUrl}/assets/homepage/cover.webp" />
+  <meta name="twitter:card" content="summary_large_image" /><meta name="twitter:title" content="${title}" /><meta name="twitter:description" content="${description}" /><meta name="twitter:image" content="${siteUrl}/assets/homepage/cover.webp" />
+  <title>${title}</title>
+  ${icons}
+  <link rel="stylesheet" href="/styles.css" />
+  ${clarity}
+  <script type="application/ld+json">${escapeLd(schema)}</script>
+</head>
+<body class="service-hub-page">
+${header('/service/')}
+<main>
+  <section class="page-hero service-hub-hero">
+    <div class="container page-hero-inner">
+      <div class="breadcrumb"><a href="/">Home</a><span>/</span><span>Rental services</span></div>
+      <span class="eyebrow eyebrow-light">Rental services</span>
+      <h1>Portable restroom rental services</h1>
+      <p>Four rental categories covering job sites, events, accessibility requirements, and hygiene support. Availability and pricing are confirmed by delivery ZIP code.</p>
+      <div class="page-hero-actions"><a class="btn btn-call" href="tel:${phoneHref}">☎ Call ${phoneDisplay}</a><a class="btn btn-outline" href="#all-services">Compare options</a></div>
+      <div class="page-hero-proof"><span>✓ Availability by ZIP</span><span>✓ Flexible rental periods</span><span>✓ Delivery and pickup coordination</span></div>
+    </div>
+  </section>
+
+  <section class="section" id="all-services">
+    <div class="container">
+      <div class="section-heading"><span class="eyebrow">Choose a rental</span><h2>Compare rental options</h2><p>Most sites use a mix. Pick per zone based on who uses the area, how long they are there, and what the site can support.</p></div>
+      <div class="service-hub-grid">
+        ${services.map((item) => `<article class="service-hub-card"><img src="${item.image}" alt="${item.alt}" loading="lazy" width="600" height="400" /><div><span class="eyebrow">${item.kicker}</span><h3><a href="/service/${item.slug}/">${item.name}</a></h3><p>${item.lead}</p><ul>${item.features.slice(0, 3).map((f) => `<li>${f}</li>`).join('')}</ul><a class="text-link" href="/service/${item.slug}/">View rental details <span class="arrow">→</span></a></div></article>`).join('')}
+      </div>
+    </div>
+  </section>
+
+  <section class="section surface">
+    <div class="container">
+      <div class="section-heading center"><span class="eyebrow">Plan before you call</span><h2>Guides that help you size a rental</h2><p>Work out unit counts, budget, and placement before booking.</p></div>
+      <div class="service-hub-guides">
+        <a href="/blog/porta-potty-ratio-guide/"><span>Planning</span><h3>How many units do you need?</h3><strong>Read the guide →</strong></a>
+        <a href="/blog/portable-toilet-rental-checklist/"><span>Planning</span><h3>Rental planning checklist</h3><strong>Read the guide →</strong></a>
+        <a href="/location/"><span>Coverage</span><h3>Rental availability by state</h3><strong>Browse locations →</strong></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-sm"><div class="container cta-panel" style="--cta-image: url('/assets/homepage/final-cta.webp');"><div class="cta-panel-inner"><div><h2>Check availability for your site</h2><p>Call with your delivery ZIP code, dates, project type, and estimated attendance or crew size.</p></div><a class="btn btn-white cta-phone" href="tel:${phoneHref}"><span>Call the rental desk</span><strong>${phoneDisplay}</strong></a></div></div></section>
+</main>
+${footer}
+<script type="module" src="/script.js"></script>
+</body></html>`;
+};
+
 mkdirSync(resolve(root, 'service'), { recursive: true });
+writeFileSync(resolve(root, 'service', 'index.html'), renderHub());
 for (const service of services) {
   const directory = resolve(root, 'service', service.slug);
   mkdirSync(directory, { recursive: true });
   writeFileSync(resolve(directory, 'index.html'), renderPage(service));
 }
 
-console.log(`Generated ${services.length} service pages.`);
+console.log(`Generated service hub and ${services.length} service pages.`);

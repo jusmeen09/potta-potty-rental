@@ -10,6 +10,21 @@ const errors = [];
 const warnings = [];
 
 const read = (file) => readFileSync(file, 'utf8');
+
+// Root .html pages minus the noindex 404, plus every directory index under
+// location/, service/, and blog/ (including each hub itself).
+const countIndexablePages = () => {
+  const rootPages = readdirSync(root).filter((name) => name.endsWith('.html') && !name.startsWith('._') && name !== '404.html');
+  const countDir = (name) => {
+    const directory = resolve(root, name);
+    if (!existsSync(directory)) return 0;
+    const children = readdirSync(directory, { withFileTypes: true });
+    const hub = children.some((entry) => entry.isFile() && entry.name === 'index.html') ? 1 : 0;
+    const leaves = children.filter((entry) => entry.isDirectory() && !entry.name.startsWith('._') && existsSync(resolve(directory, entry.name, 'index.html'))).length;
+    return hub + leaves;
+  };
+  return rootPages.length + countDir('location') + countDir('service') + countDir('blog');
+};
 const match = (html, pattern) => html.match(pattern)?.[1]?.trim() || '';
 const plainText = (value) => value.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
 const fail = (message) => errors.push(message);
@@ -97,7 +112,9 @@ for (const page of pages) {
 
 const sitemap = read(resolve(root, 'public', 'sitemap.xml'));
 const sitemapUrls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((item) => item[1]);
-if (sitemapUrls.length !== 59) fail(`Expected 59 sitemap URLs; found ${sitemapUrls.length}.`);
+// Derived from what is actually on disk so adding a page cannot silently skip the sitemap.
+const expectedSitemapUrls = countIndexablePages();
+if (sitemapUrls.length !== expectedSitemapUrls) fail(`Expected ${expectedSitemapUrls} sitemap URLs; found ${sitemapUrls.length}.`);
 if (new Set(sitemapUrls).size !== sitemapUrls.length) fail('Sitemap contains duplicate URLs.');
 pages.forEach((page) => {
   if (!sitemapUrls.includes(page.expectedCanonical)) fail(`Sitemap is missing ${page.expectedCanonical}.`);
