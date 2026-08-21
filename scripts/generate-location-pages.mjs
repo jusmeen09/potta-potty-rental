@@ -1,4 +1,5 @@
 import { mkdirSync, writeFileSync } from 'node:fs';
+import { seasonFor, oshaFor } from './lib/state-data.mjs';
 import { posts as blogPosts } from './lib/blog-posts.mjs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -135,13 +136,15 @@ const offerCatalog = {
   ],
 };
 
-const stateFaqs = (state) => [
+const stateFaqs = (state, season, osha) => [
   { q: `How much does porta potty rental cost in ${state.name}?`, a: `Pricing in ${state.name} depends on the delivery ZIP code, unit type, quantity, rental period, service frequency, site access, and travel requirements. Call with your dates and address for current availability and a project-specific price.` },
   { q: `How do I find a porta potty rental near me in ${state.name}?`, a: `Share your ${state.name} delivery ZIP code, preferred dates, project type, and expected attendance or crew size. We will confirm whether service is available for that address and discuss delivery, pickup, and servicing options.` },
   { q: `Can I rent portable toilets for construction sites in ${state.name}?`, a: `Construction rentals can include standard units, accessible portable restrooms, handwashing stations, scheduled pumping and cleaning, supply restocking, and pickup. Service frequency is planned around crew size and usage.` },
   { q: `Do you offer restroom trailer rental in ${state.name}?`, a: `Restroom trailer availability varies by ZIP code, date, trailer size, and site requirements. Power, water, level placement, and truck access should be reviewed before delivery.` },
   { q: `How many portable toilets do I need for an event in ${state.name}?`, a: `The right quantity depends on attendance, event length, alcohol service, food service, accessibility needs, and whether units will be serviced during the event. Call with the event details for a practical recommendation.` },
   { q: `What delivery conditions should I plan for in ${state.name}?`, a: `${state.note} Share the exact address, surface, gate, clearance, and placement details so route and service access can be reviewed before delivery.` },
+  { q: `Which OSHA rules apply to job sites in ${state.name}?`, a: osha.kind === 'state-plan' ? `${state.name} runs its own OSHA-approved State Plan, so construction sanitation is enforced by ${osha.agency} rather than federal OSHA. A State Plan must be at least as effective as the federal standard and may be stricter, so check the ${osha.agency} rule rather than relying on the federal table alone.` : osha.kind === 'public-only' ? `${state.name} has a State Plan covering state and local government employees only. Private-sector construction sites in ${state.name} fall under federal OSHA, so 29 CFR 1926.51(c)(1) applies directly.` : `Private-sector construction in ${state.name} is under federal OSHA jurisdiction, so 29 CFR 1926.51(c)(1) applies: one toilet facility for 20 or fewer workers, then one toilet seat and one urinal per 40 workers, and per 50 once a crew passes 200.` },
+  { q: `When is the busiest rental season in ${state.name}?`, a: `${state.name} works around ${season.label}. ${season.body} Booking earlier in that window gives more choice of unit type and delivery timing.` },
   { q: `What information should I have ready when I call?`, a: `Have the delivery ZIP code, dates, event attendance or crew size, preferred unit types, rental duration, and any gate, surface, clearance, or access details ready. This helps the rental desk confirm options faster.` },
 ];
 
@@ -164,7 +167,9 @@ const stateSchema = (state, title, description, faqs) => ({
 const statePage = (state) => {
   const title = `Porta Potty Rental in ${state.name} | Star Portable Restrooms`;
   const description = `Call Star for porta potty rental in ${state.name}. Check portable toilets, accessible units, restroom trailers, handwashing, delivery, and service by ZIP.`;
-  const faqs = stateFaqs(state);
+  const season = seasonFor(state.name);
+  const osha = oshaFor(state.name);
+  const faqs = stateFaqs(state, season, osha);
   const regionalStates = states.filter((item) => item.region === state.region);
   const currentRegionIndex = regionalStates.findIndex((item) => item.slug === state.slug);
   const related = Array.from(
@@ -246,9 +251,54 @@ ${header('locations')}
         <h2>Porta Potty Rental in ${escapeHtml(state.name)} for Events and Job Sites</h2>
         <p>Portable restroom needs vary across ${escapeHtml(state.name)}. Projects in ${escapeHtml(state.cities.slice(0, 3).join(', '))}, and surrounding communities may need different quantities, delivery windows, and service schedules based on attendance, crew size, rental length, and site access.</p>
         <p>${escapeHtml(state.note)}</p>
+        <p>Planning here works around ${escapeHtml(season.label)}. ${escapeHtml(season.body)}</p>
         <p>Common requests include ${escapeHtml(state.focus)}. Call with the exact address so the rental desk can confirm what is currently available for your part of ${escapeHtml(state.name)}.</p>
         <a class="text-link location-text-link" href="tel:${phoneHref}">Call ${phoneDisplay} for ${escapeHtml(state.name)} availability <span class="arrow">→</span></a>
       </div>
+    </div>
+  </section>
+
+  <section class="section surface" id="metro-coverage">
+    <div class="container">
+      <div class="section-heading"><span class="eyebrow">Where we deliver</span><h2>Porta Potty Rental Across ${escapeHtml(state.name)}</h2><p>Availability is confirmed per ZIP code, but these are the ${escapeHtml(state.name)} markets we are asked about most.</p></div>
+      <div class="metro-grid">
+        ${state.cities.map((city, index) => `<article class="metro-card"><h3>Porta potty rental in ${escapeHtml(city)}</h3><p>${escapeHtml([
+          `${city} draws the widest mix of requests in ${state.name} — job-site rentals, event units, and short-term hire all run through the same service route.`,
+          `Deliveries around ${city} are usually planned on an existing route, so lead times are shorter here than for outlying parts of ${state.name}.`,
+          `${city} projects often combine standard units with handwashing capacity, particularly where food service or trade crews are involved.`,
+          `For ${city}, share gate access and placement surface when you call — urban and semi-rural sites in this part of ${state.name} differ a lot on truck access.`,
+          `${city} and the surrounding communities are served on scheduled routes; confirm the ZIP code so servicing frequency can be matched to actual usage.`,
+        ][index] || `${city} and nearby ${state.name} communities are served on scheduled delivery routes.`)}</p></article>`).join('')}
+      </div>
+      <p class="metro-note">Serving ${escapeHtml(state.name)} statewide, including ${escapeHtml(state.capital)}. Outside these areas, call with the ZIP code and the rental desk will confirm whether a route reaches your address.</p>
+    </div>
+  </section>
+
+  <section class="section" id="job-site-rules">
+    <div class="container state-rules-grid">
+      <div>
+        <span class="eyebrow">Job-site compliance</span>
+        <h2>Construction Sanitation Rules in ${escapeHtml(state.name)}</h2>
+        ${osha.kind === 'state-plan' ? `
+        <p>${escapeHtml(state.name)} runs its own OSHA-approved State Plan, so construction sanitation on private job sites is enforced by ${escapeHtml(osha.agency)} rather than federal OSHA. A State Plan must be at least as effective as the federal standard and is permitted to be stricter, so check the ${escapeHtml(osha.agency)} rule directly rather than assuming the federal table is the whole picture.</p>
+        <p>The federal baseline it has to match is 29 CFR 1926.51(c)(1): one toilet facility for 20 or fewer workers, then one toilet seat and one urinal per 40 workers, and per 50 workers once a crew passes 200.</p>` : osha.kind === 'public-only' ? `
+        <p>${escapeHtml(state.name)} operates a State Plan that covers state and local government employees only. Private-sector construction sites stay under federal OSHA, so 29 CFR 1926.51(c)(1) applies directly: one toilet facility for 20 or fewer workers, then one toilet seat and one urinal per 40 workers, and per 50 workers once a crew passes 200.</p>
+        <p>If your project is a state or municipal job, confirm which set of rules the contract actually puts you under before you size the order — the two can differ.</p>` : `
+        <p>Private-sector construction in ${escapeHtml(state.name)} falls under federal OSHA jurisdiction, so 29 CFR 1926.51(c)(1) Table D-1 applies directly: one toilet facility for 20 or fewer workers, then one toilet seat and one urinal per 40 workers, and per 50 workers once a crew passes 200.</p>
+        <p>That table is a legal minimum rather than a comfort target. Crews spread across a large ${escapeHtml(state.name)} site often justify more units than the count alone suggests, simply because walking time is real money.</p>`}
+        <p>Accessibility is federal everywhere: where portable toilets are clustered, the 2010 ADA Standards require at least 5% and never fewer than one accessible unit per cluster. Local permit conditions in ${escapeHtml(state.capital)} and other ${escapeHtml(state.name)} jurisdictions may add requirements on top.</p>
+        <a class="text-link" href="/blog/porta-potty-ratio-guide/">Work out your unit count <span class="arrow">→</span></a>
+      </div>
+      <aside class="state-rules-card">
+        <span class="service-card-label">${escapeHtml(state.name)} at a glance</span>
+        <ul>
+          <li><span>Jurisdiction</span><strong>${osha.kind === 'state-plan' ? escapeHtml(osha.agency) + ' State Plan' : osha.kind === 'public-only' ? 'Federal OSHA (private sector)' : 'Federal OSHA'}</strong></li>
+          <li><span>Region</span><strong>${escapeHtml(state.region)}</strong></li>
+          <li><span>Capital</span><strong>${escapeHtml(state.capital)}</strong></li>
+          <li><span>Season</span><strong>${escapeHtml(season.label.replace(/^an? /, ''))}</strong></li>
+        </ul>
+        <small>Rules change and local permit conditions vary. Confirm current requirements with the authority having jurisdiction for your site.</small>
+      </aside>
     </div>
   </section>
 

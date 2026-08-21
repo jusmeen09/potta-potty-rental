@@ -6787,3 +6787,103 @@ main .section-sm h2 + p {
     padding: 22px 20px;
   }
 }
+
+/* State page compliance block */
+
+.state-rules-grid {
+  display: grid;
+  align-items: start;
+  gap: clamp(28px, 4vw, 56px);
+  grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.65fr);
+}
+
+.state-rules-grid > div p {
+  margin-bottom: 14px;
+  color: var(--ink-soft);
+}
+
+.state-rules-card {
+  padding: 28px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.state-rules-card ul {
+  display: grid;
+  gap: 0;
+  margin: 14px 0 16px;
+  padding: 0;
+  list-style: none;
+}
+
+.state-rules-card li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.state-rules-card li:last-child { border-bottom: none; }
+
+.state-rules-card li span {
+  flex: none;
+  color: var(--ink-soft);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.state-rules-card li strong {
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  text-align: right;
+}
+
+.state-rules-card small {
+  display: block;
+  color: var(--ink-soft);
+  font-size: 0.8rem;
+  line-height: 1.6;
+}
+
+@media (max-width: 900px) {
+  .state-rules-grid { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* State page metro coverage */
+
+.metro-grid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+.metro-card {
+  padding: 22px 24px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--white);
+}
+
+.metro-card h3 {
+  margin-bottom: 8px;
+  font-family: var(--font-heading);
+  font-size: 1.02rem;
+  line-height: 1.35;
+}
+
+.metro-card p {
+  color: var(--ink-soft);
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+
+.metro-note {
+  margin-top: 24px;
+  color: var(--ink-soft);
+  font-size: 0.92rem;
+}

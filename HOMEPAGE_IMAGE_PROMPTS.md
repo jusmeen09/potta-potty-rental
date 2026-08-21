@@ -10,6 +10,10 @@ Use `STYLE.md` as the visual-system reference. Images should support the documen
 - Keep the homepage hero composition readable beneath the dark overlay and leave clear space for the call-first headline and phone CTA.
 - Do not embed phone numbers, calls to action, logos, or other readable text inside generated images; HTML provides the accessible content.
 - Preserve existing asset paths and descriptive alt text when replacing an image, or update the corresponding HTML references.
+- **Keep every file under 200KB.** Six current assets exceed 250KB and `assets/homepage/festival.webp` is 424KB; the homepage LCP image is 332KB. Image weight is now the largest remaining Core Web Vitals cost on the site.
+- Do not hand-write `width`/`height` attributes. `scripts/add-image-dimensions.mjs` reads them from the file header during `npm run generate`, so a replacement image is picked up automatically — but a replacement at different dimensions must be regenerated, not just dropped in.
+- Decorative images take `alt=""`; images carrying meaning take a descriptive `alt`. Both are correct, and the audit distinguishes them — an empty `alt` on a decorative image is not a defect.
+- Blog guides use `assets/blog/{slug-topic}.webp` at 16:9 for the article hero. State and service pages reuse the shared `assets/homepage/` set rather than needing per-page art.
 - Keep the hero image lightweight because it is the homepage Largest Contentful Paint candidate; avoid oversized source files and unnecessary transparency.
 - Use lazy loading for below-the-fold images. The hero image should remain eagerly discoverable and preloaded by the page.
 
