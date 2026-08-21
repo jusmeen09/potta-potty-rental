@@ -23,7 +23,7 @@ const countIndexablePages = () => {
     const leaves = children.filter((entry) => entry.isDirectory() && !entry.name.startsWith('._') && existsSync(resolve(directory, entry.name, 'index.html'))).length;
     return hub + leaves;
   };
-  return rootPages.length + countDir('location') + countDir('service') + countDir('blog');
+  return rootPages.length + ['about', 'contact', 'location', 'service', 'blog'].reduce((total, name) => total + countDir(name), 0);
 };
 const match = (html, pattern) => html.match(pattern)?.[1]?.trim() || '';
 const plainText = (value) => value.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();

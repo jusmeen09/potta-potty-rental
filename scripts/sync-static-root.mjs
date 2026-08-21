@@ -18,6 +18,7 @@ const files = [
   'site.webmanifest',
   'llms.txt',
   'robots.txt',
+  '_redirects',
 ];
 
 const nested = ['icons/icon-192.png', 'icons/icon-512.png'];

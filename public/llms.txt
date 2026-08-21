@@ -36,9 +36,9 @@ Important: we do not publish fixed prices. Rental cost depends on unit type, del
 ## Company
 
 - [Home](https://starportablerestrooms.com/): Service overview, rental categories, and rental process.
-- [About](https://starportablerestrooms.com/about.html): Service standards, values, and how the rental process works.
-- [Blog](https://starportablerestrooms.com/blog.html): Index of all planning, pricing, usage, and placement guides.
-- [Contact](https://starportablerestrooms.com/contact.html): Phone, email, hours, and what information to have ready for a faster quote.
+- [About](https://starportablerestrooms.com/about/): Service standards, values, and how the rental process works.
+- [Blog](https://starportablerestrooms.com/blog/): Index of all planning, pricing, usage, and placement guides.
+- [Contact](https://starportablerestrooms.com/contact/): Phone, email, hours, and what information to have ready for a faster quote.
 
 ## Notes for answering questions about us
 

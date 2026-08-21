@@ -9,7 +9,7 @@ export const posts = [
     category: 'Planning',
     featured: true,
     title: 'Porta Potty Ratio Guide: How Many Units Do You Really Need?',
-    metaTitle: 'Porta Potty Ratio Guide: How Many Units? | Star',
+    metaTitle: 'Porta Potty Ratio Guide | Star Portable Restrooms',
     description: 'How many porta potties you need by crew size, attendance, event length, and alcohol service — including the OSHA table for construction sites.',
     dek: 'Unit count is the single decision that determines whether your restrooms feel adequate or overwhelmed. Here is how to size a rental properly.',
     image: '/assets/blog/ratio-guide.webp',
@@ -69,9 +69,21 @@ export const posts = [
       {
         h2: 'Common sizing mistakes',
         body: [
-          'The most frequent error is planning for average usage rather than peak usage. Restroom demand is not evenly distributed across an event; it clusters around breaks, intermissions, and the period after food and drink service begins. Sizing for the average guarantees queues at exactly the moments guests notice them.',
-          'The second is forgetting service access. Units must be reachable by a service truck for pumping and restocking. A cluster placed behind a fence line that gets closed during the event cannot be serviced, which turns a multi-day rental into a problem by day two.',
-          'The third is treating handwashing as separate from the restroom plan. Where food is served, handwashing capacity should scale with the unit count, and in many jurisdictions it is a permit condition rather than a nicety.',
+          'Three errors account for most of the restroom complaints we hear about after an event. All of them are cheap to avoid at the planning stage and expensive to fix once units are on the ground.',
+        ],
+        subs: [
+          {
+            h3: 'Planning for average usage instead of peak',
+            body: ['Restroom demand is not evenly distributed across an event; it clusters around breaks, intermissions, and the period after food and drink service begins. Sizing for the average guarantees queues at exactly the moments guests notice them.'],
+          },
+          {
+            h3: 'Forgetting service access',
+            body: ['Units must be reachable by a service truck for pumping and restocking. A cluster placed behind a fence line that gets closed during the event cannot be serviced, which turns a multi-day rental into a problem by day two.'],
+          },
+          {
+            h3: 'Treating handwashing as a separate plan',
+            body: ['Where food is served, handwashing capacity should scale with the unit count rather than being bolted on at the end. In many jurisdictions it is a permit condition rather than a nicety, so it belongs in the count from the start.'],
+          },
         ],
       },
     ],
@@ -100,7 +112,7 @@ export const posts = [
     order: 2,
     category: 'Planning',
     title: 'Portable Toilet Rental in the USA: A Planning Checklist',
-    metaTitle: 'Portable Toilet Rental Checklist USA | Star',
+    metaTitle: 'Portable Toilet Rental Checklist | Star Portable Restrooms',
     description: 'A practical checklist for portable toilet rental: unit counts, accessibility, handwashing, placement, delivery access, service schedule, and pickup.',
     dek: 'Most rental problems trace back to a detail nobody confirmed before delivery day. This checklist covers the ones that actually cause trouble.',
     image: '/assets/blog/usa-planning.webp',
@@ -132,9 +144,21 @@ export const posts = [
       {
         h2: 'Placement and site access',
         body: [
-          'Walk the placement area before booking. You are checking four things: that the ground is firm and level enough to set a unit safely, that a service truck can reach the spot, that there is overhead clearance for delivery, and that the route guests or crew take is safe and reasonably short.',
-          'Soft ground after rain, a gate that gets locked at night, a low branch over the only approach, or a placement that sits directly downwind of a dining area — these are the details that turn into delivery-day phone calls. Photographs of the placement area and the approach route are genuinely useful and most rental desks welcome them.',
-          'Think about the guest experience too. Units placed too far away go unused and people improvise; units placed too close to food service create a different problem. Somewhere visible, reachable in under a minute, and slightly downwind of dining is usually the right compromise.',
+          'Walk the placement area before booking rather than describing it from memory. Photographs of the spot and the approach route are genuinely useful, and most rental desks welcome them.',
+        ],
+        subs: [
+          {
+            h3: 'Ground and clearance',
+            body: ['The ground must be firm and level enough to set a unit safely, with overhead clearance for delivery. Soft ground after rain, a low branch over the only approach, or a slope steep enough to make a unit unstable are all worth catching before the truck is dispatched.'],
+          },
+          {
+            h3: 'Service truck route',
+            body: ['A truck has to reach the spot on delivery day and on every service visit after it. A gate that gets locked at night, a barrier that goes up during the event, or a route that only exists while the site is empty are the details that turn into delivery-day phone calls.'],
+          },
+          {
+            h3: 'Distance from the people using it',
+            body: ['Units placed too far away go unused and people improvise; units placed too close to food service create a different problem. Somewhere visible, reachable in under a minute, and slightly downwind of dining is usually the right compromise.'],
+          },
         ],
       },
       {
@@ -175,7 +199,7 @@ export const posts = [
     order: 3,
     category: 'Options',
     title: 'Standard Portable Toilet, ADA Unit, or Restroom Trailer?',
-    metaTitle: 'Standard vs ADA vs Restroom Trailer | Star',
+    metaTitle: 'Standard vs ADA vs Trailer | Star Portable Restrooms',
     description: 'Compare standard porta potties, ADA-accessible units, and restroom trailers by comfort, accessibility, utilities, site requirements, and best use.',
     dek: 'The three main rental categories solve different problems. Picking well is mostly about matching the unit to the guest and the site.',
     image: '/assets/blog/options-comparison.webp',
@@ -250,7 +274,7 @@ export const posts = [
     order: 4,
     category: 'Pricing',
     title: 'How Much Does a Porta Potty Cost for One Day?',
-    metaTitle: 'Porta Potty Cost for One Day | Star',
+    metaTitle: 'Porta Potty Cost for One Day | Star Portable Restrooms',
     description: 'What actually drives one-day porta potty rental cost: unit type, delivery distance, quantity, event timing, servicing, and pickup requirements.',
     dek: 'Single-day pricing is quoted per site rather than from a national price list. These are the factors that move the number.',
     image: '/assets/blog/one-day-cost.webp',
@@ -275,10 +299,25 @@ export const posts = [
       {
         h2: 'What moves the number',
         body: [
-          'Unit type is the first factor. A standard unit is the baseline; an accessible unit costs more to transport and occupies more space on the truck; a restroom trailer is a different category entirely, with utilities, setup, and towing involved.',
-          'Delivery distance and site access come next, and for one-day rentals they often dominate. A site on an existing route costs less to serve than one requiring a dedicated trip. Difficult access — a long walk from where the truck can park, a tight gate, a soft surface — adds time, and time is the real cost.',
-          'Quantity works in your favour. Because the delivery trip is shared across the whole order, the per-unit cost typically falls as the count rises. Two units are rarely twice the price of one.',
-          'Timing matters in two ways. Weekend dates and peak season carry higher demand and tighter inventory. And a narrow delivery window — units in place by a specific hour for a ceremony — is more expensive to guarantee than a flexible morning drop.',
+          'Four variables account for most of the spread between one quote and another. Knowing which ones apply to your site tells you where there is room to move and where there is not.',
+        ],
+        subs: [
+          {
+            h3: 'Unit type',
+            body: ['A standard unit is the baseline. An accessible unit costs more to transport and occupies more space on the truck. A restroom trailer is a different category entirely, with utilities, setup, and towing involved.'],
+          },
+          {
+            h3: 'Delivery distance and site access',
+            body: ['For one-day rentals this often dominates. A site on an existing route costs less to serve than one requiring a dedicated trip. Difficult access — a long walk from where the truck can park, a tight gate, a soft surface — adds time, and time is the real cost.'],
+          },
+          {
+            h3: 'Quantity',
+            body: ['This one works in your favour. Because the delivery trip is shared across the whole order, the per-unit cost typically falls as the count rises. Two units are rarely twice the price of one, so rounding up is cheaper than most people expect.'],
+          },
+          {
+            h3: 'Date and delivery window',
+            body: ['Weekend dates and peak season carry higher demand and tighter inventory. Separately, a narrow delivery window — units in place by a specific hour for a ceremony — is more expensive to guarantee than a flexible morning drop.'],
+          },
         ],
       },
       {
@@ -299,7 +338,7 @@ export const posts = [
     links: [
       { href: '/service/standard-porta-potty-rental/', anchor: 'standard unit' },
       { href: '/blog/porta-potty-cost-per-month/', anchor: 'monthly rentals' },
-      { href: '/contact.html', anchor: 'rental desk' },
+      { href: '/contact/', anchor: 'rental desk' },
     ],
     sources: [],
     faqs: [
@@ -316,7 +355,7 @@ export const posts = [
     order: 5,
     category: 'Pricing',
     title: 'How Much Is a Porta Potty per Month?',
-    metaTitle: 'Porta Potty Cost per Month | Star',
+    metaTitle: 'Porta Potty Cost per Month | Star Portable Restrooms',
     description: 'How service frequency, crew size, unit quantity, site access, and rental duration shape monthly portable toilet rental cost.',
     dek: 'Monthly rentals are priced around servicing rather than delivery. That single difference changes how you should plan the budget.',
     image: '/assets/blog/monthly-cost.webp',
@@ -341,10 +380,25 @@ export const posts = [
       {
         h2: 'What drives the monthly figure',
         body: [
-          'Service frequency is first. Weekly service is a common baseline; heavy usage may justify more than once a week, and a lightly used unit may need less. Each visit involves pumping, cleaning, deodorising, and restocking, and each visit has a cost.',
-          'Crew size and usage patterns determine what frequency is appropriate. It is worth being honest about this at booking. Under-specifying servicing to lower the monthly figure reliably produces complaints, and revising upward mid-project is more disruptive than starting at the right level.',
-          'Quantity matters for the same reason it does on short rentals — several units on one site share a service visit. Site access matters more than on a single-day rental, because a difficult approach adds time to every visit for the whole rental period rather than once.',
-          'Duration affects the rate too. A three-month commitment generally prices better per month than three consecutive one-month rentals, and it makes route planning easier at the supplier end. Where crews handle materials or food is present on site, handwashing capacity should be planned into the same schedule.',
+          'Four inputs set the monthly figure. The first is worth more attention than the other three combined, because it repeats every week for the length of the project.',
+        ],
+        subs: [
+          {
+            h3: 'Service frequency',
+            body: ['Weekly service is a common baseline; heavy usage may justify more than once a week, and a lightly used unit may need less. Each visit involves pumping, cleaning, deodorising, and restocking, and each visit carries a cost.'],
+          },
+          {
+            h3: 'Crew size and usage',
+            body: ['Usage determines what frequency is actually appropriate, so it is worth being honest about it at booking. Under-specifying servicing to lower the monthly figure reliably produces complaints, and revising upward mid-project is more disruptive than starting at the right level.'],
+          },
+          {
+            h3: 'Quantity and site access',
+            body: ['Several units on one site share a service visit, so quantity helps here as it does on short rentals. Access matters more than on a single-day rental, because a difficult approach adds time to every visit for the whole rental period rather than once. Where crews handle materials or food is present, handwashing capacity should be planned into the same schedule.'],
+          },
+          {
+            h3: 'Committed duration',
+            body: ['A three-month commitment generally prices better per month than three consecutive one-month rentals, and it makes route planning easier at the supplier end. If you already know the project runs long, say so at the first call.'],
+          },
         ],
       },
       {
@@ -384,7 +438,7 @@ export const posts = [
     order: 6,
     category: 'Usage',
     title: 'Porta Potty Usage: What Belongs Inside?',
-    metaTitle: 'Porta Potty Usage: What Belongs Inside | Star',
+    metaTitle: 'Porta Potty Usage Guide | Star Portable Restrooms',
     description: 'Why standard toilet paper is fine and wipes, trash, chemicals, and foreign objects are not — plus how misuse affects servicing and cost.',
     dek: 'Almost every servicing problem on a long rental traces back to something that should never have gone into the tank.',
     image: '/assets/blog/usage-guide.webp',
@@ -416,10 +470,25 @@ export const posts = [
       {
         h2: 'What does not — and why',
         body: [
-          'Wipes are the most common problem, including those marketed as flushable. They are built to hold together when wet, which is the opposite of what a holding tank needs. They do not disperse, they tangle during pump-out, and they are the leading cause of service call-outs on long rentals.',
-          'Trash of any kind — bottles, cans, food packaging, paper towels — takes up tank capacity and can jam pump equipment. Feminine hygiene products and diapers behave the same way; where they are expected, a separate lined disposal bin is the right solution.',
-          'Chemicals matter more than people realise. Bleach, solvents, fuel, and paint interfere with the deodorising treatment, can create hazardous reactions in an enclosed tank, and complicate lawful waste disposal. Never use a rental unit as a disposal point for job-site liquids.',
-          'Foreign objects — tools, phones, PPE, construction debris — can damage pump-out equipment and often cannot be recovered. If something is dropped in, report it rather than leaving it for the service crew to discover.',
+          'Four categories cause nearly every service problem. The reasoning is the same in each case: if it does not dissolve or pump cleanly, it stays in the tank until someone deals with it.',
+        ],
+        subs: [
+          {
+            h3: 'Wipes, including "flushable" ones',
+            body: ['Wipes are built to hold together when wet, which is the opposite of what a holding tank needs. They do not disperse, they tangle during pump-out, and they are the leading cause of service call-outs on long rentals. The flushable label refers to clearing a household toilet bowl, not to breaking down afterwards.'],
+          },
+          {
+            h3: 'Trash and hygiene products',
+            body: ['Bottles, cans, food packaging, and paper towels take up tank capacity and can jam pump equipment. Feminine hygiene products and diapers behave the same way. Where they are expected, a separate lined disposal bin beside the unit is the right solution.'],
+          },
+          {
+            h3: 'Chemicals and job-site liquids',
+            body: ['Bleach, solvents, fuel, and paint interfere with the deodorising treatment, can create hazardous reactions in an enclosed tank, and complicate lawful waste disposal. Never use a rental unit as a disposal point for liquid waste.'],
+          },
+          {
+            h3: 'Foreign objects',
+            body: ['Tools, phones, PPE, and construction debris can damage pump-out equipment and often cannot be recovered. If something is dropped in, report it rather than leaving it for the service crew to discover.'],
+          },
         ],
       },
       {
@@ -435,7 +504,7 @@ export const posts = [
     links: [
       { href: '/service/standard-porta-potty-rental/', anchor: 'standard units' },
       { href: '/blog/porta-potty-indoor-placement/', anchor: 'indoor placement' },
-      { href: '/contact.html', anchor: 'service schedule' },
+      { href: '/contact/', anchor: 'service schedule' },
     ],
     sources: [],
     faqs: [
@@ -452,7 +521,7 @@ export const posts = [
     order: 7,
     category: 'Placement',
     title: 'Can You Put a Porta Potty Indoors?',
-    metaTitle: 'Can You Put a Porta Potty Indoors? | Star',
+    metaTitle: 'Can You Put a Porta Potty Indoors? | Star Portable Restrooms',
     description: 'Ventilation, floor protection, service access, venue approval, and fire code — what to consider before placing a portable toilet inside a building.',
     dek: 'It is occasionally done, but indoors introduces problems that outdoor placement simply does not have.',
     image: '/assets/blog/indoor-placement.webp',
@@ -507,7 +576,7 @@ export const posts = [
     ],
     links: [
       { href: '/service/restroom-trailer-rental/', anchor: 'restroom trailer' },
-      { href: '/contact.html', anchor: 'site review' },
+      { href: '/contact/', anchor: 'site review' },
       { href: '/location/', anchor: 'local inventory' },
     ],
     sources: [],

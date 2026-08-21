@@ -106,19 +106,19 @@ const header = (active = '') => `
   <header class="site-header">
     <div class="container nav-inner">
       <a class="brand" href="/" aria-label="Star Portable Restrooms home"><img src="/assets/logo-mark.png" alt="" /><span class="brand-name">Star Portable <small>Restrooms</small></span></a>
-      <nav class="desktop-nav" aria-label="Primary navigation"><a href="/">Home</a><a href="/about.html">About</a><a href="/blog.html">Blog</a><a href="/service/">Services</a><a${active === 'locations' ? ' class="active"' : ''} href="/location/">Locations</a><a href="/contact.html">Contact</a></nav>
+      <nav class="desktop-nav" aria-label="Primary navigation"><a href="/">Home</a><a href="/about/">About</a><a href="/blog/">Blog</a><a href="/service/">Services</a><a${active === 'locations' ? ' class="active"' : ''} href="/location/">Locations</a><a href="/contact/">Contact</a></nav>
       <div class="nav-actions"><a class="header-phone" href="tel:${phoneHref}"><span class="header-phone-icon" aria-hidden="true">☎</span><span><small>Call Us Now</small>${phoneDisplay}</span></a><button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" data-menu-toggle><span></span></button></div>
     </div>
   </header>
-  <nav class="mobile-menu" aria-label="Mobile navigation" data-mobile-menu><a href="/">Home</a><a href="/about.html">About</a><a href="/blog.html">Blog</a><a href="/service/">Services</a><a href="/location/">Locations</a><a href="/contact.html">Contact</a><a class="btn btn-call mobile-menu-call" href="tel:${phoneHref}">☎ Call Us Now · ${phoneDisplay}</a></nav>`;
+  <nav class="mobile-menu" aria-label="Mobile navigation" data-mobile-menu><a href="/">Home</a><a href="/about/">About</a><a href="/blog/">Blog</a><a href="/service/">Services</a><a href="/location/">Locations</a><a href="/contact/">Contact</a><a class="btn btn-call mobile-menu-call" href="tel:${phoneHref}">☎ Call Us Now · ${phoneDisplay}</a></nav>`;
 
 const footer = () => `
   <footer class="footer">
     <div class="container footer-grid">
       <div class="footer-about"><a class="brand" href="/"><img src="/assets/logo-mark.png" alt="" /><span class="brand-name">Star Portable <small>Restrooms</small></span></a><p>Porta potty, portable toilet, restroom trailer, and handwashing station rentals for events, job sites, and long-term projects. Availability is confirmed by ZIP code.</p></div>
-      <div><h4>Company</h4><nav class="footer-links"><a href="/">Home</a><a href="/about.html">About us</a><a href="/blog.html">Blog</a><a href="/location/">Locations</a><a href="/contact.html">Contact</a></nav></div>
-      <div><h4>Rental Solutions</h4><nav class="footer-links"><a href="/service/standard-porta-potty-rental/">Standard restrooms</a><a href="/service/ada-portable-toilet-rental/">ADA-accessible units</a><a href="/service/restroom-trailer-rental/">Restroom trailers</a><a href="/service/portable-handwashing-station-rental/">Handwashing stations</a></nav></div>
-      <div><h4>Talk to Us</h4><div class="footer-contact"><a href="tel:${phoneHref}"><strong>Phone</strong>${phoneDisplay}</a><a href="mailto:hello@starportablerestrooms.com"><strong>Email</strong>hello@starportablerestrooms.com</a><span><strong>Hours</strong>Mon–Sat · 7:00 AM–7:00 PM</span></div></div>
+      <div><h2 class="footer-heading">Company</h2><nav class="footer-links"><a href="/">Home</a><a href="/about/">About us</a><a href="/blog/">Blog</a><a href="/location/">Locations</a><a href="/contact/">Contact</a></nav></div>
+      <div><h2 class="footer-heading">Rental Solutions</h2><nav class="footer-links"><a href="/service/standard-porta-potty-rental/">Standard restrooms</a><a href="/service/ada-portable-toilet-rental/">ADA-accessible units</a><a href="/service/restroom-trailer-rental/">Restroom trailers</a><a href="/service/portable-handwashing-station-rental/">Handwashing stations</a></nav></div>
+      <div><h2 class="footer-heading">Talk to Us</h2><div class="footer-contact"><a href="tel:${phoneHref}"><strong>Phone</strong>${phoneDisplay}</a><a href="mailto:hello@starportablerestrooms.com"><strong>Email</strong>hello@starportablerestrooms.com</a><span><strong>Hours</strong>Mon–Sat · 7:00 AM–7:00 PM</span></div></div>
     </div>
     <div class="container footer-bottom"><span>© <span data-current-year></span> starportablerestrooms.com. All rights reserved.</span><span>Availability confirmed by delivery ZIP.</span></div>
   </footer>
@@ -162,7 +162,7 @@ const stateSchema = (state, title, description, faqs) => ({
 });
 
 const statePage = (state) => {
-  const title = `Porta Potty Rental in ${state.name} | Star`;
+  const title = `Porta Potty Rental in ${state.name} | Star Portable Restrooms`;
   const description = `Call Star for porta potty rental in ${state.name}. Check portable toilets, accessible units, restroom trailers, handwashing, delivery, and service by ZIP.`;
   const faqs = stateFaqs(state);
   const regionalStates = states.filter((item) => item.region === state.region);
@@ -193,6 +193,9 @@ const statePage = (state) => {
   <meta property="og:image" content="${siteUrl}/assets/homepage/cover.webp" />
   <meta name="twitter:card" content="summary_large_image" />
   <title>${escapeHtml(title)}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" />
   <link rel="icon" href="/favicon.ico" sizes="32x32" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -328,7 +331,7 @@ ${footer()}
 const regionOrder = ['Northeast', 'Midwest', 'South', 'West'];
 const groupedStates = regionOrder.map((region) => ({ region, states: states.filter((state) => state.region === region) }));
 
-const hubTitle = 'Porta Potty Rental Locations Across the USA | Star';
+const hubTitle = 'Rental Locations by State | Star Portable Restrooms';
 const hubDescription = 'Find porta potty rental locations by state. Call Star for portable toilet availability, delivery, servicing, restroom trailers, and pricing near you.';
 const hubSchema = {
   '@context': 'https://schema.org',
@@ -352,6 +355,9 @@ const hubPage = `<!doctype html>
   <meta property="og:type" content="website" /><meta property="og:site_name" content="Star Portable Restrooms" /><meta property="og:title" content="${escapeHtml(hubTitle)}" /><meta property="og:description" content="${escapeHtml(hubDescription)}" /><meta property="og:url" content="${siteUrl}/location/" /><meta property="og:image" content="${siteUrl}/assets/homepage/cover.webp" />
   <meta name="twitter:card" content="summary_large_image" />
   <title>${escapeHtml(hubTitle)}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" />
   <link rel="icon" href="/favicon.ico" sizes="32x32" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -397,9 +403,9 @@ for (const state of states) {
 
 const staticUrls = [
   { path: '/', changefreq: 'weekly', priority: '1.0' },
-  { path: '/about.html', changefreq: 'monthly', priority: '0.7' },
-  { path: '/blog.html', changefreq: 'weekly', priority: '0.8' },
-  { path: '/contact.html', changefreq: 'monthly', priority: '0.9' },
+  { path: '/about/', changefreq: 'monthly', priority: '0.7' },
+  { path: '/blog/', changefreq: 'weekly', priority: '0.8' },
+  { path: '/contact/', changefreq: 'monthly', priority: '0.9' },
   { path: '/location/', changefreq: 'weekly', priority: '0.9' },
   { path: '/service/', changefreq: 'monthly', priority: '0.9' },
   { path: '/service/standard-porta-potty-rental/', changefreq: 'monthly', priority: '0.9' },

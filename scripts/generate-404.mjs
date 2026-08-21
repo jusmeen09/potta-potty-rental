@@ -35,8 +35,8 @@ ${header()}
       <div class="service-hub-guides">
         <a href="/service/"><span>Rentals</span><h3>All rental services</h3><strong>Compare options →</strong></a>
         <a href="/location/"><span>Coverage</span><h3>Availability by state</h3><strong>Browse locations →</strong></a>
-        <a href="/blog.html"><span>Guides</span><h3>Rental planning guides</h3><strong>Read the guides →</strong></a>
-        <a href="/contact.html"><span>Contact</span><h3>Talk to the rental desk</h3><strong>Get in touch →</strong></a>
+        <a href="/blog/"><span>Guides</span><h3>Rental planning guides</h3><strong>Read the guides →</strong></a>
+        <a href="/contact/"><span>Contact</span><h3>Talk to the rental desk</h3><strong>Get in touch →</strong></a>
       </div>
     </div>
   </section>

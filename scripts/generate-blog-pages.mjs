@@ -36,6 +36,7 @@ const applyLinks = (post) => {
   const sections = post.sections.map((section) => ({
     ...section,
     body: section.body.map(linkParagraph),
+    subs: section.subs ? section.subs.map((sub) => ({ ...sub, body: sub.body.map(linkParagraph) })) : undefined,
     after: section.after ? section.after.map(linkParagraph) : undefined,
   }));
   const missing = pending.filter((link) => !link.done);
@@ -46,7 +47,10 @@ const applyLinks = (post) => {
 const renderSection = (section, id) => {
   const table = section.table ? `<figure class="post-table-wrap"><table class="post-table"><caption>${section.table.caption}</caption><thead><tr>${section.table.head.map((h) => `<th scope="col">${h}</th>`).join('')}</tr></thead><tbody>${section.table.rows.map((r) => `<tr>${r.map((c, i) => (i === 0 ? `<th scope="row">${c}</th>` : `<td>${c}</td>`)).join('')}</tr>`).join('')}</tbody></table></figure>` : '';
   const after = section.after ? section.after.map((p) => `<p>${p}</p>`).join('') : '';
-  return `<section class="post-section" id="${id}"><h2>${section.h2}</h2>${section.body.map((p) => `<p>${p}</p>`).join('')}${table}${after}</section>`;
+  const subs = section.subs
+    ? section.subs.map((sub) => `<h3>${sub.h3}</h3>${sub.body.map((p) => `<p>${p}</p>`).join('')}`).join('')
+    : '';
+  return `<section class="post-section" id="${id}"><h2>${section.h2}</h2>${section.body.map((p) => `<p>${p}</p>`).join('')}${table}${subs}${after}</section>`;
 };
 
 const renderPost = (post, all) => {
@@ -119,12 +123,12 @@ const renderPost = (post, all) => {
   <script type="application/ld+json">${escapeLd(schema)}</script>
 </head>
 <body class="post-page">
-${header('/blog.html')}
+${header('/blog/')}
 <main>
   <article class="post" itemscope itemtype="https://schema.org/BlogPosting">
     <header class="post-hero">
       <div class="container post-hero-inner">
-        <div class="breadcrumb"><a href="/">Home</a><span>/</span><a href="/blog.html">Blog</a><span>/</span><span>${post.category}</span></div>
+        <div class="breadcrumb"><a href="/">Home</a><span>/</span><a href="/blog/">Blog</a><span>/</span><span>${post.category}</span></div>
         <span class="eyebrow">${post.category}</span>
         <h1 itemprop="headline">${post.title}</h1>
         <p class="post-dek">${post.dek}</p>
@@ -172,7 +176,7 @@ ${header('/blog.html')}
             <h2>${authorName}</h2>
             <p>${authorBio}</p>
             <p class="post-author-meta">Reviewed for accuracy on <time datetime="${post.updated}">${formatDate(post.updated)}</time>. This guide is general planning information, not legal or compliance advice.</p>
-            <a class="text-link" href="/about.html">About Star <span class="arrow">→</span></a>
+            <a class="text-link" href="/about/">About Star <span class="arrow">→</span></a>
           </div>
         </section>
       </div>

@@ -22,9 +22,9 @@ const blogDirectories = readdirSync(resolve(root, 'blog'), { withFileTypes: true
 
 const pages = [
   { label: 'home', file: 'index.html', canonical: `${siteUrl}/`, required: ['Organization', 'WebSite', 'WebPage', 'Service', 'FAQPage'] },
-  { label: 'about', file: 'about.html', canonical: `${siteUrl}/about.html`, required: ['Organization', 'WebSite', 'AboutPage', 'BreadcrumbList'] },
-  { label: 'blog', file: 'blog.html', canonical: `${siteUrl}/blog.html`, required: ['Organization', 'WebSite', 'CollectionPage', 'ItemList', 'BreadcrumbList'] },
-  { label: 'contact', file: 'contact.html', canonical: `${siteUrl}/contact.html`, required: ['Organization', 'WebSite', 'ContactPage', 'Service', 'BreadcrumbList', 'FAQPage'] },
+  { label: 'about', file: 'about/index.html', canonical: `${siteUrl}/about/`, required: ['Organization', 'WebSite', 'AboutPage', 'BreadcrumbList'] },
+  { label: 'blog', file: 'blog/index.html', canonical: `${siteUrl}/blog/`, required: ['Organization', 'WebSite', 'CollectionPage', 'ItemList', 'BreadcrumbList'] },
+  { label: 'contact', file: 'contact/index.html', canonical: `${siteUrl}/contact/`, required: ['Organization', 'WebSite', 'ContactPage', 'Service', 'BreadcrumbList', 'FAQPage'] },
   { label: 'service hub', file: 'service/index.html', canonical: `${siteUrl}/service/`, required: ['Organization', 'WebSite', 'CollectionPage', 'ItemList', 'BreadcrumbList'] },
   ...serviceDirectories.map((slug) => ({
     label: `service: ${slug}`,

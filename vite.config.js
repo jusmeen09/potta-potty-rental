@@ -36,9 +36,8 @@ export default defineConfig({
     rollupOptions: {
       input: {
         home: resolve(projectRoot, 'index.html'),
-        about: resolve(projectRoot, 'about.html'),
-        blog: resolve(projectRoot, 'blog.html'),
-        contact: resolve(projectRoot, 'contact.html'),
+        about: resolve(projectRoot, 'about/index.html'),
+        contact: resolve(projectRoot, 'contact/index.html'),
         notFound: resolve(projectRoot, '404.html'),
         ...serviceInputs,
         ...blogInputs,

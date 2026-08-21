@@ -12,7 +12,7 @@ const services = [
     kicker: 'Most requested rental',
     image: '/assets/homepage/standard-restroom.webp',
     alt: 'Standard portable restroom ready for rental delivery',
-    title: 'Standard Porta Potty Rental | Call for Availability',
+    title: 'Standard Porta Potty Rental | Star Portable Restrooms',
     description: 'Call for standard porta potty rental availability, delivery, servicing, and pricing for construction sites, events, parks, and temporary projects.',
     lead: 'A practical, durable portable toilet for construction crews, outdoor events, public spaces, home projects, and temporary facilities.',
     ideal: 'Standard units are the dependable choice when you need straightforward sanitation, flexible quantities, and a service schedule matched to real usage.',
@@ -34,7 +34,7 @@ const services = [
     kicker: 'Accessible rental option',
     image: '/assets/homepage/ada-restroom.webp',
     alt: 'ADA-accessible portable toilet with ground-level entry',
-    title: 'ADA Portable Toilet Rental | Accessible Restrooms',
+    title: 'ADA Portable Toilet Rental | Star Portable Restrooms',
     description: 'Call for ADA portable toilet rental availability, accessible unit planning, delivery, and pricing for events, public sites, and job locations.',
     lead: 'A spacious accessible portable restroom with ground-level entry, maneuvering room, and support features for a more inclusive sanitation plan.',
     ideal: 'Accessible units help event organizers, contractors, and public-site managers provide a practical restroom option for guests and workers with mobility needs.',
@@ -56,7 +56,7 @@ const services = [
     kicker: 'Upgraded guest comfort',
     image: '/assets/homepage/restroom-trailer.webp',
     alt: 'Portable restroom trailer prepared for an outdoor event',
-    title: 'Restroom Trailer Rental | Call for Pricing',
+    title: 'Restroom Trailer Rental | Star Portable Restrooms',
     description: 'Call for portable restroom trailer rental availability and pricing for weddings, corporate events, VIP areas, and longer-term temporary facilities.',
     lead: 'An upgraded portable bathroom experience for weddings, corporate gatherings, VIP areas, productions, and sites where added comfort matters.',
     ideal: 'Restroom trailers provide a more finished interior and may include climate control, lighting, sinks, mirrors, and separate restroom stalls depending on the model.',
@@ -78,7 +78,7 @@ const services = [
     kicker: 'Hygiene-focused add-on',
     image: '/assets/homepage/handwash-station.webp',
     alt: 'Portable handwashing station ready for outdoor use',
-    title: 'Portable Handwashing Station Rental | Call Now',
+    title: 'Handwashing Station Rental | Star Portable Restrooms',
     description: 'Call for portable handwashing station rental availability and pricing for construction sites, food service areas, festivals, and outdoor events.',
     lead: 'A self-contained handwashing solution for job sites, food areas, events, temporary facilities, and locations without convenient sink access.',
     ideal: 'Portable sinks support better hygiene by placing fresh water, soap, and hands-free washing closer to portable toilets and high-use activity areas.',
@@ -171,7 +171,7 @@ ${footer}
 // at this URL — an unstyled soft 404 that the Services nav item pointed past.
 const renderHub = () => {
   const canonical = `${siteUrl}/service/`;
-  const title = 'Portable Restroom Rental Services | Star';
+  const title = 'Rental Services | Star Portable Restrooms';
   const description = 'Compare portable restroom rental services: standard porta potties, ADA-accessible units, restroom trailers, and handwashing stations. Call for availability.';
   const schema = {
     '@context': 'https://schema.org',
