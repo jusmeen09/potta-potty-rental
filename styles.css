@@ -6887,3 +6887,57 @@ main .section-sm h2 + p {
   color: var(--ink-soft);
   font-size: 0.92rem;
 }
+
+/* Header fit between the nav breakpoint and comfortable desktop width.
+   Between 861px and ~1000px the brand wrapped to three lines and the phone
+   block to three, because nav, brand, and CTA all competed for the same row. */
+.brand-name,
+.header-phone span {
+  white-space: nowrap;
+}
+
+@media (min-width: 861px) and (max-width: 1040px) {
+  .nav-inner {
+    gap: 16px;
+  }
+
+  .desktop-nav {
+    gap: 16px;
+  }
+
+  .brand-name {
+    font-size: 1.06rem;
+  }
+
+  .brand-name small {
+    margin-top: 5px;
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+  }
+
+  .header-phone {
+    padding-right: 12px;
+    font-size: 0.82rem;
+  }
+}
+
+/* Topbar in the same tight band: four items on one 38px row wrapped to two
+   lines each. Drop the least essential item rather than let them stack. */
+@media (min-width: 861px) and (max-width: 1120px) {
+  .topbar-inner {
+    gap: 14px;
+  }
+
+  .topbar-inner > span:last-child {
+    display: none;
+  }
+
+  .topbar-items {
+    gap: 16px;
+  }
+
+  .topbar-items > span,
+  .topbar-items > a {
+    white-space: nowrap;
+  }
+}

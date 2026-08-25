@@ -41,16 +41,18 @@ Use [STYLE.md](STYLE.md) as the source of truth for typography, spacing, CTA tre
 | Homepage | `/` | 1 | `index.html` (hand-maintained) |
 | About | `/about/` | 1 | `about/index.html` (hand-maintained) |
 | Contact | `/contact/` | 1 | `contact/index.html` (hand-maintained) |
-| Blog hub | `/blog/` | 1 | `blog/index.html` (hand-maintained) |
-| Rental guides | `/blog/{slug}/` | 7 | `scripts/generate-blog-pages.mjs` |
+| Blog hub | `/blog/` | 1 | `blog/index.html` — prose hand-maintained, card grid and ItemList synced by `scripts/sync-blog-hub.mjs` |
+| Rental guides | `/blog/{slug}/` | 17 | `scripts/generate-blog-pages.mjs` |
 | Service hub | `/service/` | 1 | `scripts/generate-service-pages.mjs` |
 | Service pages | `/service/{slug}/` | 4 | `scripts/generate-service-pages.mjs` |
 | Location hub | `/location/` | 1 | `scripts/generate-location-pages.mjs` |
 | State pages | `/location/{state}/` | 50 | `scripts/generate-location-pages.mjs` |
 
-**67 indexable pages.** Update the generators rather than editing generated HTML by hand — a regeneration will overwrite manual edits.
+**77 indexable pages.** Update the generators rather than editing generated HTML by hand — a regeneration will overwrite manual edits.
 
 Shared header, footer, nav, icons, and schema partials live in `scripts/lib/site.mjs` so every generator emits identical chrome.
+
+Guide content is split across `scripts/lib/blog-posts.mjs` and `blog-posts-extra{,2,3}.mjs`, combined and sorted by `order` in the first file. The combined array must remain a valid topological order.
 
 ## Programmatic location pages
 
@@ -72,17 +74,17 @@ In-body article links are enforced at build time by `scripts/generate-blog-pages
 - The anchor phrase must already exist in the prose, so a link only lands where the sentence genuinely discusses the target.
 - No article links the same URL twice.
 - Article-to-article links may only point **forward** through the `order` field in `scripts/lib/blog-posts.mjs`, which makes cycles structurally impossible.
-- One contextual link per paragraph.
+- One contextual link per paragraph, so two planned anchors in the same paragraph will fail the build. Anchor matching is case-sensitive.
 
 Commercial pages are terminal: they never link back into the article set, so link equity flows toward pages that convert.
 
 ## SEO and tracking
 
-- All 68 titles use the full brand, `| Star Portable Restrooms`. Do not shorten it to `| Star`.
+- All 78 titles use the full brand, `| Star Portable Restrooms`. Do not shorten it to `| Star`.
 - Unique titles, descriptions, canonicals, and one `h1` per page; heading levels never skip.
 - Organization, WebSite, WebPage, Service, BlogPosting, Blog, CollectionPage, ItemList, Breadcrumb, and FAQ structured data.
 - `llms.txt` at the root states the call-first pricing model so assistants cite the phone number instead of inventing figures.
-- XML sitemap covering all 67 indexable URLs; page counts are derived from disk by the validators.
+- XML sitemap covering all 77 indexable URLs; page counts are derived from disk by the validators.
 - Every `<img>` carries intrinsic `width`/`height`, stamped by `scripts/add-image-dimensions.mjs`, to keep CLS at zero.
 - Fonts load via `preconnect` plus a parallel stylesheet link. Do not move them back into a CSS `@import` — that serialises HTML → CSS → font CSS → font files.
 - Google Search Console HTML verification tag on the homepage.

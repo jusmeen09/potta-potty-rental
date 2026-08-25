@@ -1,11 +1,15 @@
+import { extraPosts } from './blog-posts-extra.mjs';
+import { extraPosts2 } from './blog-posts-extra2.mjs';
+import { extraPosts3 } from './blog-posts-extra3.mjs';
+
 // Blog post content. Ordering matters: in-body blog->blog links may only point
 // FORWARD in this array, which keeps the internal link graph acyclic.
 // Every `links` entry is a distinct URL within its own post.
 
-export const posts = [
+const corePosts = [
   {
     slug: 'porta-potty-ratio-guide',
-    order: 1,
+    order: 11,
     category: 'Planning',
     featured: true,
     title: 'Porta Potty Ratio Guide: How Many Units Do You Really Need?',
@@ -109,7 +113,7 @@ export const posts = [
 
   {
     slug: 'portable-toilet-rental-checklist',
-    order: 2,
+    order: 10,
     category: 'Planning',
     title: 'Portable Toilet Rental in the USA: A Planning Checklist',
     metaTitle: 'Portable Toilet Rental Checklist | Star Portable Restrooms',
@@ -196,7 +200,7 @@ export const posts = [
 
   {
     slug: 'porta-potty-options-comparison',
-    order: 3,
+    order: 12,
     category: 'Options',
     title: 'Standard Portable Toilet, ADA Unit, or Restroom Trailer?',
     metaTitle: 'Standard vs ADA vs Trailer | Star Portable Restrooms',
@@ -271,7 +275,7 @@ export const posts = [
 
   {
     slug: 'porta-potty-cost-per-day',
-    order: 4,
+    order: 13,
     category: 'Pricing',
     title: 'How Much Does a Porta Potty Cost for One Day?',
     metaTitle: 'Porta Potty Cost for One Day | Star Portable Restrooms',
@@ -352,7 +356,7 @@ export const posts = [
 
   {
     slug: 'porta-potty-cost-per-month',
-    order: 5,
+    order: 14,
     category: 'Pricing',
     title: 'How Much Is a Porta Potty per Month?',
     metaTitle: 'Porta Potty Cost per Month | Star Portable Restrooms',
@@ -435,7 +439,7 @@ export const posts = [
 
   {
     slug: 'porta-potty-usage-guide',
-    order: 6,
+    order: 15,
     category: 'Usage',
     title: 'Porta Potty Usage: What Belongs Inside?',
     metaTitle: 'Porta Potty Usage Guide | Star Portable Restrooms',
@@ -518,7 +522,7 @@ export const posts = [
 
   {
     slug: 'porta-potty-indoor-placement',
-    order: 7,
+    order: 17,
     category: 'Placement',
     title: 'Can You Put a Porta Potty Indoors?',
     metaTitle: 'Can You Put a Porta Potty Indoors? | Star Portable Restrooms',
@@ -589,3 +593,7 @@ export const posts = [
     ],
   },
 ];
+
+// One array, sorted by `order`, so the forward-only link rule is evaluated
+// against the real publication sequence rather than file layout.
+export const posts = [...corePosts, ...extraPosts, ...extraPosts2, ...extraPosts3].sort((a, b) => a.order - b.order);
