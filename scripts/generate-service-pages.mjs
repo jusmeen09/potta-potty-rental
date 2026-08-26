@@ -33,7 +33,10 @@ const services = [
     shortName: 'ADA Portable Toilet',
     kicker: 'Accessible rental option',
     image: '/assets/homepage/ada-restroom.webp',
-    alt: 'ADA-accessible portable toilet with ground-level entry',
+    // The stock photo doesn't visibly show accessibility-specific features (wide
+    // door, ramp), so the alt text describes what's actually in frame rather than
+    // asserting compliance the image can't support.
+    alt: 'Portable restroom unit staged for delivery at a service yard',
     title: 'ADA Portable Toilet Rental | Star Portable Restrooms',
     description: 'Call for ADA portable toilet rental availability, accessible unit planning, delivery, and pricing for events, public sites, and job locations.',
     lead: 'A spacious accessible portable restroom with ground-level entry, maneuvering room, and support features for a more inclusive sanitation plan.',
