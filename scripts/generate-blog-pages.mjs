@@ -81,7 +81,7 @@ const renderPost = (post, all) => {
         articleSection: post.category,
         wordCount,
         inLanguage: 'en-US',
-        isPartOf: { '@id': `${siteUrl}/blog.html#blog` },
+        isPartOf: { '@id': `${siteUrl}/blog/#blog` },
       },
       {
         '@type': 'WebPage', '@id': `${canonical}#webpage`, url: canonical, name: post.metaTitle,
@@ -93,7 +93,7 @@ const renderPost = (post, all) => {
       {
         '@type': 'BreadcrumbList', '@id': `${canonical}#breadcrumb`, itemListElement: [
           { '@type': 'ListItem', position: 1, name: 'Home', item: `${siteUrl}/` },
-          { '@type': 'ListItem', position: 2, name: 'Blog', item: `${siteUrl}/blog.html` },
+          { '@type': 'ListItem', position: 2, name: 'Blog', item: `${siteUrl}/blog/` },
           { '@type': 'ListItem', position: 3, name: post.title, item: canonical },
         ],
       },
@@ -183,7 +183,7 @@ ${header('/blog/')}
 
       <aside class="post-aside">
         <div class="post-cta-card">
-          <span class="eyebrow eyebrow-light">Rental desk · Mon–Sat</span>
+          <span class="eyebrow eyebrow-light">Rental desk · 7 days a week</span>
           <h2>Planning a rental?</h2>
           <p>Call with your delivery ZIP code, dates, and expected crew size or attendance.</p>
           <a class="btn btn-call" href="tel:${phoneHref}">☎ Call ${phoneDisplay}</a>

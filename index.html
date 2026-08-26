@@ -55,7 +55,11 @@
               "telephone": "+18339201299",
               "contactType": "rentals and customer service",
               "areaServed": "US",
-              "availableLanguage": "English"
+              "availableLanguage": "English",
+              "hoursAvailable": [
+                { "@type": "OpeningHoursSpecification", "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], "opens": "07:00", "closes": "19:00" },
+                { "@type": "OpeningHoursSpecification", "dayOfWeek": "Sunday", "opens": "07:00", "closes": "12:00" }
+              ]
             }
           },
           {
@@ -162,7 +166,7 @@
     <div class="topbar">
       <div class="container topbar-inner">
         <div class="topbar-items">
-          <span>Mon–Sat · 7:00 AM–7:00 PM</span>
+          <span>Mon–Sat 7am–7pm · Sun 7am–12pm CST</span>
           <span>Fast delivery for events and job sites</span>
           <a href="tel:+18339201299">Call +1 (833) 920-1299</a>
         </div>
@@ -230,7 +234,7 @@
           <aside class="hero-call-card" aria-label="Call our rental desk">
             <div class="hero-call-card-top">
               <span class="live-dot" aria-hidden="true"></span>
-              <span>Rental desk · Mon–Sat</span>
+              <span>Rental desk · 7 days a week</span>
             </div>
             <span class="hero-card-kicker">Fast answers. Clear pricing.</span>
             <h2>Planning a site or event?</h2>
@@ -512,57 +516,6 @@
         </div>
       </section>
 
-      <section class="section surface">
-        <div class="container">
-          <div class="section-heading center">
-            <span class="eyebrow">Customer stories</span>
-            <h2>Reliable service leaves a lasting impression.</h2>
-          </div>
-
-          <div class="testimonial-marquee" aria-label="Customer reviews">
-            <div class="testimonial-track" data-testimonial-track>
-              <div class="testimonial-set" data-testimonial-set>
-                <article class="testimonial-card">
-                  <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
-                  <blockquote>“The delivery was exactly when promised, and the units stayed clean throughout our three-day festival.”</blockquote>
-                  <div class="reviewer"><span class="reviewer-avatar">MC</span><span><strong>Maria C.</strong><span>Event coordinator</span></span></div>
-                </article>
-                <article class="testimonial-card">
-                  <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
-                  <blockquote>“Our construction schedule changed twice. Star adjusted the rental without making it complicated.”</blockquote>
-                  <div class="reviewer"><span class="reviewer-avatar">DR</span><span><strong>David R.</strong><span>Site superintendent</span></span></div>
-                </article>
-                <article class="testimonial-card">
-                  <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
-                  <blockquote>“Fast quote, thoughtful placement advice, and friendly service. The whole process was easy.”</blockquote>
-                  <div class="reviewer"><span class="reviewer-avatar">AT</span><span><strong>Alicia T.</strong><span>Wedding planner</span></span></div>
-                </article>
-                <article class="testimonial-card">
-                  <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
-                  <blockquote>“The crew helped us choose the right number of units and made delivery simple from start to finish.”</blockquote>
-                  <div class="reviewer"><span class="reviewer-avatar">JS</span><span><strong>James S.</strong><span>Project manager</span></span></div>
-                </article>
-                <article class="testimonial-card">
-                  <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
-                  <blockquote>“Everything arrived clean and ready before our guests did. Pickup was just as smooth.”</blockquote>
-                  <div class="reviewer"><span class="reviewer-avatar">LK</span><span><strong>Lauren K.</strong><span>Private event host</span></span></div>
-                </article>
-                <article class="testimonial-card">
-                  <div class="stars" aria-label="5 out of 5 stars">★★★★★</div>
-                  <blockquote>“Reliable weekly service and quick communication made managing the job site much easier.”</blockquote>
-                  <div class="reviewer"><span class="reviewer-avatar">RB</span><span><strong>Robert B.</strong><span>General contractor</span></span></div>
-                </article>
-              </div>
-            </div>
-          </div>
-          <div class="call-cta">
-            <span class="call-cta-mark" aria-hidden="true">☎</span>
-            <div class="call-cta-copy"><small>Ready for dependable service?</small><strong>Talk with a rental specialist today.</strong><span>Get unit recommendations, local availability, and clear pricing in one call.</span></div>
-            <a class="call-cta-phone" href="tel:+18339201299" aria-label="Call Star Portable Restrooms at +1 (833) 920-1299"><span class="call-cta-phone-icon" aria-hidden="true">☎</span><span><small>Call now</small><strong>+1 (833) 920-1299</strong></span></a>
-          </div>
-        </div>
-      </section>
-
       <section class="section" id="rental-faqs">
         <div class="container faq-wrap">
           <div>
@@ -662,7 +615,7 @@
             <article><h3><span>01</span>Northeast</h3><div class="home-state-links"><a href="location/connecticut/">Connecticut</a><a href="location/maine/">Maine</a><a href="location/massachusetts/">Massachusetts</a><a href="location/new-hampshire/">New Hampshire</a><a href="location/rhode-island/">Rhode Island</a><a href="location/vermont/">Vermont</a><a href="location/new-jersey/">New Jersey</a><a href="location/new-york/">New York</a><a href="location/pennsylvania/">Pennsylvania</a></div></article>
             <article><h3><span>02</span>Midwest</h3><div class="home-state-links"><a href="location/illinois/">Illinois</a><a href="location/indiana/">Indiana</a><a href="location/michigan/">Michigan</a><a href="location/ohio/">Ohio</a><a href="location/wisconsin/">Wisconsin</a><a href="location/iowa/">Iowa</a><a href="location/kansas/">Kansas</a><a href="location/minnesota/">Minnesota</a><a href="location/missouri/">Missouri</a><a href="location/nebraska/">Nebraska</a><a href="location/north-dakota/">North Dakota</a><a href="location/south-dakota/">South Dakota</a></div></article>
             <article><h3><span>03</span>South</h3><div class="home-state-links"><a href="location/alabama/">Alabama</a><a href="location/arkansas/">Arkansas</a><a href="location/delaware/">Delaware</a><a href="location/florida/">Florida</a><a href="location/georgia/">Georgia</a><a href="location/kentucky/">Kentucky</a><a href="location/louisiana/">Louisiana</a><a href="location/maryland/">Maryland</a><a href="location/mississippi/">Mississippi</a><a href="location/north-carolina/">North Carolina</a><a href="location/oklahoma/">Oklahoma</a><a href="location/south-carolina/">South Carolina</a><a href="location/tennessee/">Tennessee</a><a href="location/texas/">Texas</a><a href="location/virginia/">Virginia</a><a href="location/west-virginia/">West Virginia</a></div></article>
-            <article><h3><span>04</span>West</h3><div class="home-state-links"><a href="location/alaska/">Alaska</a><a href="location/arizona/">Arizona</a><a href="location/california/">California</a><a href="location/colorado/">Colorado</a><a href="location/hawaii/">Hawaii</a><a href="location/idaho/">Idaho</a><a href="location/montana/">Montana</a><a href="location/nevada/">Nevada</a><a href="location/new-mexico/">New Mexico</a><a href="location/oregon/">Oregon</a><a href="location/utah/">Utah</a><a href="location/washington/">Washington</a><a href="location/wyoming/">Wyoming</a></div></article>
+            <article><h3><span>04</span>West</h3><div class="home-state-links"><a href="location/arizona/">Arizona</a><a href="location/california/">California</a><a href="location/colorado/">Colorado</a><a href="location/idaho/">Idaho</a><a href="location/montana/">Montana</a><a href="location/nevada/">Nevada</a><a href="location/new-mexico/">New Mexico</a><a href="location/oregon/">Oregon</a><a href="location/utah/">Utah</a><a href="location/washington/">Washington</a><a href="location/wyoming/">Wyoming</a></div></article>
           </div>
           <p class="home-location-note">Availability, inventory, and delivery pricing are confirmed for the exact ZIP code. State pages do not represent staffed local offices.</p>
         </div>
@@ -694,13 +647,16 @@
           <div class="footer-contact">
             <a href="tel:+18339201299"><strong>Phone</strong>+1 (833) 920-1299</a>
             <a href="mailto:hello@starportablerestrooms.com"><strong>Email</strong>hello@starportablerestrooms.com</a>
-            <span><strong>Hours</strong>Mon–Sat · 7:00 AM–7:00 PM</span>
+            <span><strong>Hours</strong>Mon–Sat 7:00 AM–7:00 PM CST · Sun 7:00 AM–12:00 PM CST</span>
           </div>
         </div>
       </div>
       <div class="container footer-bottom">
         <span>© <span data-current-year></span> starportablerestrooms.com. All rights reserved.</span>
         <span>Portable sanitation, simplified.</span>
+      </div>
+      <div class="container footer-disclaimer">
+        <p>This site is a free service to assist homeowners in connecting with local service contractors. All contractors are independent and this site does not warrant or guarantee any work performed. It is the responsibility of the homeowner to verify that the hired contractor furnishes the necessary license and insurance required for the work being performed. All persons depicted in a photo or video are actors or models and not contractors listed on this site.</p>
       </div>
     </footer>
 

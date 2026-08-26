@@ -4,3 +4,8 @@
 /about.html      /about/     301
 /blog.html       /blog/      301
 /contact.html    /contact/   301
+
+# Alaska and Hawaii are no longer serviced. These pages were live and indexed,
+# so redirect rather than 404 to preserve whatever equity they had.
+/location/alaska/   /location/   301
+/location/hawaii/   /location/   301

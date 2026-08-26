@@ -46,9 +46,9 @@ Use [STYLE.md](STYLE.md) as the source of truth for typography, spacing, CTA tre
 | Service hub | `/service/` | 1 | `scripts/generate-service-pages.mjs` |
 | Service pages | `/service/{slug}/` | 4 | `scripts/generate-service-pages.mjs` |
 | Location hub | `/location/` | 1 | `scripts/generate-location-pages.mjs` |
-| State pages | `/location/{state}/` | 50 | `scripts/generate-location-pages.mjs` |
+| State pages | `/location/{state}/` | 48 | `scripts/generate-location-pages.mjs` |
 
-**77 indexable pages.** Update the generators rather than editing generated HTML by hand — a regeneration will overwrite manual edits.
+**75 indexable pages.** Update the generators rather than editing generated HTML by hand — a regeneration will overwrite manual edits.
 
 Shared header, footer, nav, icons, and schema partials live in `scripts/lib/site.mjs` so every generator emits identical chrome.
 
@@ -56,13 +56,13 @@ Guide content is split across `scripts/lib/blog-posts.mjs` and `blog-posts-extra
 
 ## Programmatic location pages
 
-The 50 state pages are programmatic, and their value depends on being genuinely differentiated rather than name-swapped boilerplate. Per-state substance comes from `scripts/lib/state-data.mjs`:
+The 48 state pages are programmatic (Alaska and Hawaii are not currently serviced), and their value depends on being genuinely differentiated rather than name-swapped boilerplate. Per-state substance comes from `scripts/lib/state-data.mjs`:
 
 - **OSHA jurisdiction.** 21 states run their own OSHA-approved State Plan enforcing construction sanitation (Cal/OSHA, MIOSHA, TOSHA and so on); 6 have State Plans covering public employees only; the remaining 23 are federal OSHA. Each page states which applies and what it means for `29 CFR 1926.51`.
 - **Seasonal profile.** Six profiles (deep-freeze, cold-winter, humid-south, storm-coast, arid-heat, island-remote) drive the demand and servicing narrative.
 - **Metro coverage.** Five named markets per state, each with a distinct framing.
 
-Measured 5-gram similarity across all 1,225 state-page pairs: **58.0% mean, 68.5% peak** (was 67.2% / 72.5%). Average length **1,769 words** (was 1,228). If you add differentiation, re-measure — do not assume.
+Measured 5-gram similarity across all 1,128 state-page pairs (48 states): **58.2% mean, 68.7% peak**. Average length **1,777 words**. If you add differentiation, re-measure — do not assume.
 
 Compliance figures cite OSHA `29 CFR 1926.51`, `29 CFR 1910.141`, and the 2010 ADA Standards. Keep the "confirm with the authority having jurisdiction" caveat on any page that states a requirement.
 
@@ -84,7 +84,7 @@ Commercial pages are terminal: they never link back into the article set, so lin
 - Unique titles, descriptions, canonicals, and one `h1` per page; heading levels never skip.
 - Organization, WebSite, WebPage, Service, BlogPosting, Blog, CollectionPage, ItemList, Breadcrumb, and FAQ structured data.
 - `llms.txt` at the root states the call-first pricing model so assistants cite the phone number instead of inventing figures.
-- XML sitemap covering all 77 indexable URLs; page counts are derived from disk by the validators.
+- XML sitemap covering all 75 indexable URLs; page counts are derived from disk by the validators.
 - Every `<img>` carries intrinsic `width`/`height`, stamped by `scripts/add-image-dimensions.mjs`, to keep CLS at zero.
 - Fonts load via `preconnect` plus a parallel stylesheet link. Do not move them back into a CSS `@import` — that serialises HTML → CSS → font CSS → font files.
 - Google Search Console HTML verification tag on the homepage.

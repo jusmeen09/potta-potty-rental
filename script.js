@@ -86,17 +86,6 @@ document.querySelectorAll('[data-faq-item]').forEach((item) => {
   });
 });
 
-const testimonialTrack = document.querySelector('[data-testimonial-track]');
-const testimonialSet = document.querySelector('[data-testimonial-set]');
-
-if (testimonialTrack && testimonialSet) {
-  const testimonialClone = testimonialSet.cloneNode(true);
-  testimonialClone.removeAttribute('data-testimonial-set');
-  testimonialClone.setAttribute('aria-hidden', 'true');
-  testimonialTrack.append(testimonialClone);
-  testimonialTrack.classList.add('is-ready');
-}
-
 const revealSelectors = [
   '.hero-copy',
   '.hero-call-card',
@@ -113,7 +102,6 @@ const revealSelectors = [
   '.feature-art',
   '.feature-list-item',
   '.stat',
-  '.testimonial-card',
   '.faq-item',
   '.cta-panel',
   '.story-visual',
@@ -219,7 +207,7 @@ if (!reducedMotion && 'IntersectionObserver' in window) {
 }
 
 const pressableElements = document.querySelectorAll(
-  '.btn, .filter-btn, .product-card, .use-card, .step-card, .value-card, .testimonial-card, .blog-card, .location-option-card, .state-link-card, .related-location-links a, .home-state-links a',
+  '.btn, .filter-btn, .product-card, .use-card, .step-card, .value-card, .blog-card, .location-option-card, .state-link-card, .related-location-links a, .home-state-links a',
 );
 
 pressableElements.forEach((element) => {

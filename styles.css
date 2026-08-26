@@ -2093,6 +2093,18 @@ p {
   font-size: 0.78rem;
 }
 
+.footer-disclaimer {
+  padding: 0 0 28px;
+}
+
+.footer-disclaimer p {
+  max-width: 860px;
+  margin: 0;
+  color: #5e7086;
+  font-size: 0.72rem;
+  line-height: 1.6;
+}
+
 .page-hero {
   position: relative;
   overflow: hidden;

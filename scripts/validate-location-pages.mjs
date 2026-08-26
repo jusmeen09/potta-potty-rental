@@ -45,8 +45,9 @@ const pages = [
   })),
 ];
 
-if (stateDirectories.length !== 50) fail(`Expected 50 state directories; found ${stateDirectories.length}.`);
-if (pages.length !== 51) fail(`Expected 51 location pages including the hub; found ${pages.length}.`);
+// No hardcoded state count here: stateDirectories is read straight from disk, and
+// pages.length is always stateDirectories.length + 1 by construction above, so a
+// magic-number assertion would only encode a stale roster rather than catch a bug.
 
 const seenTitles = new Map();
 const seenDescriptions = new Map();

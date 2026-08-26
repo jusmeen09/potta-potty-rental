@@ -1,5 +1,6 @@
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { seasonFor, oshaFor } from './lib/state-data.mjs';
+import { header, footer, organization } from './lib/site.mjs';
 import { posts as blogPosts } from './lib/blog-posts.mjs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -16,26 +17,8 @@ const clarityTrackingScript = `<script type="text/javascript">
       y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
   })(window, document, "clarity", "script", "y3adfg123t");
 </script>`;
-const organizationSchema = {
-  '@type': 'Organization',
-  '@id': `${siteUrl}/#organization`,
-  name: 'Star Portable Restrooms',
-  url: `${siteUrl}/`,
-  logo: `${siteUrl}/assets/logo-mark.png`,
-  telephone: phoneHref,
-  email: 'hello@starportablerestrooms.com',
-  contactPoint: {
-    '@type': 'ContactPoint',
-    telephone: phoneHref,
-    contactType: 'rentals and customer service',
-    areaServed: 'US',
-    availableLanguage: 'English',
-  },
-};
-
 const states = [
   { name: 'Alabama', code: 'AL', region: 'South', capital: 'Montgomery', cities: ['Birmingham', 'Montgomery', 'Mobile', 'Huntsville', 'Tuscaloosa'], focus: 'construction, college events, festivals, and industrial projects', note: 'Hot, humid summers, heavy rain, and changing site conditions make placement, ventilation, service frequency, and truck access important planning details.' },
-  { name: 'Alaska', code: 'AK', region: 'West', capital: 'Juneau', cities: ['Anchorage', 'Fairbanks', 'Juneau', 'Wasilla', 'Kenai'], focus: 'remote job sites, seasonal tourism, community events, and infrastructure work', note: 'Long travel distances, cold weather, remote access, and seasonal road conditions can affect equipment availability, delivery windows, and servicing routes.' },
   { name: 'Arizona', code: 'AZ', region: 'West', capital: 'Phoenix', cities: ['Phoenix', 'Tucson', 'Mesa', 'Scottsdale', 'Flagstaff'], focus: 'construction, outdoor events, sporting events, and long-term commercial sites', note: 'Extreme heat, sun exposure, dust, and monsoon-season access make shaded placement, ventilation, hydration support, and service frequency especially important.' },
   { name: 'Arkansas', code: 'AR', region: 'South', capital: 'Little Rock', cities: ['Little Rock', 'Fayetteville', 'Fort Smith', 'Springdale', 'Jonesboro'], focus: 'construction, fairs, outdoor recreation, and agricultural projects', note: 'Warm summers, heavy rain, rural delivery distances, and uneven terrain should be considered when planning unit placement and service access.' },
   { name: 'California', code: 'CA', region: 'West', capital: 'Sacramento', cities: ['Los Angeles', 'San Diego', 'San Jose', 'Sacramento', 'Fresno'], focus: 'construction, entertainment events, agriculture, weddings, and large public gatherings', note: 'Large service areas, dense urban sites, coastal and inland climates, traffic, and site-specific access rules can all influence delivery timing and placement.' },
@@ -44,7 +27,6 @@ const states = [
   { name: 'Delaware', code: 'DE', region: 'South', capital: 'Dover', cities: ['Wilmington', 'Dover', 'Newark', 'Middletown', 'Rehoboth Beach'], focus: 'coastal events, construction, festivals, and seasonal hospitality', note: 'Coastal demand, summer tourism, compact sites, and weather exposure can change delivery schedules and the number of units required.' },
   { name: 'Florida', code: 'FL', region: 'South', capital: 'Tallahassee', cities: ['Jacksonville', 'Miami', 'Tampa', 'Orlando', 'Tallahassee'], focus: 'construction, festivals, tourism, weddings, and emergency projects', note: 'Heat, humidity, heavy rain, storm planning, and year-round event demand make ventilation, anchoring, drainage, and frequent service key considerations.' },
   { name: 'Georgia', code: 'GA', region: 'South', capital: 'Atlanta', cities: ['Atlanta', 'Augusta', 'Columbus', 'Savannah', 'Macon'], focus: 'construction, film production, festivals, weddings, and industrial work', note: 'Hot summers, humidity, urban traffic, rural routes, and storm-season access should be factored into delivery and maintenance plans.' },
-  { name: 'Hawaii', code: 'HI', region: 'West', capital: 'Honolulu', cities: ['Honolulu', 'Hilo', 'Kailua', 'Kahului', 'Kapolei'], focus: 'tourism, outdoor events, construction, weddings, and community gatherings', note: 'Island-by-island inventory, inter-island logistics, salt air, wind, and limited site access mean availability must be confirmed for the exact island and ZIP code.' },
   { name: 'Idaho', code: 'ID', region: 'West', capital: 'Boise', cities: ['Boise', 'Meridian', 'Nampa', 'Idaho Falls', 'Coeur d’Alene'], focus: 'construction, agriculture, outdoor recreation, and seasonal events', note: 'Rural distances, mountain access, winter conditions, and seasonal construction demand can affect route scheduling and service frequency.' },
   { name: 'Illinois', code: 'IL', region: 'Midwest', capital: 'Springfield', cities: ['Chicago', 'Aurora', 'Rockford', 'Springfield', 'Peoria'], focus: 'urban construction, festivals, industrial sites, and agricultural events', note: 'Dense city sites, highway traffic, winter weather, and long rural routes require clear staging instructions and realistic delivery windows.' },
   { name: 'Indiana', code: 'IN', region: 'Midwest', capital: 'Indianapolis', cities: ['Indianapolis', 'Fort Wayne', 'Evansville', 'South Bend', 'Carmel'], focus: 'construction, motorsports, fairs, manufacturing, and community events', note: 'Seasonal storms, winter freezes, large event traffic, and mixed urban-rural routes can influence access and servicing plans.' },
@@ -97,33 +79,7 @@ const serializeSchema = (value) => JSON.stringify(value).replaceAll('<', '\\u003
 
 const listSentence = (items) => `${items.slice(0, -1).join(', ')}, and ${items.at(-1)}`;
 
-const header = (active = '') => `
-  <div class="topbar">
-    <div class="container topbar-inner">
-      <div class="topbar-items"><span>Mon–Sat · 7:00 AM–7:00 PM</span><span>Availability confirmed by delivery ZIP</span><a href="tel:${phoneHref}">Call ${phoneDisplay}</a></div>
-      <span>Clean units. Clear pricing. Reliable coordination.</span>
-    </div>
-  </div>
-  <header class="site-header">
-    <div class="container nav-inner">
-      <a class="brand" href="/" aria-label="Star Portable Restrooms home"><img src="/assets/logo-mark.png" alt="" /><span class="brand-name">Star Portable <small>Restrooms</small></span></a>
-      <nav class="desktop-nav" aria-label="Primary navigation"><a href="/">Home</a><a href="/about/">About</a><a href="/blog/">Blog</a><a href="/service/">Services</a><a${active === 'locations' ? ' class="active"' : ''} href="/location/">Locations</a><a href="/contact/">Contact</a></nav>
-      <div class="nav-actions"><a class="header-phone" href="tel:${phoneHref}"><span class="header-phone-icon" aria-hidden="true">☎</span><span><small>Call Us Now</small>${phoneDisplay}</span></a><button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" data-menu-toggle><span></span></button></div>
-    </div>
-  </header>
-  <nav class="mobile-menu" aria-label="Mobile navigation" data-mobile-menu><a href="/">Home</a><a href="/about/">About</a><a href="/blog/">Blog</a><a href="/service/">Services</a><a href="/location/">Locations</a><a href="/contact/">Contact</a><a class="btn btn-call mobile-menu-call" href="tel:${phoneHref}">☎ Call Us Now · ${phoneDisplay}</a></nav>`;
 
-const footer = () => `
-  <footer class="footer">
-    <div class="container footer-grid">
-      <div class="footer-about"><a class="brand" href="/"><img src="/assets/logo-mark.png" alt="" /><span class="brand-name">Star Portable <small>Restrooms</small></span></a><p>Porta potty, portable toilet, restroom trailer, and handwashing station rentals for events, job sites, and long-term projects. Availability is confirmed by ZIP code.</p></div>
-      <div><h2 class="footer-heading">Company</h2><nav class="footer-links"><a href="/">Home</a><a href="/about/">About us</a><a href="/blog/">Blog</a><a href="/location/">Locations</a><a href="/contact/">Contact</a></nav></div>
-      <div><h2 class="footer-heading">Rental Solutions</h2><nav class="footer-links"><a href="/service/standard-porta-potty-rental/">Standard restrooms</a><a href="/service/ada-portable-toilet-rental/">ADA-accessible units</a><a href="/service/restroom-trailer-rental/">Restroom trailers</a><a href="/service/portable-handwashing-station-rental/">Handwashing stations</a></nav></div>
-      <div><h2 class="footer-heading">Talk to Us</h2><div class="footer-contact"><a href="tel:${phoneHref}"><strong>Phone</strong>${phoneDisplay}</a><a href="mailto:hello@starportablerestrooms.com"><strong>Email</strong>hello@starportablerestrooms.com</a><span><strong>Hours</strong>Mon–Sat · 7:00 AM–7:00 PM</span></div></div>
-    </div>
-    <div class="container footer-bottom"><span>© <span data-current-year></span> starportablerestrooms.com. All rights reserved.</span><span>Availability confirmed by delivery ZIP.</span></div>
-  </footer>
-  <a class="mobile-call" href="tel:${phoneHref}" aria-label="Call Star Portable Restrooms at ${phoneDisplay}"><span class="mobile-call-icon" aria-hidden="true">☎</span><span class="mobile-call-copy"><small>Call for availability</small><strong>${phoneDisplay}</strong></span><span class="mobile-call-action" aria-hidden="true">Call now</span></a>`;
 
 const offerCatalog = {
   '@type': 'OfferCatalog',
@@ -151,7 +107,7 @@ const stateFaqs = (state, season, osha) => [
 const stateSchema = (state, title, description, faqs) => ({
   '@context': 'https://schema.org',
   '@graph': [
-    organizationSchema,
+    organization,
     { '@type': 'WebSite', '@id': `${siteUrl}/#website`, url: `${siteUrl}/`, name: 'Star Portable Restrooms', publisher: { '@id': `${siteUrl}/#organization` }, inLanguage: 'en-US' },
     { '@type': 'WebPage', '@id': `${siteUrl}/location/${state.slug}/#webpage`, url: `${siteUrl}/location/${state.slug}/`, name: title, description, isPartOf: { '@id': `${siteUrl}/#website` }, about: { '@id': `${siteUrl}/location/${state.slug}/#service` }, mainEntity: [{ '@id': `${siteUrl}/location/${state.slug}/#service` }, { '@id': `${siteUrl}/location/${state.slug}/#faq` }], breadcrumb: { '@id': `${siteUrl}/location/${state.slug}/#breadcrumb` }, inLanguage: 'en-US' },
     { '@type': 'Service', '@id': `${siteUrl}/location/${state.slug}/#service`, name: `Porta Potty Rental in ${state.name}`, serviceType: 'Porta potty and portable toilet rental', description, provider: { '@id': `${siteUrl}/#organization` }, areaServed: { '@type': 'AdministrativeArea', name: state.name }, hasOfferCatalog: offerCatalog },
@@ -212,7 +168,7 @@ const statePage = (state) => {
   <script type="application/ld+json">${serializeSchema(schema)}</script>
 </head>
 <body class="location-page state-location-page" data-location-state="${escapeHtml(state.name)}">
-${header('locations')}
+${header('/location/')}
 <main>
   <section class="location-hero state-location-hero">
     <div class="container location-hero-grid">
@@ -372,7 +328,7 @@ ${header('locations')}
 
   <section class="section-sm"><div class="container cta-panel location-final-cta" style="--cta-image: url('/assets/homepage/final-cta.webp');"><div class="cta-panel-inner"><div><h2>Call for Porta Potty Rental in ${escapeHtml(state.name)}</h2><p>Have your ZIP code, dates, estimated attendance or crew size, and site-access details ready for a faster availability check.</p></div><a class="btn btn-white cta-phone" href="tel:${phoneHref}"><span>Call the rental desk</span><strong>${phoneDisplay}</strong></a></div></div></section>
 </main>
-${footer()}
+${footer}
 <script type="module" src="/script.js"></script>
 </body>
 </html>`;
@@ -386,7 +342,7 @@ const hubDescription = 'Find porta potty rental locations by state. Call Star fo
 const hubSchema = {
   '@context': 'https://schema.org',
   '@graph': [
-    organizationSchema,
+    organization,
     { '@type': 'WebSite', '@id': `${siteUrl}/#website`, url: `${siteUrl}/`, name: 'Star Portable Restrooms', publisher: { '@id': `${siteUrl}/#organization` }, inLanguage: 'en-US' },
     { '@type': 'CollectionPage', '@id': `${siteUrl}/location/#webpage`, url: `${siteUrl}/location/`, name: hubTitle, description: hubDescription, isPartOf: { '@id': `${siteUrl}/#website` }, breadcrumb: { '@id': `${siteUrl}/location/#breadcrumb` }, mainEntity: { '@id': `${siteUrl}/location/#states` }, inLanguage: 'en-US' },
     { '@type': 'ItemList', '@id': `${siteUrl}/location/#states`, name: 'Porta potty rental locations by state', numberOfItems: states.length, itemListElement: states.map((state, index) => ({ '@type': 'ListItem', position: index + 1, name: `Porta Potty Rental in ${state.name}`, url: `${siteUrl}/location/${state.slug}/` })) },
@@ -419,7 +375,7 @@ const hubPage = `<!doctype html>
   <script type="application/ld+json">${serializeSchema(hubSchema)}</script>
 </head>
 <body class="location-page location-hub-page">
-${header('locations')}
+${header('/location/')}
 <main>
   <section class="location-hero location-hub-hero">
     <div class="container location-hero-grid">
@@ -438,7 +394,7 @@ ${header('locations')}
 
   <section class="section-sm"><div class="container cta-panel location-final-cta" style="--cta-image: url('/assets/homepage/final-cta.webp');"><div class="cta-panel-inner"><div><h2>Find Porta Potty Rental Availability Near You</h2><p>Call with your delivery ZIP code, dates, project details, and estimated attendance or crew size.</p></div><a class="btn btn-white cta-phone" href="tel:${phoneHref}"><span>Call the rental desk</span><strong>${phoneDisplay}</strong></a></div></div></section>
 </main>
-${footer()}
+${footer}
 <script type="module" src="/script.js"></script><script type="module" src="/location.js"></script>
 </body>
 </html>`;
