@@ -136,7 +136,7 @@ const renderPage = (service) => {
 </head>
 <body class="service-page" data-service="${service.slug}">
 ${header('/service/')}
-<main>
+<main id="main">
   <section class="service-hero">
     <div class="container service-hero-grid">
       <div class="service-hero-copy">
@@ -208,7 +208,7 @@ const renderHub = () => {
 </head>
 <body class="service-hub-page">
 ${header('/service/')}
-<main>
+<main id="main">
   <section class="page-hero service-hub-hero">
     <div class="container page-hero-inner">
       <div class="breadcrumb"><a href="/">Home</a><span>/</span><span>Rental services</span></div>

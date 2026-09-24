@@ -31,7 +31,7 @@ const states = [
   { name: 'Illinois', code: 'IL', region: 'Midwest', capital: 'Springfield', cities: ['Chicago', 'Aurora', 'Rockford', 'Springfield', 'Peoria'], focus: 'urban construction, festivals, industrial sites, and agricultural events', note: 'Dense city sites, highway traffic, winter weather, and long rural routes require clear staging instructions and realistic delivery windows.' },
   { name: 'Indiana', code: 'IN', region: 'Midwest', capital: 'Indianapolis', cities: ['Indianapolis', 'Fort Wayne', 'Evansville', 'South Bend', 'Carmel'], focus: 'construction, motorsports, fairs, manufacturing, and community events', note: 'Seasonal storms, winter freezes, large event traffic, and mixed urban-rural routes can influence access and servicing plans.' },
   { name: 'Iowa', code: 'IA', region: 'Midwest', capital: 'Des Moines', cities: ['Des Moines', 'Cedar Rapids', 'Davenport', 'Sioux City', 'Iowa City'], focus: 'construction, agriculture, fairs, college events, and industrial projects', note: 'Rural delivery distances, severe weather, freeze-thaw cycles, and high-demand fair seasons call for early scheduling and accessible placement.' },
-  { name: 'Kansas', code: 'KS', region: 'Midwest', capital: 'Topeka', cities: ['Wichita', 'Overland Park', 'Kansas City', 'Topeka', 'Olathe'], focus: 'construction, agriculture, festivals, energy projects, and outdoor events', note: 'Wind, severe storms, temperature swings, and long rural routes make anchoring, level placement, and service access important.' },
+  { name: 'Kansas', code: 'KS', region: 'Midwest', capital: 'Topeka', cities: ['Wichita', 'Kansas City', 'Topeka', 'Overland Park', 'Olathe'], focus: 'construction, agriculture, festivals, energy projects, and outdoor events', note: 'Wind, severe storms, temperature swings, and long rural routes make anchoring, level placement, and service access important.' },
   { name: 'Kentucky', code: 'KY', region: 'South', capital: 'Frankfort', cities: ['Louisville', 'Lexington', 'Bowling Green', 'Owensboro', 'Covington'], focus: 'construction, horse events, festivals, bourbon tourism, and manufacturing', note: 'Rolling terrain, seasonal rain, large event crowds, and rural access should be considered when planning unit counts and truck routes.' },
   { name: 'Louisiana', code: 'LA', region: 'South', capital: 'Baton Rouge', cities: ['New Orleans', 'Baton Rouge', 'Shreveport', 'Lafayette', 'Lake Charles'], focus: 'festivals, construction, industrial sites, tourism, and emergency response', note: 'Heat, humidity, heavy rain, flood-prone ground, and major festival demand can require careful placement and more frequent servicing.' },
   { name: 'Maine', code: 'ME', region: 'Northeast', capital: 'Augusta', cities: ['Portland', 'Lewiston', 'Bangor', 'South Portland', 'Augusta'], focus: 'seasonal tourism, construction, outdoor recreation, weddings, and community events', note: 'Cold winters, coastal weather, rural distances, and seasonal tourism peaks can affect access, availability, and delivery timing.' },
@@ -79,6 +79,17 @@ const serializeSchema = (value) => JSON.stringify(value).replaceAll('<', '\\u003
 
 const listSentence = (items) => `${items.slice(0, -1).join(', ')}, and ${items.at(-1)}`;
 
+// Name the state's own metros so no two descriptions are a state-name swap.
+// Uses as many cities as fit in 160 characters, most populous first.
+const stateDescription = (state) => {
+  const describe = (cities) => {
+    const cityList = cities.length > 1 ? `${cities.slice(0, -1).join(', ')} & ${cities.at(-1)}` : cities[0];
+    return `Porta potty rental in ${state.name}, serving ${cityList}. Standard, ADA, trailers & handwashing. Call ${phoneDisplay} for ZIP pricing.`;
+  };
+  const candidates = [3, 2, 1].map((count) => describe(state.cities.slice(0, count)));
+  return candidates.find((text) => text.length <= 160) ?? candidates.at(-1);
+};
+
 
 
 const offerCatalog = {
@@ -122,7 +133,7 @@ const stateSchema = (state, title, description, faqs) => ({
 
 const statePage = (state) => {
   const title = `Porta Potty Rental in ${state.name} | Star Portable Restrooms`;
-  const description = `Call Star for porta potty rental in ${state.name}. Check portable toilets, accessible units, restroom trailers, handwashing, delivery, and service by ZIP.`;
+  const description = stateDescription(state);
   const season = seasonFor(state.name);
   const osha = oshaFor(state.name);
   const faqs = stateFaqs(state, season, osha);
@@ -169,7 +180,7 @@ const statePage = (state) => {
 </head>
 <body class="location-page state-location-page" data-location-state="${escapeHtml(state.name)}">
 ${header('/location/')}
-<main>
+<main id="main">
   <section class="location-hero state-location-hero">
     <div class="container location-hero-grid">
       <div class="location-hero-copy">
@@ -376,7 +387,7 @@ const hubPage = `<!doctype html>
 </head>
 <body class="location-page location-hub-page">
 ${header('/location/')}
-<main>
+<main id="main">
   <section class="location-hero location-hub-hero">
     <div class="container location-hero-grid">
       <div class="location-hero-copy"><div class="breadcrumb location-breadcrumb"><a href="/">Home</a><span>/</span><span>Locations</span></div><span class="eyebrow eyebrow-light">Nationwide location directory</span><h1>Porta Potty Rental Locations Across the USA</h1><p>Explore portable toilet and portable restroom rental planning by state. Select a location, then call with the exact delivery ZIP code to confirm current inventory, route availability, service options, and pricing.</p><div class="location-hero-actions"><a class="btn btn-call" href="tel:${phoneHref}">☎ Call ${phoneDisplay}</a><a class="btn btn-location-secondary" href="#state-directory">Browse all states</a></div><div class="location-hero-proof"><span>✓ 50 state guides</span><span>✓ Availability confirmed by ZIP</span><span>✓ Call-first rental help</span></div></div>
@@ -412,6 +423,8 @@ const staticUrls = [
   { path: '/about/', changefreq: 'monthly', priority: '0.7' },
   { path: '/blog/', changefreq: 'weekly', priority: '0.8' },
   { path: '/contact/', changefreq: 'monthly', priority: '0.9' },
+  { path: '/privacy/', changefreq: 'yearly', priority: '0.3' },
+  { path: '/terms/', changefreq: 'yearly', priority: '0.3' },
   { path: '/location/', changefreq: 'weekly', priority: '0.9' },
   { path: '/service/', changefreq: 'monthly', priority: '0.9' },
   { path: '/service/standard-porta-potty-rental/', changefreq: 'monthly', priority: '0.9' },

@@ -35,6 +35,37 @@ window.addEventListener(
 
 updateScrollEffects();
 
+// Desk hours in Central time, mirroring hoursFull in scripts/lib/site.mjs:
+// Mon–Sat 7 AM–7 PM, Sun 7 AM–12 PM. Keyed by day of week, Sunday = 0.
+const deskHours = { 0: [7, 12], 1: [7, 19], 2: [7, 19], 3: [7, 19], 4: [7, 19], 5: [7, 19], 6: [7, 19] };
+const weekdays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+const deskStatus = () => {
+  const parts = Object.fromEntries(
+    new Intl.DateTimeFormat('en-US', { timeZone: 'America/Chicago', weekday: 'short', hour: 'numeric', minute: 'numeric', hourCycle: 'h23' })
+      .formatToParts(new Date())
+      .map(({ type, value }) => [type, value]),
+  );
+  const [opens, closes] = deskHours[weekdays.indexOf(parts.weekday)];
+  const hour = Number(parts.hour) + Number(parts.minute) / 60;
+
+  if (hour >= opens && hour < closes) return { open: true, label: 'Open now · Call us' };
+  return { open: false, label: hour < opens ? 'Opens today 7 AM CT' : 'Opens tomorrow 7 AM CT' };
+};
+
+const statusLabels = document.querySelectorAll('.header-phone small, .mobile-call-copy small');
+
+const updateDeskStatus = () => {
+  const { open, label } = deskStatus();
+  statusLabels.forEach((element) => {
+    element.textContent = label;
+    element.dataset.openState = open ? 'open' : 'closed';
+  });
+};
+
+updateDeskStatus();
+window.setInterval(updateDeskStatus, 60_000);
+
 document.querySelectorAll('a[href^="tel:"]').forEach((link) => {
   link.addEventListener('click', () => {
     const placement = link.dataset.ctaLocation
@@ -57,6 +88,7 @@ document.querySelectorAll('a[href^="tel:"]').forEach((link) => {
       cta_placement: placement,
       cta_text: link.textContent.trim().replace(/\s+/g, ' '),
       phone_number: link.getAttribute('href')?.replace(/^tel:/, ''),
+      desk_open: deskStatus().open,
     });
   });
 });
@@ -291,4 +323,8 @@ filterButtons.forEach((button) => {
 
 document.querySelectorAll('[data-current-year]').forEach((element) => {
   element.textContent = new Date().getFullYear();
+});
+
+document.querySelectorAll('[data-site-meta]').forEach((element) => {
+  element.textContent = `${window.location.hostname || 'local'} · ${document.lastModified}`;
 });

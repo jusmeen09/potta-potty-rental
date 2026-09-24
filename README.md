@@ -8,7 +8,7 @@ Cloudflare Pages serves **this repository's root directly**. There is no Vite bu
 
 This has two consequences that are easy to get wrong:
 
-- Anything that only exists in `public/` is **invisible in production**. `scripts/sync-static-root.mjs` copies the static files (favicons, manifest, `llms.txt`, `robots.txt`, `_redirects`) from `public/` to the root on every `npm run generate`, so both copies stay identical. `public/` still exists because `vite build` needs it.
+- Anything that only exists in `public/` is **invisible in production**. `scripts/sync-static-root.mjs` copies the static files (favicons, manifest, `llms.txt`, `robots.txt`, `_redirects`, `_headers`) from `public/` to the root on every `npm run generate`, so both copies stay identical. `public/` still exists because `vite build` needs it.
 - `npm run build` and `dist/` are useful for local verification but are **not what ships**. Committed root HTML is what ships.
 
 Automatic deployments are enabled on the `main` branch. Production is `main`; pushing to it deploys.

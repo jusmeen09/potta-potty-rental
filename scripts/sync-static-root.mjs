@@ -19,6 +19,7 @@ const files = [
   'llms.txt',
   'robots.txt',
   '_redirects',
+  '_headers',
 ];
 
 const nested = ['icons/icon-192.png', 'icons/icon-512.png'];

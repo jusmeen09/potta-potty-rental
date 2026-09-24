@@ -124,7 +124,7 @@ const renderPost = (post, all) => {
 </head>
 <body class="post-page">
 ${header('/blog/')}
-<main>
+<main id="main">
   <article class="post" itemscope itemtype="https://schema.org/BlogPosting">
     <header class="post-hero">
       <div class="container post-hero-inner">

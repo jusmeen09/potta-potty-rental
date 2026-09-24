@@ -19,7 +19,7 @@ const page = `<!doctype html>
 </head>
 <body class="error-page">
 ${header()}
-<main>
+<main id="main">
   <section class="page-hero">
     <div class="container page-hero-inner">
       <span class="eyebrow eyebrow-light">Error 404</span>

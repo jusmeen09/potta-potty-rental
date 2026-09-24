@@ -23,10 +23,12 @@ const countIndexablePages = () => {
     const leaves = children.filter((entry) => entry.isDirectory() && !entry.name.startsWith('._') && existsSync(resolve(directory, entry.name, 'index.html'))).length;
     return hub + leaves;
   };
-  return rootPages.length + ['about', 'contact', 'location', 'service', 'blog'].reduce((total, name) => total + countDir(name), 0);
+  return rootPages.length + ['about', 'contact', 'location', 'service', 'blog', 'privacy', 'terms'].reduce((total, name) => total + countDir(name), 0);
 };
 const match = (html, pattern) => html.match(pattern)?.[1]?.trim() || '';
 const plainText = (value) => value.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+// Search results show decoded text, so measure lengths after unescaping (&amp; is one character, not five).
+const decodeEntities = (value) => value.replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#0?39;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>');
 const fail = (message) => errors.push(message);
 const warn = (message) => warnings.push(message);
 
@@ -66,8 +68,8 @@ for (const page of pages) {
   if (!description) fail(`${page.slug || 'hub'}: missing meta description.`);
   if (!h1) fail(`${page.slug || 'hub'}: missing H1.`);
   if (canonical !== page.expectedCanonical) fail(`${page.slug || 'hub'}: canonical is ${canonical || 'missing'}; expected ${page.expectedCanonical}.`);
-  if (title.length > 60) warn(`${page.slug || 'hub'}: title is ${title.length} characters.`);
-  if (description.length > 160) warn(`${page.slug || 'hub'}: description is ${description.length} characters.`);
+  if (decodeEntities(title).length > 60) warn(`${page.slug || 'hub'}: title is ${decodeEntities(title).length} characters.`);
+  if (decodeEntities(description).length > 160) warn(`${page.slug || 'hub'}: description is ${decodeEntities(description).length} characters.`);
   if (seenTitles.has(title)) fail(`${page.slug || 'hub'}: duplicate title also used by ${seenTitles.get(title)}.`);
   if (seenDescriptions.has(description)) fail(`${page.slug || 'hub'}: duplicate description also used by ${seenDescriptions.get(description)}.`);
   if (seenCanonicals.has(canonical)) fail(`${page.slug || 'hub'}: duplicate canonical also used by ${seenCanonicals.get(canonical)}.`);

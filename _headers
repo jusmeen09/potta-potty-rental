@@ -1,0 +1,16 @@
+# Cloudflare Pages response headers (applies to every static response).
+#
+# HSTS starts at one day, per the rollout plan: once a week passes with no
+# issues, raise it to max-age=31536000. Only add includeSubDomains after
+# www.starportablerestrooms.com serves a valid certificate, or browsers will
+# refuse the www host outright.
+#
+# The CSP is report-only: violations are logged to the browser console and
+# nothing is blocked. Check the console on a few pages (home, a state page, a
+# guide) for violations, then rename the header to Content-Security-Policy to
+# enforce it. 'unsafe-inline' covers the inline Clarity loader and JSON-LD.
+/*
+  Strict-Transport-Security: max-age=86400
+  X-Frame-Options: SAMEORIGIN
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()
+  Content-Security-Policy-Report-Only: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.clarity.ms https://scripts.clarity.ms; connect-src 'self' https://*.clarity.ms https://c.bing.com; img-src 'self' data: https://*.clarity.ms https://c.bing.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; frame-ancestors 'self'; base-uri 'self'; form-action 'self'; object-src 'none'

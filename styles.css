@@ -56,6 +56,29 @@ body.menu-open {
   overflow: hidden;
 }
 
+/* Off-screen until focused, so keyboard users can jump past the nav to the page CTA. */
+.skip-link {
+  position: absolute;
+  z-index: 300;
+  top: 10px;
+  left: 10px;
+  padding: 12px 18px;
+  border-radius: var(--radius-sm);
+  color: var(--white);
+  background: var(--ink);
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+  font-weight: 800;
+  text-decoration: none;
+  transform: translateY(-200%);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+  outline: 3px solid var(--blue-bright);
+  outline-offset: 2px;
+}
+
 img {
   display: block;
   max-width: 100%;
@@ -685,6 +708,45 @@ p {
   text-shadow: 0 2px 12px rgba(0, 0, 0, 0.45);
 }
 
+.hero-simple {
+  min-height: clamp(560px, 68vh, 700px);
+  padding: 84px 0 96px;
+}
+
+.hero-simple .hero-grid {
+  max-width: 760px;
+  margin-inline: auto;
+  grid-template-columns: 1fr;
+  gap: 0;
+  justify-items: center;
+  text-align: center;
+}
+
+.hero-simple .hero-copy > p {
+  margin: 0 auto 28px;
+  text-align: center;
+}
+
+.hero-simple h1 {
+  margin-inline: auto;
+  text-align: center;
+  text-wrap: balance;
+}
+
+.hero-simple .hero-actions {
+  justify-content: center;
+}
+
+/* Not .hero-note: that name belongs to an older floating hero card further down,
+   whose absolute positioning turned this line into a box over the H1. */
+.hero-simple .hero-copy > p.hero-reassurance {
+  margin: 18px auto 0;
+  color: #d8ebff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
 .hero-call-card {
   position: relative;
   padding: 30px;
@@ -1098,6 +1160,33 @@ p {
 
 .text-link:hover {
   background: #dcecff;
+}
+
+.product-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.product-call {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: var(--red);
+  color: var(--white);
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 800;
+  white-space: nowrap;
+  box-shadow: 0 10px 24px rgba(207, 41, 55, 0.28);
+}
+
+.product-call:hover {
+  background: var(--red-dark);
+  color: var(--white);
 }
 
 .rental-guide {
@@ -2088,9 +2177,16 @@ p {
   border-top: 1px solid #26364a;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
   gap: 20px;
   color: #7f91a5;
   font-size: 0.78rem;
+}
+
+.site-version {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.72rem;
+  color: #93a5b9;
 }
 
 .footer-disclaimer {
@@ -3200,6 +3296,26 @@ p {
   text-transform: uppercase;
 }
 
+/* Open/closed dot set by script.js from the desk hours in Central time. */
+[data-open-state]::before {
+  content: '';
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 6px;
+  border-radius: 50%;
+  vertical-align: 1px;
+}
+
+[data-open-state='open']::before {
+  background: #22c55e;
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.25);
+}
+
+[data-open-state='closed']::before {
+  background: #f5b83d;
+}
+
 .mobile-call-copy strong {
   font-size: 1rem;
   letter-spacing: -0.015em;
@@ -3217,6 +3333,34 @@ p {
   font-size: 0.78rem;
   font-weight: 800;
   white-space: nowrap;
+}
+
+/* The header phone pill disappears at the 860px nav breakpoint, so the sticky
+   bar has to start at the same width. It previously started at 600px, which
+   left tablets and landscape phones with no persistent call button at all. */
+@media (max-width: 860px) {
+  .mobile-call {
+    display: flex;
+    opacity: 1;
+    pointer-events: auto;
+    transform: translate(-50%, 0);
+    transition: opacity 180ms ease, transform 180ms ease;
+  }
+
+  .menu-open .mobile-call {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* Bar height plus its bottom offset, so it never covers the last footer line. */
+  .footer-disclaimer {
+    padding-bottom: calc(108px + env(safe-area-inset-bottom, 0px));
+  }
+
+  /* 48px minimum touch target for the in-card call pills (41px by padding alone). */
+  .product-call {
+    min-height: 48px;
+  }
 }
 
 .scroll-progress {
@@ -4033,23 +4177,6 @@ p {
     min-height: 52px;
   }
 
-  .mobile-call {
-    display: flex;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 180ms ease, transform 180ms ease;
-  }
-
-  .has-scrolled .mobile-call {
-    opacity: 1;
-    pointer-events: auto;
-    transform: translate(-50%, 0);
-  }
-
-  .menu-open .mobile-call {
-    opacity: 0;
-    pointer-events: none;
-  }
 }
 
 @media (max-width: 360px) {
