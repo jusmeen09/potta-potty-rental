@@ -1,4 +1,4 @@
-// Third batch of query-led guides. See blog-posts-extra.mjs for the ordering rule.
+// Third batch of query-led guides. Order controls display, not link direction.
 
 export const extraPosts3 = [
   {
@@ -64,7 +64,7 @@ export const extraPosts3 = [
         h2: 'Construction sites are a special case',
         body: [
           'On a construction site the question is usually not whether you may have a portable toilet, but whether you have enough of them.',
-          'OSHA 29 CFR 1926.51(c)(1) sets minimum facilities by crew size: one toilet facility for 20 or fewer workers, then one toilet seat and one urinal per 40 workers, and per 50 workers once a crew passes 200. General industry work falls under 29 CFR 1910.141 instead. Twenty-one states enforce these through their own OSHA-approved State Plan, which must be at least as effective as the federal standard and may be stricter.',
+          'OSHA 29 CFR 1926.51(c)(1) sets minimum facilities by crew size: one toilet facility for 20 or fewer workers, then one toilet seat and one urinal per 40 workers, and per 50 workers once a crew passes 200. General industry work falls under 29 CFR 1910.141 instead. Some states enforce these through their own OSHA-approved State Plan, which must be at least as effective as the federal standard and may be stricter.',
           'So on a job site, provision is a legal obligation rather than an optional permit. The unit itself is normally covered by the site\'s existing approvals, provided it sits within the site boundary and not in the right-of-way.',
         ],
       },

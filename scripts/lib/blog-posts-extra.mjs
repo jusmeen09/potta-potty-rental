@@ -1,6 +1,5 @@
 // Additional guides answering high-intent informational queries.
-// `order` values interleave with scripts/lib/blog-posts.mjs — the combined array
-// must stay a valid topological order so in-body article links only point forward.
+// Order values control display; related articles are selected by topic.
 
 export const extraPosts = [
   {

@@ -1,9 +1,9 @@
 import { extraPosts } from './blog-posts-extra.mjs';
 import { extraPosts2 } from './blog-posts-extra2.mjs';
 import { extraPosts3 } from './blog-posts-extra3.mjs';
+import { improvePosts } from './editorial-improvements.mjs';
 
-// Blog post content. Ordering matters: in-body blog->blog links may only point
-// FORWARD in this array, which keeps the internal link graph acyclic.
+// Blog content. Order controls display only; links are selected by relevance.
 // Every `links` entry is a distinct URL within its own post.
 
 const corePosts = [
@@ -73,7 +73,7 @@ const corePosts = [
       {
         h2: 'Common sizing mistakes',
         body: [
-          'Three errors account for most of the restroom complaints we hear about after an event. All of them are cheap to avoid at the planning stage and expensive to fix once units are on the ground.',
+          'These three planning mistakes can leave guests without suitable facilities. Address them before equipment arrives.',
         ],
         subs: [
           {
@@ -176,7 +176,7 @@ const corePosts = [
         h2: 'Delivery day and pickup',
         body: [
           'Keep the placement area clear and accessible on delivery day, and make sure someone on site can direct the driver if the location is not obvious. If access requires a gate code, a security check-in, or a specific entrance, pass that information along before the truck is dispatched.',
-          'Book the pickup at the same time as the delivery. Units left after a project ends usually continue to be billed, and pickup is subject to the same routing constraints across our service areas as the original delivery. If your end date is uncertain, say so when booking — an approximate end date with a confirmation call is easier to manage than a surprise.',
+          'Arrange pickup when you book delivery. Ask the provider about continuing charges, collection notice, and service areas. If your end date is uncertain, agree how and when you will confirm it.',
         ],
       },
     ],
@@ -594,6 +594,5 @@ const corePosts = [
   },
 ];
 
-// One array, sorted by `order`, so the forward-only link rule is evaluated
-// against the real publication sequence rather than file layout.
-export const posts = [...corePosts, ...extraPosts, ...extraPosts2, ...extraPosts3].sort((a, b) => a.order - b.order);
+// One list sorted for display; editorial improvements supply relevant relationships.
+export const posts = improvePosts([...corePosts, ...extraPosts, ...extraPosts2, ...extraPosts3].sort((a, b) => a.order - b.order));

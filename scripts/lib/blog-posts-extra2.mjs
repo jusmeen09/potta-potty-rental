@@ -1,4 +1,4 @@
-// Second batch of query-led guides. See blog-posts-extra.mjs for the ordering rule.
+// Second batch of query-led guides. Order controls display, not link direction.
 
 export const extraPosts2 = [
   {

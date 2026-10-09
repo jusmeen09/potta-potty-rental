@@ -9,7 +9,6 @@ const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const siteUrl = 'https://starportablerestrooms.com';
 const phoneDisplay = '+1 (833) 920-1299';
 const phoneHref = '+18339201299';
-const sitemapLastModified = new Date().toISOString().slice(0, 10);
 const clarityTrackingScript = `<script type="text/javascript">
   (function(c,l,a,r,i,t,y){
       c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
@@ -84,7 +83,7 @@ const listSentence = (items) => `${items.slice(0, -1).join(', ')}, and ${items.a
 const stateDescription = (state) => {
   const describe = (cities) => {
     const cityList = cities.length > 1 ? `${cities.slice(0, -1).join(', ')} & ${cities.at(-1)}` : cities[0];
-    return `Porta potty rental in ${state.name}, serving ${cityList}. Standard, ADA, trailers & handwashing. Call ${phoneDisplay} for ZIP pricing.`;
+    return `Porta potty rental inquiries in ${state.name}: ${cityList}. Compare equipment and planning guidance; vendors confirm coverage and quotes.`;
   };
   const candidates = [3, 2, 1].map((count) => describe(state.cities.slice(0, count)));
   return candidates.find((text) => text.length <= 160) ?? candidates.at(-1);
@@ -105,7 +104,7 @@ const offerCatalog = {
 
 const stateFaqs = (state, season, osha) => [
   { q: `How much does porta potty rental cost in ${state.name}?`, a: `Pricing in ${state.name} depends on the delivery ZIP code, unit type, quantity, rental period, service frequency, site access, and travel requirements. Call with your dates and address for current availability and a project-specific price.` },
-  { q: `How do I find a porta potty rental near me in ${state.name}?`, a: `Share your ${state.name} delivery ZIP code, preferred dates, project type, and expected attendance or crew size. We will confirm whether service is available for that address and discuss delivery, pickup, and servicing options.` },
+  { q: `How do I find a porta potty rental near me in ${state.name}?`, a: `Share your ${state.name} delivery ZIP code, preferred dates, project type, and expected attendance or crew size. Star passes inquiries to providers. The vendor confirms coverage, price, delivery, pickup, and servicing for the address.` },
   { q: `Can I rent portable toilets for construction sites in ${state.name}?`, a: `Construction rentals can include standard units, accessible portable restrooms, handwashing stations, scheduled pumping and cleaning, supply restocking, and pickup. Service frequency is planned around crew size and usage.` },
   { q: `Do you offer restroom trailer rental in ${state.name}?`, a: `Restroom trailer availability varies by ZIP code, date, trailer size, and site requirements. Power, water, level placement, and truck access should be reviewed before delivery.` },
   { q: `How many portable toilets do I need for an event in ${state.name}?`, a: `The right quantity depends on attendance, event length, alcohol service, food service, accessibility needs, and whether units will be serviced during the event. Call with the event details for a practical recommendation.` },
@@ -187,16 +186,16 @@ ${header('/location/')}
         <div class="breadcrumb location-breadcrumb"><a href="/">Home</a><span>/</span><a href="/location/">Locations</a><span>/</span><span>${escapeHtml(state.name)}</span></div>
         <span class="eyebrow eyebrow-light">${state.code} rental availability</span>
         <h1>Porta Potty Rental in ${escapeHtml(state.name)}</h1>
-        <p>Call to check portable toilet rental availability for a delivery address in ${escapeHtml(state.name)}. Planning requests may involve ${escapeHtml(listSentence(state.cities))}; exact inventory, delivery, servicing, and pickup are confirmed by ZIP code.</p>
+        <p>Request information about portable toilet rental for an address in ${escapeHtml(state.name)}. Planning requests may involve ${escapeHtml(listSentence(state.cities))}; exact inventory, delivery, servicing, and pickup are confirmed by ZIP code.</p>
         <div class="location-hero-actions"><a class="btn btn-call" href="tel:${phoneHref}">☎ Call ${phoneDisplay}</a><a class="btn btn-location-secondary" href="#rental-options">Explore rental options</a></div>
-        <div class="location-hero-proof"><span>✓ Availability by ZIP</span><span>✓ Event & job-site rentals</span><span>✓ Flexible service plans</span></div>
+        <div class="location-hero-proof"><span>✓ Vendor coverage by ZIP</span><span>✓ Event & job-site rentals</span><span>✓ Flexible service plans</span></div>
       </div>
       <aside class="location-call-card">
         <span class="location-call-label">Call for ${state.name} availability</span>
         <h2>Get rental answers in one call.</h2>
         <p>Have your delivery ZIP, dates, unit count, attendance or crew size, and site-access notes ready.</p>
         <a href="tel:${phoneHref}" class="location-card-phone"><span aria-hidden="true">☎</span><span><small>Talk to the rental desk</small>${phoneDisplay}</span></a>
-        <small class="coverage-disclosure">Service and inventory are confirmed for the exact delivery address. This page does not represent a staffed office in ${state.name}.</small>
+        <small class="coverage-disclosure">A vendor must confirm coverage and inventory for the exact address. This page does not represent a staffed office in ${state.name}.</small>
       </aside>
     </div>
   </section>
@@ -215,11 +214,11 @@ ${header('/location/')}
       <figure class="state-intro-photo"><img src="/assets/homepage/delivery-setup.webp" alt="Portable restroom delivery and setup planning" loading="lazy" /><figcaption><strong>Delivery planned around your site</strong><span>Address, access, surface, placement, and service clearances are reviewed before arrival.</span></figcaption></figure>
       <div class="state-intro-copy">
         <span class="eyebrow">Statewide rental planning</span>
-        <h2>Porta Potty Rental in ${escapeHtml(state.name)} for Events and Job Sites</h2>
+        <h2>Planning for events and job sites in ${escapeHtml(state.name)}</h2>
         <p>Portable restroom needs vary across ${escapeHtml(state.name)}. Projects in ${escapeHtml(state.cities.slice(0, 3).join(', '))}, and surrounding communities may need different quantities, delivery windows, and service schedules based on attendance, crew size, rental length, and site access.</p>
         <p>${escapeHtml(state.note)}</p>
-        <p>Planning here works around ${escapeHtml(season.label)}. ${escapeHtml(season.body)}</p>
-        <p>Common requests include ${escapeHtml(state.focus)}. Call with the exact address so the rental desk can confirm what is currently available for your part of ${escapeHtml(state.name)}.</p>
+        <p>Planning here works around ${escapeHtml(season.label)}. ${escapeHtml(season.body)}</p>${season.source ? `<p><a href="${season.source}" target="_blank" rel="noopener">National Weather Service regional weather guide</a></p>` : ''}
+        <p>Your inquiry may involve ${escapeHtml(state.focus)}. Share the exact address so a local provider can assess coverage and availability for your part of ${escapeHtml(state.name)}.</p>
         <a class="text-link location-text-link" href="tel:${phoneHref}">Call ${phoneDisplay} for ${escapeHtml(state.name)} availability <span class="arrow">→</span></a>
       </div>
     </div>
@@ -227,17 +226,11 @@ ${header('/location/')}
 
   <section class="section surface" id="metro-coverage">
     <div class="container">
-      <div class="section-heading"><span class="eyebrow">Where we deliver</span><h2>Porta Potty Rental Across ${escapeHtml(state.name)}</h2><p>Availability is confirmed per ZIP code, but these are the ${escapeHtml(state.name)} markets we are asked about most.</p></div>
+      <div class="section-heading"><span class="eyebrow">Local inquiry planning</span><h2>Requesting a quote in ${escapeHtml(state.name)}</h2><p>Availability is confirmed per ZIP code, but use the exact delivery address when asking about these ${escapeHtml(state.name)} markets.</p></div>
       <div class="metro-grid">
-        ${state.cities.map((city, index) => `<article class="metro-card"><h3>Porta potty rental in ${escapeHtml(city)}</h3><p>${escapeHtml([
-          `${city} draws the widest mix of requests in ${state.name} — job-site rentals, event units, and short-term hire all run through the same service route.`,
-          `Deliveries around ${city} are usually planned on an existing route, so lead times are shorter here than for outlying parts of ${state.name}.`,
-          `${city} projects often combine standard units with handwashing capacity, particularly where food service or trade crews are involved.`,
-          `For ${city}, share gate access and placement surface when you call — urban and semi-rural sites in this part of ${state.name} differ a lot on truck access.`,
-          `${city} and the surrounding communities are served on scheduled routes; confirm the ZIP code so servicing frequency can be matched to actual usage.`,
-        ][index] || `${city} and nearby ${state.name} communities are served on scheduled delivery routes.`)}</p></article>`).join('')}
+        ${state.cities.map(city => `<article class="metro-card"><h3>${escapeHtml(city)}</h3><p>For a request in ${escapeHtml(city)}, share the exact address, dates, equipment needs, and access details. A local vendor must confirm coverage, lead time, and the service schedule.</p></article>`).join('')}
       </div>
-      <p class="metro-note">Serving ${escapeHtml(state.name)} statewide, including ${escapeHtml(state.capital)}. Outside these areas, call with the ZIP code and the rental desk will confirm whether a route reaches your address.</p>
+      <p class="metro-note">This is a planning directory, not a promise of statewide delivery. Vendor coverage, equipment, and timing must be confirmed for each address, including ${escapeHtml(state.capital)} and rural areas.</p>
     </div>
   </section>
 
@@ -264,6 +257,7 @@ ${header('/location/')}
           <li><span>Capital</span><strong>${escapeHtml(state.capital)}</strong></li>
           <li><span>Season</span><strong>${escapeHtml(season.label.replace(/^an? /, ''))}</strong></li>
         </ul>
+        <p><a href="https://www.osha.gov/stateplans${osha.kind === 'federal' ? '' : '/' + state.slug}" target="_blank" rel="noopener">${osha.kind === 'federal' ? 'Find the OSHA jurisdiction for your site' : 'OSHA’s ' + escapeHtml(state.name) + ' State Plan information'}</a> · <a href="https://www.usa.gov/local-governments" target="_blank" rel="noopener">Find the local authority</a></p>
         <small>Rules change and local permit conditions vary. Confirm current requirements with the authority having jurisdiction for your site.</small>
       </aside>
     </div>
@@ -271,7 +265,7 @@ ${header('/location/')}
 
   <section class="section surface" id="rental-options">
     <div class="container">
-      <div class="section-heading center"><span class="eyebrow">Rental options</span><h2>Porta Potty Rental Options in ${escapeHtml(state.name)}</h2><p>Match the unit type to your guests, crew, site conditions, comfort expectations, accessibility needs, utilities, and budget.</p></div>
+      <div class="section-heading center"><span class="eyebrow">Rental options</span><h2>Choose equipment for the site</h2><p>Match the unit type to your guests, crew, site conditions, comfort expectations, accessibility needs, utilities, and budget.</p></div>
       <div class="location-options-grid">
         <article class="location-option-card"><img src="/assets/homepage/standard-restroom.webp" alt="Standard portable restroom rental unit" loading="lazy" /><div><span>Most requested</span><h3>Standard Porta Potty</h3><p>Durable, ventilated portable toilets for construction sites, festivals, parks, home projects, and general use.</p></div></article>
         <article class="location-option-card"><img src="/assets/homepage/ada-restroom.webp" alt="Portable restroom unit in an outdoor rental setting" loading="lazy" /><div><span>Accessible option</span><h3>Accessible Portable Restroom</h3><p>Ground-level entry and additional interior space for events, public sites, and inclusive sanitation plans.</p></div></article>
@@ -290,7 +284,7 @@ ${header('/location/')}
     <div class="container state-markets-grid">
       <div>
         <span class="eyebrow">Coverage by address</span>
-        <h2>Portable Toilet Rental Planning Across ${escapeHtml(state.name)}</h2>
+        <h2>Details to confirm with the vendor</h2>
         <p>Requests may come from major metros, smaller communities, rural properties, event venues, and active job sites. Because route capacity and equipment inventory change, every order begins with the delivery address.</p>
         <div class="market-chips">${marketLabels.map((label) => `<span>${escapeHtml(label)}</span>`).join('')}</div>
       </div>
@@ -305,7 +299,7 @@ ${header('/location/')}
 
   <section class="section dark-section location-use-section">
     <div class="container">
-      <div class="section-heading"><span class="eyebrow eyebrow-light">Common rental needs</span><h2>Portable Restrooms for ${escapeHtml(state.name)} Projects and Events</h2><p>Choose a sanitation plan around the people using the site, how long units will remain, and how service trucks can safely reach them.</p></div>
+      <div class="section-heading"><span class="eyebrow eyebrow-light">Common rental needs</span><h2>Match the setup to your project</h2><p>Choose a sanitation plan around the people using the site, how long units will remain, and how service trucks can safely reach them.</p></div>
       <div class="location-use-grid">
         <article><span>01</span><h3>Construction & Long-Term Work</h3><p>Job-site porta potties, handwashing stations, recurring pumping, cleaning, deodorizing, and supply restocking.</p></article>
         <article><span>02</span><h3>Weddings & Private Events</h3><p>Clean standard units, accessible restrooms, or upgraded trailers planned around venue access and guest count.</p></article>
@@ -317,7 +311,7 @@ ${header('/location/')}
 
   <section class="section">
     <div class="container location-process-layout">
-      <div><span class="eyebrow">Simple call-first process</span><h2>How to Arrange Porta Potty Rental in ${escapeHtml(state.name)}</h2><p>One call starts the availability check and gives the rental team the details needed to recommend equipment and servicing.</p></div>
+      <div><span class="eyebrow">Simple call-first process</span><h2>From inquiry to a confirmed vendor booking</h2><p>Share the request with Star, then confirm coverage, equipment, price, and service arrangements with the selected vendor.</p></div>
       <div class="location-process-steps">
         <article><span>01</span><div><h3>Share the address and dates</h3><p>Provide the ZIP code, delivery and pickup dates, site type, and access notes.</p></div></article>
         <article><span>02</span><div><h3>Review units and pricing</h3><p>Discuss quantities, accessible options, trailers, handwashing, and service frequency.</p></div></article>
@@ -390,7 +384,7 @@ ${header('/location/')}
 <main id="main">
   <section class="location-hero location-hub-hero">
     <div class="container location-hero-grid">
-      <div class="location-hero-copy"><div class="breadcrumb location-breadcrumb"><a href="/">Home</a><span>/</span><span>Locations</span></div><span class="eyebrow eyebrow-light">Nationwide location directory</span><h1>Porta Potty Rental Locations Across the USA</h1><p>Explore portable toilet and portable restroom rental planning by state. Select a location, then call with the exact delivery ZIP code to confirm current inventory, route availability, service options, and pricing.</p><div class="location-hero-actions"><a class="btn btn-call" href="tel:${phoneHref}">☎ Call ${phoneDisplay}</a><a class="btn btn-location-secondary" href="#state-directory">Browse all states</a></div><div class="location-hero-proof"><span>✓ 50 state guides</span><span>✓ Availability confirmed by ZIP</span><span>✓ Call-first rental help</span></div></div>
+      <div class="location-hero-copy"><div class="breadcrumb location-breadcrumb"><a href="/">Home</a><span>/</span><span>Locations</span></div><span class="eyebrow eyebrow-light">Nationwide location directory</span><h1>Porta Potty Rental Locations Across the USA</h1><p>Explore portable toilet and portable restroom rental planning by state. Select a location, then call with the exact delivery ZIP code to confirm current inventory, route availability, service options, and pricing.</p><div class="location-hero-actions"><a class="btn btn-call" href="tel:${phoneHref}">☎ Call ${phoneDisplay}</a><a class="btn btn-location-secondary" href="#state-directory">Browse all states</a></div><div class="location-hero-proof"><span>✓ 50 state guides</span><span>✓ Availability confirmed by ZIP</span><span>✓ Rental inquiry service</span></div></div>
       <aside class="location-call-card hub-call-card"><span class="location-call-label">Need a rental near you?</span><h2>Tell us where and when.</h2><p>Call with the delivery ZIP code, dates, project type, attendance or crew size, and site-access information.</p><a href="tel:${phoneHref}" class="location-card-phone"><span aria-hidden="true">☎</span><span><small>Call for availability</small>${phoneDisplay}</span></a><small class="coverage-disclosure">The directory provides state-level planning information. Service is confirmed for each delivery address.</small></aside>
     </div>
   </section>
@@ -401,7 +395,7 @@ ${header('/location/')}
     <div class="container"><div class="state-directory-head"><div><span class="eyebrow">Browse the service directory</span><h2>Find a Porta Potty Rental Location by State</h2><p>Each state page covers portable toilet options, common event and construction needs, delivery considerations, major markets, FAQs, and a direct call path.</p></div><label class="state-search"><span>Search states</span><input type="search" placeholder="Enter a state name" autocomplete="off" data-state-search /></label></div><p class="state-search-empty" data-state-empty hidden>No states match that search.</p><div class="state-region-groups">${groupedStates.map(({ region, states: regionStates }) => `<section class="state-region-group" data-state-region><div class="state-region-title"><span>${String(regionOrder.indexOf(region) + 1).padStart(2, '0')}</span><h3>${region}</h3><small>${regionStates.length} states</small></div><div class="state-card-grid">${regionStates.map((state) => `<a class="state-link-card" href="/location/${state.slug}/" data-state-card data-state-name="${state.name.toLowerCase()}"><span>${state.code}</span><div><strong>${escapeHtml(state.name)}</strong><small>Porta potty rental →</small></div></a>`).join('')}</div></section>`).join('')}</div><div class="call-cta"><span class="call-cta-mark" aria-hidden="true">☎</span><div class="call-cta-copy"><small>Not sure which page to choose?</small><strong>Call with the delivery ZIP code for a direct availability check.</strong><span>We’ll help with unit options, quantities, service frequency, and pricing.</span></div><a class="call-cta-phone" href="tel:${phoneHref}" aria-label="Call Star Portable Restrooms at ${phoneDisplay}"><span class="call-cta-phone-icon" aria-hidden="true">☎</span><span><small>Call the rental desk</small><strong>${phoneDisplay}</strong></span></a></div></div>
   </section>
 
-  <section class="section surface"><div class="container location-hub-content"><div><span class="eyebrow">Search intent, answered</span><h2>Portable Toilet Rental Help for Events and Job Sites</h2><p>Customers searching for a “porta potty rental near me” usually need fast answers about nearby inventory, delivery timing, rental cost, unit quantity, and servicing. State pages help organize that information, but the exact address is what determines real availability.</p><p>Rental options may include standard portable toilets, accessible portable restrooms, restroom trailers, and handwashing stations for construction, festivals, weddings, commercial sites, private gatherings, and temporary facilities.</p></div><div class="hub-content-points"><article><span>01</span><h3>Event rentals</h3><p>Plan around attendance, duration, food and alcohol service, accessibility, and venue access.</p></article><article><span>02</span><h3>Construction rentals</h3><p>Coordinate job-site placement, recurring cleaning, pumping, restocking, and pickup.</p></article><article><span>03</span><h3>Trailer rentals</h3><p>Review power, water, level ground, truck access, guest expectations, and utilities.</p></article></div></div></section>
+  <section class="section surface"><div class="container location-hub-content"><div><span class="eyebrow">Plan your request</span><h2>Portable Toilet Rental Help for Events and Job Sites</h2><p>Customers searching for a “porta potty rental near me” usually need fast answers about nearby inventory, delivery timing, rental cost, unit quantity, and servicing. State pages help organize that information, but the exact address is what determines real availability.</p><p>Rental options may include standard portable toilets, accessible portable restrooms, restroom trailers, and handwashing stations for construction, festivals, weddings, commercial sites, private gatherings, and temporary facilities.</p></div><div class="hub-content-points"><article><span>01</span><h3>Event rentals</h3><p>Plan around attendance, duration, food and alcohol service, accessibility, and venue access.</p></article><article><span>02</span><h3>Construction rentals</h3><p>Coordinate job-site placement, recurring cleaning, pumping, restocking, and pickup.</p></article><article><span>03</span><h3>Trailer rentals</h3><p>Review power, water, level ground, truck access, guest expectations, and utilities.</p></article></div></div></section>
 
   <section class="section-sm"><div class="container cta-panel location-final-cta" style="--cta-image: url('/assets/homepage/final-cta.webp');"><div class="cta-panel-inner"><div><h2>Find Porta Potty Rental Availability Near You</h2><p>Call with your delivery ZIP code, dates, project details, and estimated attendance or crew size.</p></div><a class="btn btn-white cta-phone" href="tel:${phoneHref}"><span>Call the rental desk</span><strong>${phoneDisplay}</strong></a></div></div></section>
 </main>
@@ -436,7 +430,7 @@ const locationUrls = states.map((state) => ({ path: `/location/${state.slug}/`, 
 const blogUrls = blogPosts.map((post) => ({ path: `/blog/${post.slug}/`, changefreq: 'monthly', priority: '0.7' }));
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${[...staticUrls, ...blogUrls, ...locationUrls].map((item) => `  <url><loc>${siteUrl}${item.path}</loc><lastmod>${sitemapLastModified}</lastmod><changefreq>${item.changefreq}</changefreq><priority>${item.priority}</priority></url>`).join('\n')}
+${[...staticUrls, ...blogUrls, ...locationUrls].map((item) => `  <url><loc>${siteUrl}${item.path}</loc></url>`).join('\n')}
 </urlset>\n`;
 writeFileSync(resolve(root, 'sitemap.xml'), sitemap);
 writeFileSync(resolve(root, 'public', 'sitemap.xml'), sitemap);

@@ -38,6 +38,8 @@ export default defineConfig({
         home: resolve(projectRoot, 'index.html'),
         about: resolve(projectRoot, 'about/index.html'),
         contact: resolve(projectRoot, 'contact/index.html'),
+        privacy: resolve(projectRoot, 'privacy/index.html'),
+        terms: resolve(projectRoot, 'terms/index.html'),
         notFound: resolve(projectRoot, '404.html'),
         ...serviceInputs,
         ...blogInputs,

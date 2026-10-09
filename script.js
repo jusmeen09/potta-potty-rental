@@ -90,6 +90,9 @@ document.querySelectorAll('a[href^="tel:"]').forEach((link) => {
       phone_number: link.getAttribute('href')?.replace(/^tel:/, ''),
       desk_open: deskStatus().open,
     });
+    // Clarity is already installed. Record actual phone intent there as well as
+    // in dataLayer; neither event claims that a call was answered or booked.
+    if (typeof window.clarity === 'function') window.clarity('event', 'phone_click');
   });
 });
 
@@ -161,7 +164,9 @@ const revealSelectors = [
   '.related-location-links a',
 ];
 
-const revealElements = document.querySelectorAll(revealSelectors.join(','));
+// Initial viewport content stays visible; animations must not postpone LCP.
+const revealElements = [...document.querySelectorAll(revealSelectors.join(','))]
+  .filter(element => element.getBoundingClientRect().top >= window.innerHeight);
 const staggerContainers = document.querySelectorAll(
   '.trust-grid, .product-grid, .rental-guide-grid, .use-grid, .steps, .stats-grid, .testimonial-grid, .value-grid, .standards-grid, .blog-grid, .location-options-grid, .location-use-grid, .location-process-steps, .state-card-grid, .hub-content-points, .home-location-regions, .related-location-links',
 );
@@ -323,6 +328,10 @@ filterButtons.forEach((button) => {
 
 document.querySelectorAll('[data-current-year]').forEach((element) => {
   element.textContent = new Date().getFullYear();
+});
+
+document.querySelectorAll('[data-print]').forEach(button => {
+  button.addEventListener('click', () => window.print());
 });
 
 document.querySelectorAll('[data-site-meta]').forEach((element) => {

@@ -48,21 +48,21 @@ Use [STYLE.md](STYLE.md) as the source of truth for typography, spacing, CTA tre
 | Location hub | `/location/` | 1 | `scripts/generate-location-pages.mjs` |
 | State pages | `/location/{state}/` | 48 | `scripts/generate-location-pages.mjs` |
 
-**75 indexable pages.** Update the generators rather than editing generated HTML by hand — a regeneration will overwrite manual edits.
+**77 indexable pages, including Privacy and Terms.** Update the generators rather than editing generated HTML by hand — a regeneration will overwrite manual edits.
 
 Shared header, footer, nav, icons, and schema partials live in `scripts/lib/site.mjs` so every generator emits identical chrome.
 
-Guide content is split across `scripts/lib/blog-posts.mjs` and `blog-posts-extra{,2,3}.mjs`, combined and sorted by `order` in the first file. The combined array must remain a valid topological order.
+Guide content is split across `scripts/lib/blog-posts.mjs` and `blog-posts-extra{,2,3}.mjs`, combined and sorted by `order` in the first file. Order controls display; links are selected by relevance.
 
 ## Programmatic location pages
 
-The 48 state pages are programmatic (Alaska and Hawaii are not currently serviced), and their value depends on being genuinely differentiated rather than name-swapped boilerplate. Per-state substance comes from `scripts/lib/state-data.mjs`:
+The 48 state pages are programmatic (Alaska and Hawaii do not currently have planning pages), and their value depends on being genuinely differentiated rather than name-swapped boilerplate. Per-state substance comes from `scripts/lib/state-data.mjs`:
 
-- **OSHA jurisdiction.** 21 states run their own OSHA-approved State Plan enforcing construction sanitation (Cal/OSHA, MIOSHA, TOSHA and so on); 6 have State Plans covering public employees only; the remaining 23 are federal OSHA. Each page states which applies and what it means for `29 CFR 1926.51`.
-- **Seasonal profile.** Six profiles (deep-freeze, cold-winter, humid-south, storm-coast, arid-heat, island-remote) drive the demand and servicing narrative.
-- **Metro coverage.** Five named markets per state, each with a distinct framing.
+- **OSHA jurisdiction.** State Plan or federal jurisdiction is explained with links to official OSHA information. Check the source before changing a jurisdiction claim.
+- **Seasonal profile.** Six profiles (deep-freeze, cold-winter, humid-south, storm-coast, arid-heat, island-remote) provide weather and placement planning context.
+- **Metro planning.** Five named markets per state. These are planning examples, not verified vendor coverage or staffed offices.
 
-Measured 5-gram similarity across all 1,128 state-page pairs (48 states): **58.2% mean, 68.7% peak**. Average length **1,777 words**. If you add differentiation, re-measure — do not assume.
+State pages still share a template. Add useful, verified local requirements and vendor information as they become available; do not invent local operations or publish more city pages by swapping names.
 
 Compliance figures cite OSHA `29 CFR 1926.51`, `29 CFR 1910.141`, and the 2010 ADA Standards. Keep the "confirm with the authority having jurisdiction" caveat on any page that states a requirement.
 
@@ -70,25 +70,25 @@ Compliance figures cite OSHA `29 CFR 1926.51`, `29 CFR 1910.141`, and the 2010 A
 
 In-body article links are enforced at build time by `scripts/generate-blog-pages.mjs`, which **throws** rather than emitting a violation:
 
-- Anchor text is 1–2 words.
+- Anchor text is descriptive and must be nonempty.
 - The anchor phrase must already exist in the prose, so a link only lands where the sentence genuinely discusses the target.
 - No article links the same URL twice.
-- Article-to-article links may only point **forward** through the `order` field in `scripts/lib/blog-posts.mjs`, which makes cycles structurally impossible.
+- Links may point to any relevant existing article, regardless of display order.
 - One contextual link per paragraph, so two planned anchors in the same paragraph will fail the build. Anchor matching is case-sensitive.
 
-Commercial pages are terminal: they never link back into the article set, so link equity flows toward pages that convert.
+Service pages link to relevant planning guides. Related article cards use explicit topical relationships, including links back to earlier guides.
 
 ## SEO and tracking
 
 - All 78 titles use the full brand, `| Star Portable Restrooms`. Do not shorten it to `| Star`.
 - Unique titles, descriptions, canonicals, and one `h1` per page; heading levels never skip.
 - Organization, WebSite, WebPage, Service, BlogPosting, Blog, CollectionPage, ItemList, Breadcrumb, and FAQ structured data.
-- `llms.txt` at the root states the call-first pricing model so assistants cite the phone number instead of inventing figures.
-- XML sitemap covering all 75 indexable URLs; page counts are derived from disk by the validators.
-- Every `<img>` carries intrinsic `width`/`height`, stamped by `scripts/add-image-dimensions.mjs`, to keep CLS at zero.
-- Fonts load via `preconnect` plus a parallel stylesheet link. Do not move them back into a CSS `@import` — that serialises HTML → CSS → font CSS → font files.
+- `llms.txt` describes the inquiry/referral model and distinguishes attributed regional estimates from vendor quotes.
+- XML sitemap covering all 77 indexable URLs; page counts are derived from disk by the validators.
+- Photos use versioned responsive WebP variants with intrinsic dimensions. `scripts/prepare-assets.mjs` produces minified, versioned CSS/JS, rewrites references, and removes obsolete generated bundles.
+- Fonts are self-hosted variable WOFF2 files with `font-display: swap`; licenses are in `assets/fonts/`.
 - Google Search Console HTML verification tag on the homepage.
-- Microsoft Clarity project: `y3adfg123t`.
+- Microsoft Clarity project: `y3adfg123t`. Phone clicks emit a `phone_click` Clarity event and a dataLayer event with landing-page context. A click measures intent, not an answered or qualified lead.
 
 ## Local development
 
@@ -120,18 +120,17 @@ npm run build
 
 `prebuild` runs generation and validation before writing `dist/`.
 
-## Known gaps
+## Business model and remaining external work
 
-- **Author identity.** Guides are bylined to "Star Portable Restrooms Rental Desk", not a named person. E-E-A-T rewards a real, credentialed author; supply one and the byline plus `author` schema can become a `Person`.
-- **No `LocalBusiness` schema.** The site uses `Organization` with nationwide `areaServed`, correct for a national booking desk. If physical depots exist, `LocalBusiness` with geo coordinates would unlock local pack visibility.
-- **Analytics.** Clarity only. There is no GA4 property, so call conversions are not attributed to landing pages or organic queries.
-- **Image weight.** Six assets exceed 250KB; `assets/homepage/festival.webp` is 424KB and the homepage LCP image is 332KB. Compressing these is the largest remaining LCP win.
-- **Node version.** Local builds run Node 20.14.0; Vite 7 wants 20.19+ or 22.12+. It works, but it is unsupported.
+Star collects rental inquiries that may be passed or sold to local providers. It does not claim to own equipment or staffed state offices. Providers confirm coverage, prices, specifications, delivery, servicing, and rental contracts. Keep this distinction in copy, metadata, schema, and privacy disclosures.
 
-## Launch checklist
+- Configure the `www` hostname and HTTPS redirect in Cloudflare; repository redirects cannot repair a TLS handshake failure. See [SEO-FIXES.md](SEO-FIXES.md).
+- Supply a real GA4 measurement ID if GA4 reporting is wanted. No placeholder tracking ID is installed. Call tracking and vendor outcome reporting are needed to measure qualified leads and sales.
+- Add named experts, actual quote data, equipment sheets, reviews, or case studies only when verified and authorized. The editorial team byline does not imply an operator credential.
+- Recheck production indexing, redirects, Clarity events, and mobile performance after deployment. Local tests do not verify live hosting or field Core Web Vitals.
 
-- Confirm Clarity receives sessions after deployment.
-- Keep the verification and Clarity tags in the page `<head>`.
-- Confirm the phone number, business email, hours, and coverage statements before launch.
-- Replace placeholder social links and publish the required privacy and legal pages.
-- Test call links, navigation, responsive layouts, schema, sitemap, and Core Web Vitals after deployment.
+## Asset updates
+
+After adding or replacing source photos, run `npm run optimize:images` (Python with Pillow), then `npm run generate`. Commit the manifest and responsive assets so normal generation needs only Node. Use Node 20.19+ or 22.12+; the verification run used Node 24.21.
+
+Do not add build dates as sitemap `lastmod` values. Leave them absent unless actual content modification dates are tracked.

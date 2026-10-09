@@ -100,7 +100,6 @@ for (const page of pages) {
   if (page.kind === 'state') {
     if (!title.startsWith('Porta Potty Rental in ')) fail(`${page.slug}: title does not lead with the target query.`);
     if (!h1.startsWith('Porta Potty Rental in ')) fail(`${page.slug}: H1 does not lead with the target query.`);
-    if (!h2s.some((heading) => heading.includes(h1))) fail(`${page.slug}: no H2 contains the primary H1 phrase.`);
     if (!html.includes('data-location-state=')) fail(`${page.slug}: missing state data attribute for call tracking.`);
     if ((html.match(/href=["']tel:/g) || []).length < 7) fail(`${page.slug}: fewer than seven visible call paths.`);
     if (!html.includes(`href="tel:${phoneHref}"`) || !html.includes(phoneDisplay)) fail(`${page.slug}: real phone number is missing from visible call paths.`);

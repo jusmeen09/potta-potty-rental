@@ -25,6 +25,8 @@ const pages = [
   { label: 'about', file: 'about/index.html', canonical: `${siteUrl}/about/`, required: ['Organization', 'WebSite', 'AboutPage', 'BreadcrumbList'] },
   { label: 'blog', file: 'blog/index.html', canonical: `${siteUrl}/blog/`, required: ['Organization', 'WebSite', 'CollectionPage', 'ItemList', 'BreadcrumbList'] },
   { label: 'contact', file: 'contact/index.html', canonical: `${siteUrl}/contact/`, required: ['Organization', 'WebSite', 'ContactPage', 'Service', 'BreadcrumbList', 'FAQPage'] },
+  { label: 'privacy', file: 'privacy/index.html', canonical: `${siteUrl}/privacy/`, required: ['Organization', 'WebSite', 'WebPage', 'BreadcrumbList'] },
+  { label: 'terms', file: 'terms/index.html', canonical: `${siteUrl}/terms/`, required: ['Organization', 'WebSite', 'WebPage', 'BreadcrumbList'] },
   { label: 'service hub', file: 'service/index.html', canonical: `${siteUrl}/service/`, required: ['Organization', 'WebSite', 'CollectionPage', 'ItemList', 'BreadcrumbList'] },
   ...serviceDirectories.map((slug) => ({
     label: `service: ${slug}`,
@@ -90,7 +92,7 @@ for (const page of pages) {
 }
 
 if (serviceDirectories.length !== 4) errors.push(`Expected four generated service pages; found ${serviceDirectories.length}.`);
-const expectedPages = 4 + 1 + serviceDirectories.length + blogDirectories.length + 1 + locationDirectories.length;
+const expectedPages = 6 + 1 + serviceDirectories.length + blogDirectories.length + 1 + locationDirectories.length;
 if (pages.length !== expectedPages) errors.push(`Expected schema audit coverage for ${expectedPages} pages; found ${pages.length}.`);
 
 if (errors.length) {

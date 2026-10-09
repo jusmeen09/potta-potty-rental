@@ -4,7 +4,7 @@ export const phoneHref = '+18339201299';
 export const email = 'hello@starportablerestrooms.com';
 export const hoursShort = 'Mon–Sat 7am–7pm · Sun 7am–12pm CST';
 export const hoursFull = 'Mon–Sat 7:00 AM–7:00 PM CST · Sun 7:00 AM–12:00 PM CST';
-export const disclaimerText = 'Star Portable Restrooms coordinates portable toilet, restroom trailer, and handwashing station rentals across the United States. Availability, delivery timing, and pricing are confirmed by delivery ZIP code. Photos show representative equipment; actual units vary by market and availability.';
+export const disclaimerText = 'Star Portable Restrooms is a rental inquiry service. Requests may be passed or sold to local rental providers. Providers confirm coverage, equipment, prices, and rental terms. Photos are representative; state listings are not staffed offices.';
 
 export const services = [
   { slug: 'standard-porta-potty-rental', shortName: 'Standard Porta Potty', name: 'Standard Porta Potty Rental', image: '/assets/homepage/standard-restroom.webp' },
@@ -17,12 +17,13 @@ export const organization = {
   '@type': 'Organization',
   '@id': `${siteUrl}/#organization`,
   name: 'Star Portable Restrooms',
+  description: 'Portable restroom rental inquiry and referral service. Local providers confirm equipment, availability, pricing, and rental terms.',
   url: `${siteUrl}/`,
   logo: `${siteUrl}/assets/logo-mark.png`,
   telephone: phoneHref,
   email,
   contactPoint: {
-    '@type': 'ContactPoint', telephone: phoneHref, contactType: 'rentals and customer service',
+    '@type': 'ContactPoint', telephone: phoneHref, contactType: 'rental inquiries',
     areaServed: 'US', availableLanguage: 'English',
     hoursAvailable: [
       { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'], opens: '07:00', closes: '19:00' },
@@ -36,10 +37,7 @@ export const website = {
   publisher: { '@id': `${siteUrl}/#organization` }, inLanguage: 'en-US',
 };
 
-export const icons = `<link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" />
-  <link rel="icon" href="/favicon.ico" sizes="32x32" />
+export const icons = `  <link rel="icon" href="/favicon.ico" sizes="32x32" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="manifest" href="/site.webmanifest" />
@@ -59,12 +57,12 @@ const navItems = [
 /** @param active one of the nav hrefs, marks that link as current */
 export const header = (active = '') => `
   <a class="skip-link" href="#main">Skip to main content</a>
-  <div class="topbar"><div class="container topbar-inner"><div class="topbar-items"><span>${hoursShort}</span><span>Availability confirmed by delivery ZIP</span><a href="tel:${phoneHref}">Call ${phoneDisplay}</a></div><span>Clean units. Clear pricing. Reliable coordination.</span></div></div>
+  <div class="topbar"><div class="container topbar-inner"><div class="topbar-items"><span>${hoursShort}</span><span>Vendor coverage confirmed by ZIP</span><a href="tel:${phoneHref}">Call ${phoneDisplay}</a></div><span>Rental planning. Vendor quotes. Clear next steps.</span></div></div>
   <header class="site-header"><div class="container nav-inner"><a class="brand" href="/" aria-label="Star Portable Restrooms home"><img src="/assets/logo-mark.png" alt="" width="44" height="44" /><span class="brand-name">Star Portable <small>Restrooms</small></span></a><nav class="desktop-nav" aria-label="Primary navigation">${navItems.map(([href, label]) => `<a${href === active ? ' class="active" aria-current="page"' : ''} href="${href}">${label}</a>`).join('')}</nav><div class="nav-actions"><a class="header-phone" href="tel:${phoneHref}"><span class="header-phone-icon" aria-hidden="true">☎</span><span><small>Call Us Now</small>${phoneDisplay}</span></a><button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false" data-menu-toggle><span></span></button></div></div></header>
   <nav class="mobile-menu" aria-label="Mobile navigation" data-mobile-menu>${navItems.map(([href, label]) => `<a href="${href}">${label}</a>`).join('')}<a class="btn btn-call mobile-menu-call" href="tel:${phoneHref}">☎ Call Us Now · ${phoneDisplay}</a></nav>`;
 
 export const footer = `
-  <footer class="footer"><div class="container footer-grid"><div class="footer-about"><a class="brand" href="/"><img src="/assets/logo-mark.png" alt="" width="44" height="44" /><span class="brand-name">Star Portable <small>Restrooms</small></span></a><p>Portable toilet, restroom trailer, and handwashing station rentals for events, job sites, and long-term projects. Availability is confirmed by ZIP code.</p></div><div><h2 class="footer-heading">Company</h2><nav class="footer-links"><a href="/">Home</a><a href="/about/">About us</a><a href="/blog/">Blog</a><a href="/location/">Locations</a><a href="/contact/">Contact</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></nav></div><div><h2 class="footer-heading">Rental Solutions</h2><nav class="footer-links"><a href="/service/">All services</a>${services.map((item) => `<a href="/service/${item.slug}/">${item.shortName}</a>`).join('')}</nav></div><div><h2 class="footer-heading">Talk to Us</h2><div class="footer-contact"><a href="tel:${phoneHref}"><strong>Phone</strong>${phoneDisplay}</a><a href="mailto:${email}"><strong>Email</strong>${email}</a><span><strong>Hours</strong>${hoursFull}</span></div></div></div><div class="container footer-bottom"><span>© <span data-current-year></span> starportablerestrooms.com. All rights reserved.</span><span>Availability confirmed by delivery ZIP.</span><span class="site-version">v1.1.0-call-cta · <span data-site-meta>loading…</span></span></div><div class="container footer-disclaimer"><p>${disclaimerText}</p></div></footer>
+  <footer class="footer"><div class="container footer-grid"><div class="footer-about"><a class="brand" href="/"><img src="/assets/logo-mark.png" alt="" width="44" height="44" /><span class="brand-name">Star Portable <small>Restrooms</small></span></a><p>Portable restroom rental inquiries and planning guides for events, job sites, and temporary facilities.</p></div><div><h2 class="footer-heading">Company</h2><nav class="footer-links"><a href="/">Home</a><a href="/about/">About us</a><a href="/blog/">Blog</a><a href="/location/">Locations</a><a href="/contact/">Contact</a><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a></nav></div><div><h2 class="footer-heading">Rental Solutions</h2><nav class="footer-links"><a href="/service/">All services</a>${services.map((item) => `<a href="/service/${item.slug}/">${item.shortName}</a>`).join('')}</nav></div><div><h2 class="footer-heading">Talk to Us</h2><div class="footer-contact"><a href="tel:${phoneHref}"><strong>Phone</strong>${phoneDisplay}</a><a href="mailto:${email}"><strong>Email</strong>${email}</a><span><strong>Hours</strong>${hoursFull}</span></div></div></div><div class="container footer-bottom"><span>© <span data-current-year></span> starportablerestrooms.com. All rights reserved.</span><span>Vendor coverage confirmed by ZIP.</span></div><div class="container footer-disclaimer"><p>${disclaimerText}</p></div></footer>
   <a class="mobile-call" href="tel:${phoneHref}" aria-label="Call Star Portable Restrooms at ${phoneDisplay}"><span class="mobile-call-icon" aria-hidden="true">☎</span><span class="mobile-call-copy"><small>Call for availability</small><strong>${phoneDisplay}</strong></span><span class="mobile-call-action" aria-hidden="true">Call now</span></a>`;
 
 export const escapeLd = (value) => JSON.stringify(value).replaceAll('<', '\\u003c');

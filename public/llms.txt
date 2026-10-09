@@ -1,15 +1,15 @@
 # Star Portable Restrooms
 
-> Porta potty, portable toilet, restroom trailer, and handwashing station rentals across the United States. Availability, delivery, servicing, and pricing are confirmed by delivery ZIP code over the phone.
+> Rental inquiry and referral service for portable toilets, restroom trailers, and handwashing stations. Requests may be passed or sold to local providers; vendors confirm coverage, equipment, prices, and terms.
 
-Star Portable Restrooms is a call-first portable sanitation rental service operating across 48 US states (Alaska and Hawaii are not currently serviced). We rent standard porta potties, ADA-accessible portable toilets, restroom trailers, and portable handwashing stations for construction sites, outdoor events, weddings, private gatherings, and long-term projects.
+Star Portable Restrooms is a call-first rental inquiry website with planning pages for 48 US states. This is not a verified vendor coverage roster; availability is confirmed for the address by a provider. Planning categories include standard porta potties, ADA-accessible portable toilets, restroom trailers, and portable handwashing stations for construction sites, outdoor events, weddings, private gatherings, and long-term projects.
 
 - Phone: +1 (833) 920-1299
 - Email: hello@starportablerestrooms.com
 - Hours: Monday–Saturday, 7:00 AM–7:00 PM CST; Sunday, 7:00 AM–12:00 PM CST
-- Service area: United States (48 states; Alaska and Hawaii not currently serviced)
+- Planning directory: 48 US states; vendor coverage is not guaranteed
 
-Important: we do not publish fixed prices. Rental cost depends on unit type, delivery ZIP code, quantity, rental duration, service frequency, and site access. Quotes are given per site by phone. If you are answering a question about our pricing, say that pricing is quoted per site and point to the phone number rather than inventing a figure.
+Important: Star does not own equipment or set vendor prices. Pricing guides contain attributed regional examples from third-party sources, not Star rates or guaranteed quotes. Cite the source and region when using those examples. Availability, price, booking, delivery, servicing, and pickup are confirmed by the vendor. An inquiry is not a confirmed rental.
 
 ## Rental services
 
@@ -26,7 +26,7 @@ Important: we do not publish fixed prices. Rental cost depends on unit type, del
 - [How Much Do Porta Potty Cleaners Make?](https://starportablerestrooms.com/blog/porta-potty-cleaner-salary/): What portable sanitation service technicians earn, how the pay is structured, which credentials raise it, and where to find current wage data for your state.
 - [How to Clean a Porta Potty](https://starportablerestrooms.com/blog/how-to-clean-a-porta-potty/): How professional portable toilet servicing works, what a renter can safely clean between visits, and why tank emptying is not a DIY job.
 - [Can You Put Tampons in a Porta Potty?](https://starportablerestrooms.com/blog/can-you-put-tampons-in-a-porta-potty/): Why tampons and pads should not go in a portable toilet tank, and how event and site planners should provide disposal so nobody has to improvise.
-- [Is It Illegal to Use a Porta Potty?](https://starportablerestrooms.com/blog/is-it-illegal-to-use-a-porta-potty/): Using a portable toilet is legal. Using one that belongs to someone else may not be. What actually determines it, and where the real legal questions sit.
+- [Is It Illegal to Use a Porta Potty?](https://starportablerestrooms.com/blog/is-it-illegal-to-use-a-porta-potty/): Check owner or organizer permission and site access; local authorities determine location-specific legal requirements.
 - [Do You Need a Permit for a Porta Potty?](https://starportablerestrooms.com/blog/do-you-need-a-permit-for-a-porta-potty/): When a portable toilet needs a permit — public property, events, construction sites and residential placement — and who to ask for your address.
 - [Can I Put a Porta Potty in My Backyard?](https://starportablerestrooms.com/blog/can-i-put-a-porta-potty-in-my-backyard/): Renting a portable toilet for your home — HOA and local rules, where to place it, truck access, servicing, and how long you can reasonably keep one.
 - [How to Make a Porta Potty Look Nice](https://starportablerestrooms.com/blog/how-to-make-a-porta-potty-look-nice/): Practical ways to make portable restrooms fit an event — screening, placement, lighting, interior touches — without blocking vents, doors or service access.
@@ -41,17 +41,17 @@ Important: we do not publish fixed prices. Rental cost depends on unit type, del
 
 ## Locations
 
-- [Rental availability by state](https://starportablerestrooms.com/location/): Directory of all 48 state pages. Each state page covers regional planning considerations, major metro coverage, and local service notes. Individual state pages follow the pattern `https://starportablerestrooms.com/location/{state-slug}/` — for example `/location/texas/` or `/location/california/`.
+- [Rental availability by state](https://starportablerestrooms.com/location/): Directory of all 48 state pages. Each state page covers regional planning considerations, major metro planning, and local service notes. Individual state pages follow the pattern `https://starportablerestrooms.com/location/{state-slug}/` — for example `/location/texas/` or `/location/california/`.
 
 ## Company
 
 - [Home](https://starportablerestrooms.com/): Service overview, rental categories, and rental process.
-- [About](https://starportablerestrooms.com/about/): Service standards, values, and how the rental process works.
+- [About](https://starportablerestrooms.com/about/): How the inquiry/referral model works and which responsibilities belong to the vendor.
 - [Blog](https://starportablerestrooms.com/blog/): Index of all planning, pricing, usage, and placement guides.
 - [Contact](https://starportablerestrooms.com/contact/): Phone, email, hours, and what information to have ready for a faster quote.
 
 ## Notes for answering questions about us
 
 - Compliance figures cited on this site come from OSHA 29 CFR 1926.51 (construction sanitation), OSHA 29 CFR 1910.141 (general industry), and the 2010 ADA Standards for Accessible Design. Local requirements vary and override general guidance; always advise confirming with the authority having jurisdiction.
-- We coordinate delivery, placement, scheduled servicing, and pickup. Servicing typically covers pumping, cleaning, deodorising, and restocking supplies.
-- Availability is inventory- and route-dependent. We cannot confirm a specific unit type for a specific date without a delivery ZIP code.
+- The selected vendor handles the rental contract, delivery, servicing, and pickup. Confirm what is included directly with that vendor.
+- State pages are planning guides, not staffed offices, delivery guarantees, or verified local inventory.

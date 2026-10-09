@@ -1,7 +1,23 @@
 
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('/assets/fonts/dm-sans-latin.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Manrope';
+  font-style: normal;
+  font-weight: 500 800;
+  font-display: swap;
+  src: url('/assets/fonts/manrope-latin.woff2') format('woff2');
+}
+
 :root {
-  --font-heading: 'Manrope', sans-serif;
-  --font-body: 'DM Sans', sans-serif;
+  --font-heading: 'Manrope', system-ui, sans-serif;
+  --font-body: 'DM Sans', system-ui, sans-serif;
   --text-body-size: 1rem;
   --text-lead-size: 1.08rem;
   /* Modular scale, roughly 1.32x per step. h1 must stay larger than h2 at every
@@ -17,8 +33,8 @@
   --blue-dark: #064a98;
   --blue-bright: #1886ed;
   --blue-pale: #eaf4ff;
-  --red: #ef3f4c;
-  --red-dark: #cf2937;
+  --red: #c92536;
+  --red-dark: #a91b2a;
   --red-pale: #fff0f2;
   --line: #dce6ef;
   --surface: #f2f6fa;
@@ -2196,7 +2212,7 @@ p {
 .footer-disclaimer p {
   max-width: 860px;
   margin: 0;
-  color: #5e7086;
+  color: #bac9dc;
   font-size: 0.72rem;
   line-height: 1.6;
 }
@@ -7079,4 +7095,14 @@ main .section-sm h2 + p {
   .topbar-items > a {
     white-space: nowrap;
   }
+}
+
+/* Readable footer labels on the dark background. */
+.footer .brand-name small, .footer-disclaimer { color: #bac9dc; }
+@media print {
+  .topbar, .site-header, .mobile-menu, .footer, .mobile-call, .post-aside, .post-related, .cta-panel, .post-figure, .post-author, .post-byline { display: none !important; }
+  .post-layout, .container { display: block; width: 100%; max-width: none; }
+  .post-section, tr { break-inside: avoid; }
+  .post-table-wrap { overflow: visible; }
+  .reveal { opacity: 1 !important; transform: none !important; }
 }

@@ -64,7 +64,7 @@ const imageSize = (file) => {
 const htmlFiles = [];
 const walk = (directory) => {
   for (const entry of readdirSync(directory, { withFileTypes: true })) {
-    if (entry.name.startsWith('._') || entry.name === 'node_modules' || entry.name === 'dist' || entry.name === '.git') continue;
+    if (entry.name.startsWith('.') || ['node_modules', 'dist', 'output', 'assets'].includes(entry.name)) continue;
     const full = join(directory, entry.name);
     if (entry.isDirectory()) walk(full);
     else if (entry.name.endsWith('.html')) htmlFiles.push(full);

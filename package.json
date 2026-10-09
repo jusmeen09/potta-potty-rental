@@ -6,10 +6,10 @@
   "scripts": {
     "generate:services": "node scripts/generate-service-pages.mjs",
     "generate:locations": "node scripts/generate-location-pages.mjs",
-    "generate": "npm run generate:services && npm run generate:blog && npm run generate:bloghub && npm run generate:locations && npm run generate:404 && npm run generate:static && npm run generate:dimensions",
+    "generate": "npm run generate:services && npm run generate:blog && npm run generate:bloghub && npm run generate:locations && npm run generate:404 && npm run generate:static && npm run generate:dimensions && npm run generate:shared && npm run generate:assets",
     "validate:locations": "node scripts/validate-location-pages.mjs",
     "validate:schema": "node scripts/validate-schema.mjs",
-    "validate": "npm run validate:schema && npm run validate:locations",
+    "validate": "npm run validate:schema && npm run validate:locations && npm run validate:site",
     "predev": "npm run generate",
     "dev": "vite --host 0.0.0.0",
     "prebuild": "npm run generate && npm run validate",
@@ -19,9 +19,17 @@
     "generate:404": "node scripts/generate-404.mjs",
     "generate:dimensions": "node scripts/add-image-dimensions.mjs",
     "generate:static": "node scripts/sync-static-root.mjs",
-    "generate:bloghub": "node scripts/sync-blog-hub.mjs"
+    "generate:bloghub": "node scripts/sync-blog-hub.mjs",
+    "generate:shared": "node scripts/sync-shared-pages.mjs",
+    "generate:assets": "node scripts/prepare-assets.mjs",
+    "optimize:images": "python3 scripts/optimize-images.py",
+    "validate:site": "node scripts/validate-site.mjs"
   },
   "devDependencies": {
+    "esbuild": "0.28.2",
     "vite": "^7.1.1"
+  },
+  "engines": {
+    "node": ">=20.19.0"
   }
 }
