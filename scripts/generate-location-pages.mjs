@@ -131,7 +131,19 @@ const stateSchema = (state, title, description, faqs) => ({
   ],
 });
 
+// Rotate the wording of repeated template links so 48 pages do not share one anchor.
+const anchorVariants = {
+  day: ['one-day porta potty prices', 'porta potty cost per day', 'daily rental price ranges', 'what a one-day rental costs'],
+  month: ['monthly porta potty prices', 'porta potty cost per month', 'monthly rental price ranges', 'long-term rental pricing'],
+  units: ['Work out your unit count', 'Estimate how many units you need', 'Use the porta potty calculator', 'Size your order by crew or crowd'],
+  standard: ['Standard Porta Potty', 'Standard Portable Toilet', 'Standard Porta Potty Rental', 'Standard Portable Restroom'],
+  ada: ['Accessible Portable Restroom', 'ADA Portable Toilet', 'ADA Porta Potty Rental', 'Wheelchair-Accessible Unit'],
+  trailer: ['Portable Restroom Trailer', 'Restroom Trailer Rental', 'Restroom Trailer', 'Bathroom Trailer Rental'],
+  handwash: ['Handwashing Station', 'Portable Handwashing Station', 'Hand Wash Station Rental', 'Portable Sink Station'],
+};
+
 const statePage = (state) => {
+  const variant = (key) => anchorVariants[key][states.indexOf(state) % anchorVariants[key].length];
   const title = `Porta Potty Rental in ${state.name}: Prices & Permits | Star Portable Restrooms`;
   const description = stateDescription(state);
   const season = seasonFor(state.name);
@@ -244,7 +256,7 @@ ${header('/location/')}
         <tr><th scope="row">Standard unit, one month</th><td>About ${priceSummary.standardMonth}</td></tr>
         <tr><th scope="row">Restroom trailer, one day</th><td>About ${priceSummary.trailerDay}</td></tr>
       </tbody></table></div>
-      <p class="service-price-sources">Sources: <a href="${priceSources.fixr.href}" target="_blank" rel="noopener">${priceSources.fixr.label}</a> · <a href="${priceSources.royalFlush.href}" target="_blank" rel="noopener">${priceSources.royalFlush.label}</a> · <a href="${priceSources.premier.href}" target="_blank" rel="noopener">${priceSources.premier.label}</a>. See the <a href="/blog/porta-potty-cost-per-day/">one-day price comparison</a> and <a href="/blog/porta-potty-cost-per-month/">monthly price guide</a> for each source’s figures.</p>
+      <p class="service-price-sources">Sources: <a href="${priceSources.fixr.href}" target="_blank" rel="noopener">${priceSources.fixr.label}</a> · <a href="${priceSources.royalFlush.href}" target="_blank" rel="noopener">${priceSources.royalFlush.label}</a> · <a href="${priceSources.premier.href}" target="_blank" rel="noopener">${priceSources.premier.label}</a>. Each source’s figures are in the guides to <a href="/blog/porta-potty-cost-per-day/">${variant('day')}</a> and <a href="/blog/porta-potty-cost-per-month/">${variant('month')}</a>.</p>
       <h3>Permits for portable toilets in ${escapeHtml(state.name)}</h3>
       <p>Ask the city or county office responsible for the delivery address whether the placement needs approval${state.cities[0] === state.capital ? `, in ${escapeHtml(state.capital)} or elsewhere in ${escapeHtml(state.name)}` : `, for example in ${escapeHtml(state.cities[0])}, ${escapeHtml(state.capital)}, or a smaller community`}. Placements on a street, sidewalk, park, or event site are the cases to check first, and private land is not automatically exempt. Read <a href="/blog/do-you-need-a-permit-for-a-porta-potty/">when a porta potty needs a permit</a>, or use <a href="https://www.usa.gov/local-governments" target="_blank" rel="noopener">USAGov’s local government finder</a> to reach the right office.</p>
     </div>
@@ -263,7 +275,7 @@ ${header('/location/')}
         <p>Private-sector construction in ${escapeHtml(state.name)} falls under federal OSHA jurisdiction, so 29 CFR 1926.51(c)(1) Table D-1 applies directly: one toilet facility for 20 or fewer workers, then one toilet seat and one urinal per 40 workers, and per 50 workers once a crew passes 200.</p>
         <p>That table is a legal minimum rather than a comfort target. Crews spread across a large ${escapeHtml(state.name)} site often justify more units than the count alone suggests, simply because walking time is real money.</p>`}
         <p>Accessibility is federal everywhere: where portable toilets are clustered, the 2010 ADA Standards require at least 5% and never fewer than one accessible unit per cluster. Local permit conditions in ${escapeHtml(state.capital)} and other ${escapeHtml(state.name)} jurisdictions may add requirements on top.</p>
-        <a class="text-link" href="/blog/porta-potty-ratio-guide/">Work out your unit count <span class="arrow">→</span></a>
+        <a class="text-link" href="/blog/porta-potty-ratio-guide/">${variant('units')} <span class="arrow">→</span></a>
       </div>
       <aside class="state-rules-card">
         <span class="service-card-label">${escapeHtml(state.name)} at a glance</span>
@@ -283,10 +295,10 @@ ${header('/location/')}
     <div class="container">
       <div class="section-heading center"><span class="eyebrow">Rental options</span><h2>Choose equipment for the site</h2><p>Match the unit type to your guests, crew, site conditions, comfort expectations, accessibility needs, utilities, and budget.</p></div>
       <div class="location-options-grid">
-        <article class="location-option-card"><img src="/assets/homepage/standard-restroom.webp" alt="Standard portable restroom rental unit" loading="lazy" /><div><span>Most requested</span><h3>Standard Porta Potty</h3><p>Durable, ventilated portable toilets for construction sites, festivals, parks, home projects, and general use.</p></div></article>
-        <article class="location-option-card"><img src="/assets/homepage/ada-restroom.webp" alt="Portable restroom unit in an outdoor rental setting" loading="lazy" /><div><span>Accessible option</span><h3>Accessible Portable Restroom</h3><p>Ground-level entry and additional interior space for events, public sites, and inclusive sanitation plans.</p></div></article>
-        <article class="location-option-card"><img src="/assets/homepage/restroom-trailer.webp" alt="Portable restroom trailer rental" loading="lazy" /><div><span>Upgraded comfort</span><h3>Portable Restroom Trailer</h3><p>Restroom trailers for weddings, corporate events, VIP areas, and projects with suitable power, water, and access.</p></div></article>
-        <article class="location-option-card"><img src="/assets/homepage/handwash-station.webp" alt="Portable handwashing station rental" loading="lazy" /><div><span>Hygiene add-on</span><h3>Handwashing Station</h3><p>Standalone sinks with fresh water, soap dispensers, and hands-free operation for events and job sites.</p></div></article>
+        <article class="location-option-card"><img src="/assets/homepage/standard-restroom.webp" alt="Standard portable restroom rental unit" loading="lazy" /><div><span>Most requested</span><h3><a href="/service/standard-porta-potty-rental/">${variant('standard')}</a></h3><p>Durable, ventilated portable toilets for construction sites, festivals, parks, home projects, and general use.</p></div></article>
+        <article class="location-option-card"><img src="/assets/homepage/ada-restroom.webp" alt="Portable restroom unit in an outdoor rental setting" loading="lazy" /><div><span>Accessible option</span><h3><a href="/service/ada-portable-toilet-rental/">${variant('ada')}</a></h3><p>Ground-level entry and additional interior space for events, public sites, and inclusive sanitation plans.</p></div></article>
+        <article class="location-option-card"><img src="/assets/homepage/restroom-trailer.webp" alt="Portable restroom trailer rental" loading="lazy" /><div><span>Upgraded comfort</span><h3><a href="/service/restroom-trailer-rental/">${variant('trailer')}</a></h3><p>Restroom trailers for weddings, corporate events, VIP areas, and projects with suitable power, water, and access.</p></div></article>
+        <article class="location-option-card"><img src="/assets/homepage/handwash-station.webp" alt="Portable handwashing station rental" loading="lazy" /><div><span>Hygiene add-on</span><h3><a href="/service/portable-handwashing-station-rental/">${variant('handwash')}</a></h3><p>Standalone sinks with fresh water, soap dispensers, and hands-free operation for events and job sites.</p></div></article>
       </div>
       <div class="call-cta">
         <span class="call-cta-mark" aria-hidden="true">☎</span>
