@@ -1,7 +1,7 @@
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { siteUrl, phoneDisplay, phoneHref, organization, website, icons, clarity, header, footer, escapeLd } from './lib/site.mjs';
-import { unitBySlug, units, pageHead, unitFigure, unitLabel, unitStrip, callSheet, callButton, sheetLink } from './lib/catalogue.mjs';
+import { unitBySlug, units, pageHead, unitFigure, unitLabel, unitStrip, callSheet, callButton, sheetLink, ctaNote } from './lib/catalogue.mjs';
 
 import { serviceGuidance } from './lib/rental-guidance.mjs';
 import { posts } from './lib/blog-posts.mjs';
@@ -152,7 +152,7 @@ ${header('/service/')}
     crumbs: [['/', 'Home'], ['/service/', 'Rental services'], ['', service.shortName]],
     title: service.name,
     lede: service.lead,
-    actions: `${callButton(`Call ${phoneDisplay}`, 'service_head')}${sheetLink()}`,
+    actions: `${callButton(`Call for ${service.shortName.toLowerCase()} prices`, 'service_head', `Toll-free ${phoneDisplay}`)}${sheetLink()}${ctaNote()}`,
     aside: `${unitFigure(unit, unit.wide ? '(max-width: 860px) 90vw, 40vw' : '(max-width: 860px) 52vw, 22vw', true)}${unitLabel(unit, { level: 'h2', link: false })}`,
     extraClass: `cat-head--object${unit.wide ? ' is-wide' : ''}`,
   })}
@@ -225,7 +225,7 @@ ${header('/service/')}
     crumbs: [['/', 'Home'], ['', 'Rental services']],
     title: 'Portable restroom rental services',
     lede: 'Four rental categories covering job sites, events, accessibility requirements, and hygiene support. Availability and pricing are confirmed by delivery ZIP code.',
-    actions: `${callButton(`Call ${phoneDisplay}`, 'hub_head')}${sheetLink()}`,
+    actions: `${callButton('Call the rental desk', 'hub_head', `Toll-free ${phoneDisplay}`)}${sheetLink()}${ctaNote()}`,
     extraClass: 'cat-head--text',
   })}
 

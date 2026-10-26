@@ -55,7 +55,19 @@ export const unitBySlug = (slug) => units.find((unit) => unit.slug === slug);
 
 export const pick = (unit) => `<div class="cat-pick" data-pick="${unit.key}"><span class="cat-pick__label" id="pick-${unit.key}">On your call sheet</span><div class="cat-pick__control" role="group" aria-labelledby="pick-${unit.key}"><button type="button" data-step="-1" aria-label="Remove a ${unit.one}">&minus;</button><output data-qty aria-live="polite">0</output><button type="button" data-step="1" aria-label="Add a ${unit.one}">+</button></div></div>`;
 
-export const callButton = (label = `Call ${phoneDisplay}`, placement = '') => `<a class="cat-call" href="tel:${phoneHref}"${placement ? ` data-cta-location="${placement}"` : ''}>${phoneIcon}${label}</a>`;
+/** A call button. With `sub`, the label says why to call and the number sits under it. */
+export const callButton = (label = `Call ${phoneDisplay}`, placement = '', sub = '') => sub
+  ? `<a class="cat-call cat-call--stack" href="tel:${phoneHref}"${placement ? ` data-cta-location="${placement}"` : ''}>${phoneIcon}<span><strong>${label}</strong><small>${sub}</small></span></a>`
+  : `<a class="cat-call" href="tel:${phoneHref}"${placement ? ` data-cta-location="${placement}"` : ''}>${phoneIcon}${label}</a>`;
+
+/** The friction note under a primary call button. Every claim in it is literal: the number is toll-free and a call commits nobody. */
+export const ctaNote = () => `<p class="cat-cta-note">Toll-free, no obligation. ${deskHours}.</p>`;
+
+/** A primary call: a labelled button with the number, and the friction note. */
+export const primaryCall = (label, placement) => `${callButton(label, placement, `Toll-free ${phoneDisplay}`)}${ctaNote()}`;
+
+/** The call prompt placed inside a guide, after its first section. */
+export const guideCall = ({ heading, line, label }) => `<aside class="post-call" aria-label="Call the rental desk"><div><p class="post-call__heading">${heading}</p><p>${line}</p></div><div class="post-call__action">${primaryCall(label, 'post_inline')}</div></aside>`;
 
 export const unitFigure = (unit, sizes = '(max-width: 860px) 52vw, 30vw', eager = false) => unit.drawing
   ? `<figure class="cat-object__figure cat-object__figure--drawing">${unit.drawing}</figure>`

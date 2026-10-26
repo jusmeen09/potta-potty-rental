@@ -9236,3 +9236,202 @@ main .section-sm h2 + p {
 .cat-page .faq-wrap > div:first-child {
   background: var(--cat-primary-deep);
 }
+
+/* Call buttons that say why to call, with the number under the label. */
+.cat-call--stack {
+  min-height: 56px;
+  justify-content: flex-start;
+  gap: 12px;
+  padding: 8px 20px 8px 16px;
+  text-align: left;
+}
+
+.cat-call--stack .icon-phone {
+  width: 20px;
+  height: 20px;
+}
+
+.cat-call--stack span {
+  display: grid;
+  line-height: 1.2;
+}
+
+.cat-call--stack strong {
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.cat-call--stack small {
+  color: rgba(255, 255, 255, 0.88);
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.cat-cta-note {
+  flex-basis: 100%;
+  margin: 6px 0 0;
+  color: var(--cat-soft);
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.cat-head__actions .cat-byline {
+  flex-basis: 100%;
+  margin-bottom: 6px;
+}
+
+.cat-head__actions .cat-call--stack {
+  width: auto;
+}
+
+.cat-hero__cta {
+  position: relative;
+  z-index: 4;
+  max-width: 26rem;
+  margin-top: clamp(18px, 3svh, 28px);
+}
+
+.cat-hero__cta .cat-call {
+  width: auto;
+  margin: 0;
+}
+
+/* The call prompt inside a guide, after its first section. */
+.post-call {
+  display: grid;
+  align-items: center;
+  margin: clamp(28px, 4vw, 40px) 0 0;
+  padding: 20px 22px;
+  border: 1px solid var(--cat-line-strong);
+  border-radius: var(--cat-radius);
+  background: var(--cat-surface);
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 16px 24px;
+}
+
+.post-call__heading {
+  margin: 0 0 4px;
+  color: var(--cat-ink);
+  font-family: var(--font-heading);
+  font-size: 1.12rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.cat-page .post-call p:not(.post-call__heading):not(.cat-cta-note) {
+  margin: 0;
+  color: var(--cat-soft);
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.post-call__action .cat-call {
+  width: auto;
+  margin: 0;
+}
+
+.post-call__action .cat-cta-note {
+  max-width: 18rem;
+}
+
+@media (max-width: 860px) {
+  .post-call {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .post-call__action .cat-call,
+  .cat-hero__cta .cat-call,
+  .cat-head__actions .cat-call--stack {
+    width: 100%;
+  }
+
+  .cat-hero__cta {
+    max-width: none;
+    margin-top: 18px;
+  }
+}
+
+.cat-page .post-body a.cat-call,
+.cat-page .post-body a.cat-call:hover {
+  color: #fff;
+  text-decoration: none;
+}
+
+/* Text on the red and dark panels is always light. The catalogue heading
+   colour (dark navy) must never reach these grounds. */
+.cat-page :is(.dark-section, .faq-wrap > div:first-child, .contact-card, .contact-card-note, .feature-art-inner) :is(h2, h3, h4, strong, dt) {
+  color: #fff;
+}
+
+.cat-page :is(.dark-section, .faq-wrap > div:first-child, .contact-card, .contact-card-note, .feature-art-inner) :is(p, li, span, small, dd) {
+  color: #f6d9dd;
+}
+
+.cat-page :is(.dark-section, .faq-wrap > div:first-child, .contact-card, .contact-card-note) a:not(.btn):not(.cat-call) {
+  color: #fff;
+}
+
+/* The old photo call panels on the hand-written pages become solid red
+   plates: white headings, pink body text, a white button with red text. */
+.cat-page .cta-panel,
+.cat-page .newsletter {
+  border-radius: var(--cat-radius);
+  color: #fff;
+  background: var(--cat-primary-strong) !important;
+  background-image: none !important;
+}
+
+.cat-page .cta-panel::before,
+.cat-page .cta-panel::after,
+.cat-page .newsletter::before,
+.cat-page .newsletter::after {
+  display: none;
+}
+
+.cat-page :is(.cta-panel, .newsletter) :is(h2, h3, strong) {
+  color: #fff;
+  text-shadow: none;
+}
+
+.cat-page :is(.cta-panel, .newsletter) :is(p, small, span) {
+  color: var(--cat-on-primary-soft);
+}
+
+.cat-page :is(.cta-panel, .newsletter) :is(.btn-white, .cta-phone, .btn) {
+  border: 1px solid #fff;
+  color: var(--cat-primary-strong);
+  background: #fff;
+}
+
+.cat-page :is(.cta-panel, .newsletter) :is(.btn-white, .cta-phone, .btn) :is(span, small, strong) {
+  color: var(--cat-primary-strong);
+}
+
+.cat-page :is(.cta-panel, .newsletter) :is(.btn-white, .cta-phone, .btn):hover {
+  color: var(--cat-primary-deep);
+  background: #ffeef0;
+}
+
+.cat-page :is(.cta-panel, .newsletter) .call-cta-phone {
+  border: 1px solid #fff;
+  color: var(--cat-primary-strong);
+  background: #fff;
+  box-shadow: none;
+}
+
+.cat-page :is(.cta-panel, .newsletter) .call-cta-phone :is(span, small, strong) {
+  color: var(--cat-primary-strong);
+}
+
+.cat-page :is(.cta-panel, .newsletter) .call-cta-phone-icon {
+  color: #fff;
+  background: var(--cat-primary-strong);
+}
+
+.cat-page .post-body a.btn-call,
+.cat-page .post-body a.btn-call:hover {
+  color: #fff;
+  text-decoration: none;
+}

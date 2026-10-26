@@ -1,7 +1,7 @@
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { seasonFor, oshaFor } from './lib/state-data.mjs';
 import { priceSummary, priceSources, pricesChecked } from './lib/price-data.mjs';
-import { pageHead, unitStrip, callSheet, callButton, sheetLink } from './lib/catalogue.mjs';
+import { pageHead, unitStrip, callSheet, callButton, sheetLink, ctaNote } from './lib/catalogue.mjs';
 import { phoneIcon } from './lib/site.mjs';
 import { header, footer, organization } from './lib/site.mjs';
 import { posts as blogPosts } from './lib/blog-posts.mjs';
@@ -198,8 +198,8 @@ ${header('/location/')}
     crumbs: [['/', 'Home'], ['/location/', 'Locations'], ['', escapeHtml(state.name)]],
     title: `Porta Potty Rental in ${escapeHtml(state.name)}`,
     lede: `Request information about portable toilet rental for an address in ${escapeHtml(state.name)}. Planning requests may involve ${escapeHtml(listSentence(state.cities))}; exact inventory, delivery, servicing, and pickup are confirmed by ZIP code.`,
-    actions: `${callButton(`Call ${phoneDisplay}`, 'state_head')}${sheetLink()}`,
-    aside: `<div class="cat-label"><h2 class="cat-label__name">${escapeHtml(state.name)} at a glance</h2><dl class="cat-spec"><div><dt>Job sites</dt><dd>${osha.kind === 'state-plan' ? `${escapeHtml(osha.agency)} State Plan` : osha.kind === 'public-only' ? 'Federal OSHA (private sector)' : 'Federal OSHA'}</dd></div><div><dt>Region</dt><dd>${escapeHtml(state.region)}</dd></div><div><dt>Capital</dt><dd>${escapeHtml(state.capital)}</dd></div><div><dt>Season</dt><dd>${escapeHtml(season.label.charAt(0).toUpperCase() + season.label.slice(1))}</dd></div><div><dt>One day</dt><dd><strong>About ${priceSummary.standardDay.replace('–', ' to ')}</strong> per standard unit in published guides</dd></div></dl>${callButton(`Call ${phoneDisplay}`, 'state_plate')}<p class="cat-fine">This page does not represent a staffed office in ${escapeHtml(state.name)}. A vendor must confirm coverage and inventory for the exact address.</p></div>`,
+    actions: `${callButton(`Call for ${escapeHtml(state.name)} availability`, 'state_head', `Toll-free ${phoneDisplay}`)}${sheetLink()}${ctaNote()}`,
+    aside: `<div class="cat-label"><h2 class="cat-label__name">${escapeHtml(state.name)} at a glance</h2><dl class="cat-spec"><div><dt>Job sites</dt><dd>${osha.kind === 'state-plan' ? `${escapeHtml(osha.agency)} State Plan` : osha.kind === 'public-only' ? 'Federal OSHA (private sector)' : 'Federal OSHA'}</dd></div><div><dt>Region</dt><dd>${escapeHtml(state.region)}</dd></div><div><dt>Capital</dt><dd>${escapeHtml(state.capital)}</dd></div><div><dt>Season</dt><dd>${escapeHtml(season.label.charAt(0).toUpperCase() + season.label.slice(1))}</dd></div><div><dt>One day</dt><dd><strong>About ${priceSummary.standardDay.replace('–', ' to ')}</strong> per standard unit in published guides</dd></div></dl>${callButton(`Check ${escapeHtml(state.name)} availability`, 'state_plate', `Toll-free ${phoneDisplay}`)}<p class="cat-fine">This page does not represent a staffed office in ${escapeHtml(state.name)}. A vendor must confirm coverage and inventory for the exact address.</p></div>`,
   })}
 
   <section class="cat-section" aria-labelledby="ready-title"><div class="cat-wrap"><h2 id="ready-title">Have these ready when you call</h2><dl class="cat-facts"><div><dt>Delivery ZIP code</dt><dd>Confirms route availability.</dd></div><div><dt>Rental dates</dt><dd>Checks equipment scheduling.</dd></div><div><dt>Attendance or crew</dt><dd>Helps estimate quantity.</dd></div><div><dt>Site access</dt><dd>Plans placement and service.</dd></div></dl></div></section>
@@ -307,8 +307,8 @@ ${header('/location/')}
     crumbs: [['/', 'Home'], ['', 'Locations']],
     title: 'Porta Potty Rental Locations Across the USA',
     lede: `Explore portable toilet and portable restroom rental planning by state. Select a location, then call with the exact delivery ZIP code to confirm current inventory, route availability, service options, and pricing.`,
-    actions: `${callButton(`Call ${phoneDisplay}`, 'hub_head')}${sheetLink()}`,
-    aside: `<div class="cat-label"><h2 class="cat-label__name">How state pages work</h2><dl class="cat-spec"><div><dt>Pick a state</dt><dd>Review local planning guidance and the OSHA jurisdiction.</dd></div><div><dt>Share the ZIP</dt><dd>Coverage is confirmed for the exact delivery address.</dd></div><div><dt>Describe the job</dt><dd>Units, dates, crowd or crew, and site access.</dd></div><div><dt>Get the quote</dt><dd>A local vendor confirms price, delivery and service.</dd></div></dl>${callButton(`Call ${phoneDisplay}`, 'hub_plate')}<p class="cat-fine">The directory provides state-level planning information. Service is confirmed for each delivery address.</p></div>`,
+    actions: `${callButton('Call the rental desk', 'hub_head', `Toll-free ${phoneDisplay}`)}${sheetLink()}${ctaNote()}`,
+    aside: `<div class="cat-label"><h2 class="cat-label__name">How state pages work</h2><dl class="cat-spec"><div><dt>Pick a state</dt><dd>Review local planning guidance and the OSHA jurisdiction.</dd></div><div><dt>Share the ZIP</dt><dd>Coverage is confirmed for the exact delivery address.</dd></div><div><dt>Describe the job</dt><dd>Units, dates, crowd or crew, and site access.</dd></div><div><dt>Get the quote</dt><dd>A local vendor confirms price, delivery and service.</dd></div></dl>${callButton('Check coverage for your ZIP', 'hub_plate', `Toll-free ${phoneDisplay}`)}<p class="cat-fine">The directory provides state-level planning information. Service is confirmed for each delivery address.</p></div>`,
   })}
 
   <section class="cat-section state-directory-section" id="state-directory">

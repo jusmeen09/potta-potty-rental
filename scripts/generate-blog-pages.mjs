@@ -2,7 +2,19 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { siteUrl, phoneDisplay, phoneHref, organization, website, icons, clarity, header, footer, escapeLd } from './lib/site.mjs';
 import { posts } from './lib/blog-posts.mjs';
-import { pageHead, callSheet, callButton, sheetLink } from './lib/catalogue.mjs';
+import { pageHead, callSheet, callButton, sheetLink, ctaNote, guideCall } from './lib/catalogue.mjs';
+
+// What a reader of each kind of guide is about to do, so the call button says it.
+const callCopy = {
+  Pricing: { label: 'Get a price for your date', heading: 'Want a price for your own date and address?', line: 'Call with your ZIP code, date and unit count. A local provider confirms the price, delivery and pickup.' },
+  Planning: { label: 'Check availability for your date', heading: 'Planning an event or a job site?', line: 'Tell the desk your crowd or crew size, dates and ZIP code. A local provider confirms the units and the price.' },
+  Events: { label: 'Check availability for your date', heading: 'Planning an event?', line: 'Tell the desk your guest count, date and venue ZIP code. A local provider confirms the units and the price.' },
+  Options: { label: 'Ask which unit fits your site', heading: 'Not sure which unit fits?', line: 'Call with the guest count, the site and the dates. A local provider confirms what is available near you.' },
+  Placement: { label: 'Ask about your site', heading: 'Checking where a unit can go?', line: 'Call with the address and the spot you have in mind. The provider confirms placement and truck access.' },
+  Logistics: { label: 'Ask about your site', heading: 'Sorting out delivery and placement?', line: 'Call with the address, dates and access details. The provider confirms what works for the site.' },
+};
+const defaultCall = { label: 'Talk to the rental desk', heading: 'Renting a porta potty?', line: 'Call with your ZIP code and dates for prices and availability from a local provider.' };
+
 
 const root = resolve(import.meta.dirname, '..');
 
@@ -56,6 +68,7 @@ const renderSection = (section, id) => {
 
 const renderPost = (post, all) => {
   const canonical = `${siteUrl}/blog/${post.slug}/`;
+  const call = callCopy[post.category] || defaultCall;
   const sections = applyLinks(post);
   const slugId = (text) => text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
   const ids = sections.map((s) => slugId(s.h2));
@@ -137,7 +150,7 @@ ${header('/blog/')}
       crumbs: [['/', 'Home'], ['/blog/', 'Guides'], ['', post.category]],
       title: post.title,
       lede: post.dek,
-      actions: `<p class="cat-byline"><strong>${authorName}</strong> <span>Published <time datetime="${post.published}">${formatDate(post.published)}</time>. Updated <time datetime="${post.updated}">${formatDate(post.updated)}</time>. ${post.readTime} min read.</span></p>`,
+      actions: `<p class="cat-byline"><strong>${authorName}</strong> <span>Published <time datetime="${post.published}">${formatDate(post.published)}</time>. Updated <time datetime="${post.updated}">${formatDate(post.updated)}</time>. ${post.readTime} min read.</span></p>${callButton(call.label, 'post_head', `Toll-free ${phoneDisplay}`)}${ctaNote()}`,
       extraClass: 'cat-head--text cat-head--post',
     })}
 
@@ -155,7 +168,7 @@ ${header('/blog/')}
           <ol>${sections.map((s, i) => `<li><a href="#${ids[i]}">${s.h2}</a></li>`).join('')}</ol>
         </nav>
 
-        ${sections.map((s, i) => renderSection(s, ids[i])).join('\n        ')}
+        ${sections.map((s, i) => renderSection(s, ids[i]) + (i === 0 ? guideCall(call) : '')).join('\n        ')}
 
         ${post.slug === 'portable-toilet-rental-checklist' ? `<div class="post-print"><button class="btn btn-outline" type="button" data-print>Print this rental checklist</button><p>Save a copy to compare vendor quotes and review your site before delivery.</p></div>` : ''}
 
@@ -185,7 +198,7 @@ ${header('/blog/')}
         <div class="cat-label post-desk">
           <h2 class="cat-label__name">Planning a rental?</h2>
           <p>Call with your delivery ZIP code, dates, and expected crew size or attendance. The desk is open 7 days a week.</p>
-          ${callButton(`Call ${phoneDisplay}`, 'post_aside')}
+          ${callButton(call.label, 'post_aside', `Toll-free ${phoneDisplay}`)}
           ${sheetLink()}
         </div>
       </aside>
