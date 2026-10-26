@@ -9100,3 +9100,139 @@ main .section-sm h2 + p {
 .cat-page .sizing-calc {
   border-left-width: 1px;
 }
+
+/* ==========================================================================
+   Red as the primary brand colour. Text stays dark navy for reading; brand
+   surfaces (call sheet, footer, phone bar) and accents are red. White on
+   #b31d2d measures 6.7:1, on #7a1020 10.9:1.
+   ========================================================================== */
+:root {
+  --cat-primary: #c92536;
+  --cat-primary-strong: #b31d2d;
+  --cat-primary-deep: #7a1020;
+  --cat-primary-text: #a51c2b;
+  --cat-on-primary-soft: #ffd7dc;
+}
+
+::selection {
+  color: #fff;
+  background: var(--cat-primary);
+}
+
+.site-header {
+  border-top: 3px solid var(--cat-primary);
+}
+
+.hdr-nav a:hover,
+.hdr-nav a[aria-current='page'] {
+  color: var(--cat-primary-text);
+}
+
+.hdr-nav a[aria-current='page'] {
+  box-shadow: inset 0 -2px 0 var(--cat-primary);
+}
+
+.catalogue .cat-index a:hover,
+.catalogue .cat-index a[aria-current='true'] {
+  color: var(--cat-primary-text);
+}
+
+.catalogue :focus-visible {
+  outline-color: var(--cat-primary);
+}
+
+.catalogue a:not([class]):hover,
+.cat-label__name a:hover,
+.cat-strip__item h3 a:hover,
+.cat-links a:hover strong {
+  color: var(--cat-primary-text);
+}
+
+.cat-pick.has-units .cat-pick__control {
+  border-color: var(--cat-primary);
+}
+
+.cat-pick.has-units output {
+  color: var(--cat-primary-text);
+}
+
+.cat-size__result strong,
+.cat-figure__num {
+  color: var(--cat-primary-text);
+}
+
+.cat-size__apply:hover {
+  border-color: var(--cat-primary);
+  background: var(--cat-primary);
+}
+
+.cat-steps li::before {
+  color: var(--cat-primary-text);
+}
+
+/* Call sheet: the red plate. Its call button inverts to white. */
+.cat-sheet {
+  background: var(--cat-primary-strong);
+  --cat-line: rgba(255, 255, 255, 0.22);
+  --cat-line-strong: rgba(255, 255, 255, 0.4);
+  --cat-soft: var(--cat-on-primary-soft);
+}
+
+.cat-sheet .cat-sheet__call {
+  color: var(--cat-primary-strong);
+  background: #fff;
+}
+
+.cat-sheet .cat-sheet__call:hover {
+  color: var(--cat-primary-deep);
+  background: #ffeef0;
+}
+
+.cat-sheet input {
+  border-color: rgba(255, 255, 255, 0.45);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.cat-sheet input::placeholder {
+  color: var(--cat-on-primary-soft);
+}
+
+/* Footer and the sticky phone bar. */
+.footer {
+  background: var(--cat-primary-deep);
+}
+
+.ftr-desk__label,
+.ftr-desk__hours,
+.ftr-bottom {
+  color: #f6c9ce;
+}
+
+.ftr-col a,
+.ftr-desk__mail,
+.footer-disclaimer p {
+  color: #f6c9ce;
+}
+
+.ftr-bottom {
+  border-top-color: rgba(255, 255, 255, 0.2);
+}
+
+.mobile-call {
+  background: var(--cat-primary-strong);
+}
+
+.mobile-call-copy small {
+  color: var(--cat-on-primary-soft);
+}
+
+.mobile-call-action {
+  color: var(--cat-primary-strong);
+  background: #fff;
+}
+
+/* The remaining dark panels on the hand-written pages follow the brand. */
+.cat-page .dark-section,
+.cat-page .faq-wrap > div:first-child {
+  background: var(--cat-primary-deep);
+}

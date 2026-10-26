@@ -186,7 +186,7 @@ const statePage = (state) => {
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="manifest" href="/site.webmanifest" />
-  <meta name="theme-color" content="#091426" />
+  <meta name="theme-color" content="#c92536" />
   <link rel="stylesheet" href="/styles.css" />
   ${clarityTrackingScript}
   <script type="application/ld+json">${serializeSchema(schema)}</script>
@@ -295,7 +295,7 @@ const hubPage = `<!doctype html>
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="manifest" href="/site.webmanifest" />
-  <meta name="theme-color" content="#091426" />
+  <meta name="theme-color" content="#c92536" />
   <link rel="stylesheet" href="/styles.css" />
   ${clarityTrackingScript}
   <script type="application/ld+json">${serializeSchema(hubSchema)}</script>
