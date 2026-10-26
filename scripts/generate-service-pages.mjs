@@ -24,9 +24,9 @@ const services = [
     uses: ['Construction sites', 'Festivals and fairs', 'Parks and sports fields', 'Residential projects'],
     planning: ['Delivery ZIP code', 'Rental dates', 'Expected crew or attendance', 'Placement and truck access'],
     faqs: [
-      ['How much does a standard porta potty rental cost?', 'Pricing depends on delivery ZIP code, quantity, rental length, service frequency, site access, and current inventory. Call with the site details for accurate availability and pricing.'],
+      ['How much does a standard porta potty rental cost?', 'Pricing depends on delivery ZIP code, quantity, rental length, service frequency, site access, and current inventory. Compare <a href="/blog/porta-potty-cost-per-day/">published one-day prices</a>, then call with the site details for accurate availability and pricing.'],
       ['How often is a standard portable toilet serviced?', 'Service frequency is planned around the number of users, rental duration, and site conditions. Recurring rentals may include pumping, cleaning, deodorizing, and supply restocking.'],
-      ['How many standard porta potties do I need?', 'The right quantity depends on attendance or crew size, hours of use, food and alcohol service, rental duration, and whether units can be serviced during the rental.'],
+      ['How many standard porta potties do I need?', 'The right quantity depends on attendance or crew size, hours of use, food and alcohol service, rental duration, and whether units can be serviced during the rental. Use the <a href="/blog/porta-potty-ratio-guide/">porta potty calculator</a> for a starting count.'],
       ['Where should portable toilets be placed?', 'Choose level, stable ground with safe guest access and a clear route for the delivery and service truck. Avoid blocked gates, soft ground, steep slopes, and areas prone to standing water.'],
       ['Can I rent a porta potty for one day?', 'Short-term and event rentals may be available by location and date. Call with the delivery ZIP code and schedule to confirm inventory and delivery timing.'],
     ],
@@ -50,7 +50,7 @@ const services = [
     planning: ['Accessible route', 'Level placement area', 'Delivery clearance', 'Required unit quantity'],
     faqs: [
       ['What makes an ADA portable toilet accessible?', 'Accessible portable restrooms typically provide ground-level entry, a wider doorway, more interior maneuvering space, support rails, and accessible door hardware. Available models can vary.'],
-      ['How many ADA portable toilets should an event have?', 'Requirements can vary by event, venue, attendance, and local rules. Discuss the complete restroom count and accessibility plan with the venue or authority having jurisdiction.'],
+      ['How many ADA portable toilets should an event have?', 'Where portable toilets are clustered, the 2010 ADA Standards require at least 5%, and no fewer than one, to be accessible in each cluster. The calculator counts <a href="/blog/porta-potty-ratio-guide/">accessible units per restroom location</a>. Venue and local rules can add requirements, so confirm the plan with the authority having jurisdiction.'],
       ['Does an accessible unit need level ground?', 'Yes. A stable, level placement area and an accessible approach are important for safe entry and maneuvering. Share surface, slope, and route details before delivery.'],
       ['Can ADA portable restrooms be serviced during a long rental?', 'Recurring service may include pumping, cleaning, deodorizing, and restocking. Frequency depends on usage, rental duration, and local route availability.'],
       ['How do I check ADA unit availability near me?', 'Call with the delivery ZIP code, rental dates, event or project details, and required quantity. Inventory is confirmed for the exact address.'],
@@ -66,7 +66,7 @@ const services = [
     title: 'Restroom Trailer Rental Cost & Options | Star Portable Restrooms',
     description: `Restroom trailer rental cost: published prices run about ${priceSummary.trailerDay} per day and ${priceSummary.trailerWeekend} per weekend. Compare sources, utilities, and site needs.`,
     lead: 'An upgraded portable bathroom experience for weddings, corporate gatherings, VIP areas, productions, and sites where added comfort matters.',
-    ideal: 'Restroom trailers provide a more finished interior and may include climate control, lighting, sinks, mirrors, and separate restroom stalls depending on the model.',
+    ideal: 'Restroom trailers provide a more finished interior and may include climate control, lighting, sinks, mirrors, and separate restroom stalls depending on the model. <a href="/blog/porta-potty-options-comparison/">Compare trailers with standard and ADA units</a> before choosing.',
     features: ['Finished interior surfaces', 'Flushing toilets', 'Running-water sinks', 'Interior lighting', 'Climate control where equipped', 'Multiple station layouts'],
     uses: ['Weddings', 'Corporate events', 'Film and production sites', 'VIP and hospitality areas'],
     planning: ['Level trailer pad', 'Power requirements', 'Water and waste setup', 'Truck and towing access'],
@@ -123,7 +123,7 @@ const renderPage = (service) => {
         { '@type': 'ListItem', position: 2, name: 'Rental Services', item: `${siteUrl}/service/` },
         { '@type': 'ListItem', position: 3, name: service.name, item: canonical },
       ] },
-      { '@type': 'FAQPage', '@id': `${canonical}#faq`, mainEntity: service.faqs.map(([question, answer]) => ({ '@type': 'Question', name: question, acceptedAnswer: { '@type': 'Answer', text: answer } })) },
+      { '@type': 'FAQPage', '@id': `${canonical}#faq`, mainEntity: service.faqs.map(([question, answer]) => ({ '@type': 'Question', name: question, acceptedAnswer: { '@type': 'Answer', text: answer.replace(/<[^>]+>/g, '') } })) },
     ],
   };
 

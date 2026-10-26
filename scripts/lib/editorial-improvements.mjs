@@ -124,6 +124,9 @@ export function improvePosts(posts) {
   addLinkedParagraph('can-you-put-tampons-in-a-porta-potty', 'Why this is a planning issue', 'Disposal bins belong in the same plan as the number of units for your crowd.', '/blog/porta-potty-ratio-guide/', 'number of units for your crowd');
   addLinkedParagraph('how-to-clean-a-porta-potty', 'When cleaning is not the answer', 'The fix is a service visit, which is often included in monthly rental prices.', '/blog/porta-potty-cost-per-month/', 'included in monthly rental prices');
   addLinkedParagraph('is-it-illegal-to-use-a-porta-potty', 'Where the real legal questions are', 'Rules differ by state, and each state planning page shows who enforces job-site sanitation.', '/location/', 'state planning page');
+  addLinkedParagraph('porta-potty-cost-per-month', 'Compliance is part of the plan', 'In states that run their own OSHA State Plan, such as Michigan, the state agency enforces the job-site rule and may set stricter requirements.', '/location/michigan/', 'Michigan');
+  addLinkedParagraph('do-you-need-a-permit-for-a-porta-potty', 'Construction sites are a special case', 'Who enforces job-site sanitation also depends on the state. In Washington, for example, the state’s own OSHA program covers private construction.', '/location/washington/', 'Washington');
+  addLinkedParagraph('porta-potty-cleaner-salary', 'What the job actually involves', 'Routes service the same equipment customers rent, from standard portable toilets to accessible units and handwashing stations.', '/service/standard-porta-potty-rental/', 'standard portable toilets');
   addLinkedParagraph('porta-potty-ratio-guide', 'Construction sites: the OSHA minimum table', 'States that run their own OSHA State Plan, such as California, enforce their own version of this table, which must be at least as effective as the federal rule.', '/location/california/', 'California', 'after');
   return posts;
 }
