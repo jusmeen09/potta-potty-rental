@@ -337,3 +337,44 @@ document.querySelectorAll('[data-print]').forEach(button => {
 document.querySelectorAll('[data-site-meta]').forEach((element) => {
   element.textContent = `${window.location.hostname || 'local'} · ${document.lastModified}`;
 });
+
+// Sizing calculator: PSAI chart lookup for events, OSHA Table D-1 for job sites,
+// and 2010 ADA counts (5%, at least one) per restroom location.
+document.querySelectorAll('[data-sizing-calc]').forEach((calc) => {
+  const chart = JSON.parse(calc.dataset.psaiChart);
+  const result = calc.querySelector('[data-sizing-result]');
+  const field = (name) => calc.querySelector(`[data-sizing-${name}]`);
+  const whole = (input, fallback) => Math.max(1, Math.floor(Number(input.value)) || fallback);
+  const plural = (count, word) => `${count} ${word}${count === 1 ? '' : 's'}`;
+
+  const eventResult = () => {
+    const crowd = whole(field('crowd'), 1);
+    const hours = Number(field('hours').value);
+    const row = chart.find(([size]) => size >= crowd);
+    if (!row) return `<strong>Over 20,000 people?</strong> Ask the vendor for a site plan; the calculator covers crowds up to 20,000.`;
+    const units = row[hours];
+    const clusters = Math.min(whole(field('clusters'), 1), units);
+    const perCluster = Math.ceil(units / clusters);
+    const accessible = clusters * Math.max(1, Math.ceil(perCluster * 0.05));
+    const basis = crowd < row[0] ? `the ${row[0].toLocaleString('en-US')}-person row, the closest chart row at or above ${crowd.toLocaleString('en-US')}` : `the ${row[0].toLocaleString('en-US')}-person row`;
+    return `<strong>${plural(units, 'unit')}</strong> as a starting point, including at least ${plural(accessible, 'accessible unit')} across ${plural(clusters, 'location')}.<span>PSAI chart, ${basis}, ${plural(hours, 'hour')}, no pumping during the event.</span>`;
+  };
+
+  const constructionResult = () => {
+    const workers = whole(field('workers'), 1);
+    if (workers <= 20) return `<strong>1 toilet facility</strong> is the OSHA minimum for ${plural(workers, 'worker')}.<span>29 CFR 1926.51(c)(1), Table D-1: 20 or fewer employees.</span>`;
+    const perGroup = workers >= 200 ? 50 : 40;
+    const count = Math.ceil(workers / perGroup);
+    return `<strong>${plural(count, 'toilet seat')} and ${plural(count, 'urinal')}</strong> is the OSHA minimum for ${workers.toLocaleString('en-US')} workers.<span>29 CFR 1926.51(c)(1), Table D-1: one seat and one urinal per ${perGroup} workers. State Plans may be stricter.</span>`;
+  };
+
+  const update = () => {
+    const mode = calc.querySelector('[data-sizing-mode]:checked').value;
+    calc.querySelectorAll('[data-sizing-fields]').forEach((group) => { group.hidden = group.dataset.sizingFields !== mode; });
+    result.innerHTML = mode === 'event' ? eventResult() : constructionResult();
+  };
+
+  calc.addEventListener('input', update);
+  calc.addEventListener('change', update);
+  update();
+});

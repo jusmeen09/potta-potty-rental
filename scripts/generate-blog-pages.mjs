@@ -50,7 +50,7 @@ const renderSection = (section, id) => {
   const subs = section.subs
     ? section.subs.map((sub) => `<h3>${sub.h3}</h3>${sub.body.map((p) => `<p>${p}</p>`).join('')}`).join('')
     : '';
-  return `<section class="post-section" id="${id}"><h2>${section.h2}</h2>${section.body.map((p) => `<p>${p}</p>`).join('')}${table}${subs}${after}</section>`;
+  return `<section class="post-section" id="${id}"><h2>${section.h2}</h2>${section.body.map((p) => `<p>${p}</p>`).join('')}${section.html || ''}${table}${subs}${after}</section>`;
 };
 
 const renderPost = (post, all) => {

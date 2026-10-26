@@ -4,6 +4,7 @@ import { siteUrl, phoneDisplay, phoneHref, organization, website, icons, clarity
 
 import { serviceGuidance } from './lib/rental-guidance.mjs';
 import { posts } from './lib/blog-posts.mjs';
+import { trailerTable, priceSummary, sourceList, pricesChecked } from './lib/price-data.mjs';
 
 const root = resolve(import.meta.dirname, '..');
 
@@ -62,15 +63,21 @@ const services = [
     kicker: 'Upgraded guest comfort',
     image: '/assets/homepage/restroom-trailer.webp',
     alt: 'Portable restroom trailer prepared for an outdoor event',
-    title: 'Restroom Trailer Rental | Star Portable Restrooms',
-    description: 'Call for portable restroom trailer rental availability and pricing for weddings, corporate events, VIP areas, and longer-term temporary facilities.',
+    title: 'Restroom Trailer Rental Cost & Options | Star Portable Restrooms',
+    description: `Restroom trailer rental cost: published prices run about ${priceSummary.trailerDay} per day and ${priceSummary.trailerWeekend} per weekend. Compare sources, utilities, and site needs.`,
     lead: 'An upgraded portable bathroom experience for weddings, corporate gatherings, VIP areas, productions, and sites where added comfort matters.',
     ideal: 'Restroom trailers provide a more finished interior and may include climate control, lighting, sinks, mirrors, and separate restroom stalls depending on the model.',
     features: ['Finished interior surfaces', 'Flushing toilets', 'Running-water sinks', 'Interior lighting', 'Climate control where equipped', 'Multiple station layouts'],
     uses: ['Weddings', 'Corporate events', 'Film and production sites', 'VIP and hospitality areas'],
     planning: ['Level trailer pad', 'Power requirements', 'Water and waste setup', 'Truck and towing access'],
+    price: {
+      heading: 'Restroom trailer rental cost',
+      intro: [`Published restroom trailer prices run from about ${priceSummary.trailerDay} per day and about ${priceSummary.trailerWeekend} for a weekend. The spread is wide because trailers range from compact units to large multi-stall models.`, 'Stall count, climate control, the number of days, delivery distance, and whether the vendor supplies water and power move the price most. These are third-party figures, not Star rates.'],
+      table: trailerTable,
+      sources: sourceList('fixr', 'royalFlush'),
+    },
     faqs: [
-      ['How much does a restroom trailer rental cost?', 'Pricing depends on trailer size, rental dates, delivery distance, utilities, service requirements, site access, and current inventory. Call for a project-specific quote.'],
+      ['How much does a restroom trailer rental cost?', `Published prices run about ${priceSummary.trailerDay} per day in a Northeast vendor’s guide and about ${priceSummary.trailerWeekend} per weekend in Fixr’s national guide. Trailer size, dates, delivery distance, utilities, and service set the actual quote, which the vendor confirms.`],
       ['Do restroom trailers need power and water?', 'Many trailers require a dedicated electrical connection and water source or supplied water option. Requirements vary by model, so utilities must be confirmed before delivery.'],
       ['What ground conditions are needed for a restroom trailer?', 'A firm, level placement area with adequate towing, turning, setup, and service clearance is typically required. Share photos and access details when available.'],
       ['Are restroom trailers climate controlled?', 'Many models offer heating or air conditioning, but features vary. Ask which trailer layouts and comfort features are available for your ZIP code and date.'],
@@ -161,6 +168,7 @@ ${header('/service/')}
   <section class="section surface"><div class="container"><div class="section-heading center"><span class="eyebrow">Where it works</span><h2>Rental support for sites, events, and temporary facilities</h2><p>Choose equipment around the people using it, the length of the rental, site conditions, and the service access available.</p></div><div class="service-use-grid">${service.uses.map((item, index) => `<article><span>0${index + 1}</span><h3>${item}</h3><p>${serviceGuidance[service.slug].planning[index]} Discuss the proposed equipment and service plan with the vendor.</p></article>`).join('')}</div><div class="call-cta"><span class="call-cta-mark" aria-hidden="true">☎</span><div class="call-cta-copy"><small>Need a recommendation?</small><strong>Call with your ZIP code, dates, and expected usage.</strong><span>We’ll help you compare quantities, servicing, placement, and availability.</span></div><a class="call-cta-phone" href="tel:${phoneHref}"><span class="call-cta-phone-icon" aria-hidden="true">☎</span><span><small>Call the rental desk</small><strong>${phoneDisplay}</strong></span></a></div></div></section>
 
 
+  ${service.price ? `<section class="section" id="cost"><div class="container"><div class="section-heading"><span class="eyebrow">Published prices</span><h2>${service.price.heading}</h2>${service.price.intro.map((p) => `<p>${p}</p>`).join('')}</div><div class="post-table-wrap"><table class="post-table"><caption>${service.price.table.caption}</caption><thead><tr>${service.price.table.head.map((h) => `<th scope="col">${h}</th>`).join('')}</tr></thead><tbody>${service.price.table.rows.map((r) => `<tr>${r.map((c, i) => (i === 0 ? `<th scope="row">${c}</th>` : `<td>${c}</td>`)).join('')}</tr>`).join('')}</tbody></table></div><p class="service-price-sources">Sources, checked ${pricesChecked}: ${service.price.sources.map(([label, href]) => `<a href="${href}" target="_blank" rel="noopener">${label}</a>`).join(' · ')}. Your vendor confirms the actual price.</p></div></section>` : ''}
   <section class="section"><div class="container"><div class="section-heading"><span class="eyebrow">Before booking</span><h2>Compare specifications and quote inclusions</h2><p>Request the specification sheet and written terms for the actual equipment proposed. Star does not own equipment or set vendor rental rates.</p></div><div class="post-table-wrap"><table class="post-table"><caption>Questions for your ${service.shortName} provider</caption><thead><tr><th scope="col">Detail</th><th scope="col">What to confirm</th></tr></thead><tbody>${serviceGuidance[service.slug].rows.map(([label, answer]) => `<tr><th scope="row">${label}</th><td>${answer}</td></tr>`).join('')}</tbody></table></div></div></section>
   <section class="section surface"><div class="container"><div class="section-heading"><span class="eyebrow">Planning resources</span><h2>Useful guides before requesting a quote</h2></div><div class="service-hub-guides">${serviceGuidance[service.slug].guides.map(slug => { const post = posts.find(p => p.slug === slug); return `<a href="/blog/${slug}/"><span>${post.category}</span><h3>${post.title}</h3><strong>Read the guide →</strong></a>`; }).join('')}</div></div></section>
 

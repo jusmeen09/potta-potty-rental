@@ -1,5 +1,6 @@
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { seasonFor, oshaFor } from './lib/state-data.mjs';
+import { priceSummary, priceSources, pricesChecked } from './lib/price-data.mjs';
 import { header, footer, organization } from './lib/site.mjs';
 import { posts as blogPosts } from './lib/blog-posts.mjs';
 import { dirname, resolve } from 'node:path';
@@ -83,7 +84,7 @@ const listSentence = (items) => `${items.slice(0, -1).join(', ')}, and ${items.a
 const stateDescription = (state) => {
   const describe = (cities) => {
     const cityList = cities.length > 1 ? `${cities.slice(0, -1).join(', ')} & ${cities.at(-1)}` : cities[0];
-    return `Porta potty rental inquiries in ${state.name}: ${cityList}. Compare equipment and planning guidance; vendors confirm coverage and quotes.`;
+    return `Porta potty rental in ${state.name}: ${cityList}. Published prices from ${priceSummary.standardDay}/day, permit checks, and OSHA rules; vendors confirm quotes.`;
   };
   const candidates = [3, 2, 1].map((count) => describe(state.cities.slice(0, count)));
   return candidates.find((text) => text.length <= 160) ?? candidates.at(-1);
@@ -103,7 +104,7 @@ const offerCatalog = {
 };
 
 const stateFaqs = (state, season, osha) => [
-  { q: `How much does porta potty rental cost in ${state.name}?`, a: `Pricing in ${state.name} depends on the delivery ZIP code, unit type, quantity, rental period, service frequency, site access, and travel requirements. Call with your dates and address for current availability and a project-specific price.` },
+  { q: `How much does porta potty rental cost in ${state.name}?`, a: `Published guides put a standard unit at about ${priceSummary.standardDay} for one day and ${priceSummary.standardMonth} a month; these are national and regional figures, not ${state.name} quotes or Star rates. The delivery ZIP code, unit type, quantity, service frequency, and site access set the actual price. Call with your dates and address for a vendor quote.` },
   { q: `How do I find a porta potty rental near me in ${state.name}?`, a: `Share your ${state.name} delivery ZIP code, preferred dates, project type, and expected attendance or crew size. Star passes inquiries to providers. The vendor confirms coverage, price, delivery, pickup, and servicing for the address.` },
   { q: `Can I rent portable toilets for construction sites in ${state.name}?`, a: `Construction rentals can include standard units, accessible portable restrooms, handwashing stations, scheduled pumping and cleaning, supply restocking, and pickup. Service frequency is planned around crew size and usage.` },
   { q: `Do you offer restroom trailer rental in ${state.name}?`, a: `Restroom trailer availability varies by ZIP code, date, trailer size, and site requirements. Power, water, level placement, and truck access should be reviewed before delivery.` },
@@ -131,7 +132,7 @@ const stateSchema = (state, title, description, faqs) => ({
 });
 
 const statePage = (state) => {
-  const title = `Porta Potty Rental in ${state.name} | Star Portable Restrooms`;
+  const title = `Porta Potty Rental in ${state.name}: Prices & Permits | Star Portable Restrooms`;
   const description = stateDescription(state);
   const season = seasonFor(state.name);
   const osha = oshaFor(state.name);
@@ -231,6 +232,21 @@ ${header('/location/')}
         ${state.cities.map(city => `<article class="metro-card"><h3>${escapeHtml(city)}</h3><p>For a request in ${escapeHtml(city)}, share the exact address, dates, equipment needs, and access details. A local vendor must confirm coverage, lead time, and the service schedule.</p></article>`).join('')}
       </div>
       <p class="metro-note">This is a planning directory, not a promise of statewide delivery. Vendor coverage, equipment, and timing must be confirmed for each address, including ${escapeHtml(state.capital)} and rural areas.</p>
+    </div>
+  </section>
+
+  <section class="section" id="prices-permits">
+    <div class="container">
+      <div class="section-heading"><span class="eyebrow">Budget and approvals</span><h2>Porta Potty Rental Prices and Permits in ${escapeHtml(state.name)}</h2><p>Star does not publish ${escapeHtml(state.name)} rates. The ranges below come from published national and regional guides, so use them to sanity-check a vendor quote for your address.</p></div>
+      <div class="post-table-wrap"><table class="post-table"><caption>Published price ranges, checked ${pricesChecked}. Not ${escapeHtml(state.name)}-specific and not Star rates.</caption><thead><tr><th scope="col">Rental</th><th scope="col">Published range</th></tr></thead><tbody>
+        <tr><th scope="row">Standard unit, one day</th><td>About ${priceSummary.standardDay}</td></tr>
+        <tr><th scope="row">ADA-accessible unit, one day</th><td>About ${priceSummary.adaDay}</td></tr>
+        <tr><th scope="row">Standard unit, one month</th><td>About ${priceSummary.standardMonth}</td></tr>
+        <tr><th scope="row">Restroom trailer, one day</th><td>About ${priceSummary.trailerDay}</td></tr>
+      </tbody></table></div>
+      <p class="service-price-sources">Sources: <a href="${priceSources.fixr.href}" target="_blank" rel="noopener">${priceSources.fixr.label}</a> · <a href="${priceSources.royalFlush.href}" target="_blank" rel="noopener">${priceSources.royalFlush.label}</a> · <a href="${priceSources.premier.href}" target="_blank" rel="noopener">${priceSources.premier.label}</a>. See the <a href="/blog/porta-potty-cost-per-day/">one-day price comparison</a> and <a href="/blog/porta-potty-cost-per-month/">monthly price guide</a> for each source’s figures.</p>
+      <h3>Permits for portable toilets in ${escapeHtml(state.name)}</h3>
+      <p>Ask the city or county office responsible for the delivery address whether the placement needs approval${state.cities[0] === state.capital ? `, in ${escapeHtml(state.capital)} or elsewhere in ${escapeHtml(state.name)}` : `, for example in ${escapeHtml(state.cities[0])}, ${escapeHtml(state.capital)}, or a smaller community`}. Placements on a street, sidewalk, park, or event site are the cases to check first, and private land is not automatically exempt. Read <a href="/blog/do-you-need-a-permit-for-a-porta-potty/">when a porta potty needs a permit</a>, or use <a href="https://www.usa.gov/local-governments" target="_blank" rel="noopener">USAGov’s local government finder</a> to reach the right office.</p>
     </div>
   </section>
 

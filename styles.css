@@ -7106,3 +7106,134 @@ main .section-sm h2 + p {
   .post-table-wrap { overflow: visible; }
   .reveal { opacity: 1 !important; transform: none !important; }
 }
+
+/* Sizing calculator on the ratio guide */
+.sizing-calc {
+  display: grid;
+  gap: 18px;
+  margin: 8px 0 22px;
+  padding: 26px 28px;
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--blue);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+}
+
+.sizing-calc-mode {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 22px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.sizing-calc-mode legend,
+.sizing-calc-fields label > span {
+  margin-bottom: 8px;
+  color: #354b62;
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.sizing-calc-mode label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.sizing-calc-mode input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--blue);
+}
+
+.sizing-calc-fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 14px;
+}
+
+.sizing-calc-fields[hidden] {
+  display: none;
+}
+
+.sizing-calc-fields label {
+  display: grid;
+}
+
+.sizing-calc-fields input,
+.sizing-calc-fields select {
+  width: 100%;
+  min-height: 52px;
+  padding: 0 14px;
+  border: 1px solid #cbd9e6;
+  border-radius: 12px;
+  color: var(--ink);
+  background: var(--white);
+  font: inherit;
+}
+
+.sizing-calc-fields input:focus,
+.sizing-calc-fields select:focus {
+  border-color: var(--blue);
+  outline: 0;
+  box-shadow: 0 0 0 4px rgba(9, 103, 210, 0.12);
+}
+
+.sizing-calc-result {
+  display: block;
+  padding: 18px 20px;
+  border-radius: 12px;
+  color: var(--ink);
+  background: var(--white);
+  font-size: 1.02rem;
+  line-height: 1.55;
+}
+
+.sizing-calc-result strong {
+  color: var(--blue-dark);
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+}
+
+.sizing-calc-result span {
+  display: block;
+  margin-top: 6px;
+  color: var(--ink-soft);
+  font-size: 0.86rem;
+}
+
+.sizing-calc-call {
+  justify-self: start;
+}
+
+.sizing-calc-note {
+  color: var(--ink-soft);
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+
+@media (max-width: 600px) {
+  .sizing-calc {
+    padding: 20px 18px;
+  }
+
+  .sizing-calc-call {
+    justify-self: stretch;
+    text-align: center;
+  }
+}
+
+.service-price-sources {
+  margin-top: 4px;
+  color: var(--ink-soft);
+  font-size: 0.86rem;
+  line-height: 1.6;
+}
