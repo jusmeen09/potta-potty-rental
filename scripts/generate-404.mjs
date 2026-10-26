@@ -22,21 +22,20 @@ ${header()}
 <main id="main">
   <section class="page-hero">
     <div class="container page-hero-inner">
-      <span class="eyebrow eyebrow-light">Error 404</span>
       <h1>We could not find that page.</h1>
       <p>The link may be out of date or mistyped. The rental desk is still one call away, and the pages below cover most of what people are looking for.</p>
-      <div class="page-hero-actions"><a class="btn btn-call" href="tel:${phoneHref}">☎ Call ${phoneDisplay}</a><a class="btn btn-outline" href="/">Back to home</a></div>
+      <div class="page-hero-actions"><a class="btn btn-call" href="tel:${phoneHref}"><svg class="icon-phone" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25c1.1.37 2.3.57 3.6.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1L6.6 10.8z"/></svg>Call ${phoneDisplay}</a><a class="btn btn-outline" href="/">Back to home</a></div>
     </div>
   </section>
 
   <section class="section">
     <div class="container">
-      <div class="section-heading center"><span class="eyebrow">Popular pages</span><h2>Try one of these instead</h2></div>
+      <div class="section-heading center"><h2>Try one of these instead</h2></div>
       <div class="service-hub-guides">
-        <a href="/service/"><span>Rentals</span><h3>All rental services</h3><strong>Compare options →</strong></a>
-        <a href="/location/"><span>Coverage</span><h3>Availability by state</h3><strong>Browse locations →</strong></a>
-        <a href="/blog/"><span>Guides</span><h3>Rental planning guides</h3><strong>Read the guides →</strong></a>
-        <a href="/contact/"><span>Contact</span><h3>Talk to the rental desk</h3><strong>Get in touch →</strong></a>
+        <a href="/service/"><span>Rentals</span><h3>All rental services</h3><strong>Compare options</strong></a>
+        <a href="/location/"><span>Coverage</span><h3>Availability by state</h3><strong>Browse locations</strong></a>
+        <a href="/blog/"><span>Guides</span><h3>Rental planning guides</h3><strong>Read the guides</strong></a>
+        <a href="/contact/"><span>Contact</span><h3>Talk to the rental desk</h3><strong>Get in touch</strong></a>
       </div>
     </div>
   </section>

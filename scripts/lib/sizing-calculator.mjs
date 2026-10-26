@@ -35,6 +35,6 @@ export const sizingCalculator = (phoneHref, phoneDisplay) => `<div class="sizing
     <label><span>Workers on site</span><input type="number" inputmode="numeric" min="1" max="5000" step="1" value="25" data-sizing-workers /></label>
   </div>
   <output class="sizing-calc-result" aria-live="polite" data-sizing-result>Use the PSAI chart and OSHA table below to estimate your count.</output>
-  <a class="btn btn-call sizing-calc-call" href="tel:${phoneHref}">☎ Call ${phoneDisplay}</a>
+  <a class="btn btn-call sizing-calc-call" href="tel:${phoneHref}"><svg class="icon-phone" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25c1.1.37 2.3.57 3.6.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1L6.6 10.8z"/></svg>Call ${phoneDisplay}</a>
   <small class="sizing-calc-note">A starting point from published charts, not a permit minimum. Alcohol, heat, peak arrivals, food service, and local permit conditions can raise the count; confirm the plan with your vendor.</small>
 </div>`;

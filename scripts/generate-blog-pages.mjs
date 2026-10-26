@@ -180,26 +180,24 @@ ${header('/blog/')}
         <section class="post-author" aria-label="About the author">
           <img src="/assets/logo-mark.png" alt="" width="64" height="64" loading="lazy" />
           <div>
-            <span class="eyebrow">About the author</span>
             <h2>${authorName}</h2>
             <p>${authorBio}</p>
             <p class="post-author-meta">Last edited <time datetime="${post.updated}">${formatDate(post.updated)}</time>. This guide is general planning information; confirm site requirements with the relevant authority.</p>
-            <a class="text-link" href="/about/">About Star <span class="arrow">→</span></a>
+            <a class="text-link" href="/about/">About Star</a>
           </div>
         </section>
       </div>
 
       <aside class="post-aside">
         <div class="post-cta-card">
-          <span class="eyebrow eyebrow-light">Rental desk · 7 days a week</span>
           <h2>Planning a rental?</h2>
           <p>Call with your delivery ZIP code, dates, and expected crew size or attendance.</p>
-          <a class="btn btn-call" href="tel:${phoneHref}">☎ Call ${phoneDisplay}</a>
+          <a class="btn btn-call" href="tel:${phoneHref}"><svg class="icon-phone" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25c1.1.37 2.3.57 3.6.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1L6.6 10.8z"/></svg>Call ${phoneDisplay}</a>
         </div>
       </aside>
     </div>
 
-    ${related.length ? `<section class="section post-related"><div class="container"><div class="section-heading"><span class="eyebrow">Keep planning</span><h2>Related guides</h2></div><div class="post-related-grid">${related.map((r) => `<a href="/blog/${r.slug}/"><img src="${r.image}" alt="" loading="lazy" width="600" height="338" /><span>${r.category}</span><h3>${r.title}</h3><strong>Read the guide →</strong></a>`).join('')}</div></div></section>` : ''}
+    ${related.length ? `<section class="section post-related"><div class="container"><div class="section-heading"><h2>Related guides</h2></div><div class="post-related-grid">${related.map((r) => `<a href="/blog/${r.slug}/"><img src="${r.image}" alt="" loading="lazy" width="600" height="338" /><span>${r.category}</span><h3>${r.title}</h3><strong>Read the guide</strong></a>`).join('')}</div></div></section>` : ''}
 
     <section class="section-sm"><div class="container cta-panel" style="--cta-image: url('${post.image}');"><div class="cta-panel-inner"><div><h2>Check availability for your site</h2><p>Call with your delivery ZIP code, dates, project type, and estimated attendance or crew size.</p></div><a class="btn btn-white cta-phone" href="tel:${phoneHref}"><span>Call the rental desk</span><strong>${phoneDisplay}</strong></a></div></div></section>
   </article>

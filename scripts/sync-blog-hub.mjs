@@ -36,7 +36,7 @@ const rest = posts.filter((post) => post.slug !== featured.slug).sort((a, b) => 
 const cards = rest.map((post) => `
             <article class="blog-card" data-blog-card data-category="${filterGroup(post.category)}">
               <div class="blog-card-visual"><img src="${post.image}" alt="${post.alt}" loading="lazy" /></div>
-              <div class="blog-card-content"><div class="blog-meta"><span class="tag">${post.category}</span><span>${post.readTime} min read</span></div><h3><a href="/blog/${post.slug}/">${post.title}</a></h3><p>${post.description}</p><a class="text-link" href="/blog/${post.slug}/">Read the guide <span class="arrow">→</span></a></div>
+              <div class="blog-card-content"><div class="blog-meta"><span class="tag">${post.category}</span><span>${post.readTime} min read</span></div><h3><a href="/blog/${post.slug}/">${post.title}</a></h3><p>${post.description}</p><a class="text-link" href="/blog/${post.slug}/">Read the guide</a></div>
             </article>`).join('');
 
 const filters = `
