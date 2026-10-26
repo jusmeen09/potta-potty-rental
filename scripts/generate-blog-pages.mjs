@@ -2,6 +2,7 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { siteUrl, phoneDisplay, phoneHref, organization, website, icons, clarity, header, footer, escapeLd } from './lib/site.mjs';
 import { posts } from './lib/blog-posts.mjs';
+import { pageHead, callSheet, callButton, sheetLink } from './lib/catalogue.mjs';
 
 const root = resolve(import.meta.dirname, '..');
 
@@ -130,27 +131,19 @@ const renderPost = (post, all) => {
 </head>
 <body class="post-page">
 ${header('/blog/')}
-<main id="main">
+<main id="main" class="catalogue cat-page">
   <article class="post">
-    <header class="post-hero">
-      <div class="container post-hero-inner">
-        <div class="breadcrumb"><a href="/">Home</a><span>/</span><a href="/blog/">Blog</a><span>/</span><span>${post.category}</span></div>
-        <span class="eyebrow">${post.category}</span>
-        <h1>${post.title}</h1>
-        <p class="post-dek">${post.dek}</p>
-        <div class="post-byline">
-          <img class="post-byline-mark" src="/assets/logo-mark.png" alt="" width="44" height="44" loading="lazy" />
-          <div>
-            <strong>${authorName}</strong>
-            <small>Published <time datetime="${post.published}">${formatDate(post.published)}</time> · Updated <time datetime="${post.updated}">${formatDate(post.updated)}</time> · ${post.readTime} min read</small>
-          </div>
-        </div>
-      </div>
-    </header>
+    ${pageHead({
+      crumbs: [['/', 'Home'], ['/blog/', 'Guides'], ['', post.category]],
+      title: post.title,
+      lede: post.dek,
+      actions: `<p class="cat-byline"><strong>${authorName}</strong> <span>Published <time datetime="${post.published}">${formatDate(post.published)}</time>. Updated <time datetime="${post.updated}">${formatDate(post.updated)}</time>. ${post.readTime} min read.</span></p>`,
+      extraClass: 'cat-head--text cat-head--post',
+    })}
 
-    <figure class="post-figure"><div class="container"><img src="${post.image}" alt="${post.alt}" fetchpriority="high" sizes="(max-width: 1240px) calc(100vw - 32px), 1240px" /></div></figure>
+    <figure class="post-figure"><div class="cat-wrap"><img src="${post.image}" alt="${post.alt}" fetchpriority="high" sizes="(max-width: 1320px) calc(100vw - 32px), 1180px" /></div></figure>
 
-    <div class="container post-layout">
+    <div class="cat-wrap post-layout">
       <div class="post-body">
         <aside class="post-takeaways" aria-label="Key takeaways">
           <h2>Key takeaways</h2>
@@ -189,17 +182,18 @@ ${header('/blog/')}
       </div>
 
       <aside class="post-aside">
-        <div class="post-cta-card">
-          <h2>Planning a rental?</h2>
-          <p>Call with your delivery ZIP code, dates, and expected crew size or attendance.</p>
-          <a class="btn btn-call" href="tel:${phoneHref}"><svg class="icon-phone" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25c1.1.37 2.3.57 3.6.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1L6.6 10.8z"/></svg>Call ${phoneDisplay}</a>
+        <div class="cat-label post-desk">
+          <h2 class="cat-label__name">Planning a rental?</h2>
+          <p>Call with your delivery ZIP code, dates, and expected crew size or attendance. The desk is open 7 days a week.</p>
+          ${callButton(`Call ${phoneDisplay}`, 'post_aside')}
+          ${sheetLink()}
         </div>
       </aside>
     </div>
 
-    ${related.length ? `<section class="section post-related"><div class="container"><div class="section-heading"><h2>Related guides</h2></div><div class="post-related-grid">${related.map((r) => `<a href="/blog/${r.slug}/"><img src="${r.image}" alt="" loading="lazy" width="600" height="338" /><span>${r.category}</span><h3>${r.title}</h3><strong>Read the guide</strong></a>`).join('')}</div></div></section>` : ''}
+    ${related.length ? `<section class="cat-section" aria-labelledby="related-guides"><div class="cat-wrap cat-split"><div><h2 id="related-guides">Related guides</h2><p>Keep planning with the guides closest to this one.</p></div><ul class="cat-links">${related.map((r) => `<li><a href="/blog/${r.slug}/"><span>${r.category}</span><strong>${r.title}</strong></a></li>`).join('')}</ul></div></section>` : ''}
 
-    <section class="section-sm"><div class="container cta-panel" style="--cta-image: url('${post.image}');"><div class="cta-panel-inner"><div><h2>Check availability for your site</h2><p>Call with your delivery ZIP code, dates, project type, and estimated attendance or crew size.</p></div><a class="btn btn-white cta-phone" href="tel:${phoneHref}"><span>Call the rental desk</span><strong>${phoneDisplay}</strong></a></div></div></section>
+    ${callSheet()}
   </article>
 </main>
 ${footer}

@@ -28,6 +28,14 @@ All content pages are therefore directories with an `index.html`, including Abou
 
 Use [STYLE.md](STYLE.md) as the source of truth for typography, spacing, CTA treatment, responsive behavior, and cross-page consistency. Shared font families and type sizes are defined as tokens in `:root` in `styles.css`; avoid adding page-specific values for the same content role.
 
+## Homepage catalogue
+
+The homepage is a catalogue of the four units with a client-side call sheet. It is still hand-maintained in `index.html`, and its page code lives in `styles.css` and `script.js` under `.catalogue`.
+
+- `assets/vendor/scrollcraft-1.min.{js,css}` is the scroll engine, copied unmodified and minified. Do not edit it; change the page markup or the `.catalogue` styles instead. A new engine version gets a new filename, because only `assets/site-*` files are cache-busted.
+- `assets/catalogue/` holds alpha cutouts of the standard unit, restroom trailer and handwashing station. The ADA unit is shown as a plan drawing because the available ADA photo does not show accessibility features.
+- Unit prices on the homepage must match `scripts/lib/price-data.mjs`. Internal pages render the same unit labels, pickers and call sheet from `scripts/lib/catalogue.mjs`. The call sheet stores its contents in the visitor's browser only and sends nothing; its analytics event carries a unit count and no input values.
+
 ## Primary conversion
 
 - Customer-facing phone number: `+1 (833) 920-1299`

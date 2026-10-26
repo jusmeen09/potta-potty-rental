@@ -19,8 +19,8 @@ const page = `<!doctype html>
 </head>
 <body class="error-page">
 ${header()}
-<main id="main">
-  <section class="page-hero">
+<main id="main" class="catalogue cat-page">
+  <section class="page-hero" data-page-head>
     <div class="container page-hero-inner">
       <h1>We could not find that page.</h1>
       <p>The link may be out of date or mistyped. The rental desk is still one call away, and the pages below cover most of what people are looking for.</p>

@@ -1,6 +1,7 @@
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { siteUrl, phoneDisplay, phoneHref, organization, website, icons, clarity, header, footer, escapeLd } from './lib/site.mjs';
+import { unitBySlug, units, pageHead, unitFigure, unitLabel, unitStrip, callSheet, callButton, sheetLink } from './lib/catalogue.mjs';
 
 import { serviceGuidance } from './lib/rental-guidance.mjs';
 import { posts } from './lib/blog-posts.mjs';
@@ -110,7 +111,7 @@ const services = [
 
 const renderPage = (service) => {
   const canonical = `${siteUrl}/service/${service.slug}/`;
-  const related = services.filter((item) => item.slug !== service.slug);
+  const unit = unitBySlug(service.slug);
   const schema = {
     '@context': 'https://schema.org',
     '@graph': [
@@ -139,45 +140,42 @@ const renderPage = (service) => {
   <meta name="twitter:card" content="summary_large_image" />
   <title>${service.title}</title>
   ${icons}
-  <link rel="preload" as="image" href="${service.image}" fetchpriority="high" />
+  ${unit.image ? `<link rel="preload" as="image" href="${unit.image.src}" imagesrcset="${unit.image.srcset}" imagesizes="${unit.wide ? '(max-width: 860px) 90vw, 40vw' : '(max-width: 860px) 52vw, 22vw'}" fetchpriority="high" />` : ''}
   <link rel="stylesheet" href="/styles.css" />
   ${clarity}
   <script type="application/ld+json">${escapeLd(schema)}</script>
 </head>
 <body class="service-page" data-service="${service.slug}">
 ${header('/service/')}
-<main id="main">
-  <section class="service-hero">
-    <div class="container service-hero-grid">
-      <div class="service-hero-copy">
-        <div class="breadcrumb service-breadcrumb"><a href="/">Home</a><span>/</span><a href="/service/">Rental services</a><span>/</span><span>${service.shortName}</span></div>
-        <h1>${service.name}</h1>
-        <p>${service.lead}</p>
-        <div class="service-hero-actions"><a class="btn btn-call" href="tel:${phoneHref}"><svg class="icon-phone" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25c1.1.37 2.3.57 3.6.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1L6.6 10.8z"/></svg>Call ${phoneDisplay}</a><a class="btn btn-location-secondary" href="#details">See rental details</a></div>
-        <div class="service-hero-proof"><span>✓ Vendor coverage by ZIP</span><span>✓ Flexible rental periods</span><span>✓ Vendor-confirmed delivery</span></div>
-      </div>
-      <figure class="service-hero-visual"><img src="${service.image}" alt="${service.alt}" fetchpriority="high" /><figcaption><span>Rental inquiry service</span><strong>Star passes rental inquiries to local providers. Your vendor confirms availability and pricing.</strong><a href="tel:${phoneHref}">${phoneDisplay}</a></figcaption></figure>
-    </div>
-  </section>
+<main id="main" class="catalogue cat-page">
+  ${pageHead({
+    crumbs: [['/', 'Home'], ['/service/', 'Rental services'], ['', service.shortName]],
+    title: service.name,
+    lede: service.lead,
+    actions: `${callButton(`Call ${phoneDisplay}`, 'service_head')}${sheetLink()}`,
+    aside: `${unitFigure(unit, unit.wide ? '(max-width: 860px) 90vw, 40vw' : '(max-width: 860px) 52vw, 22vw', true)}${unitLabel(unit, { level: 'h2', link: false })}`,
+    extraClass: `cat-head--object${unit.wide ? ' is-wide' : ''}`,
+  })}
 
-  <section class="service-facts" aria-label="Rental planning essentials"><div class="container service-facts-grid">${service.planning.map((item, index) => `<div><strong>${item}</strong><small>${serviceGuidance[service.slug].planning[index]}</small></div>`).join('')}</div></section>
+  <section class="cat-section" aria-labelledby="before-title"><div class="cat-wrap"><h2 id="before-title">Before delivery</h2><dl class="cat-facts">${service.planning.map((item, index) => `<div><dt>${item}</dt><dd>${serviceGuidance[service.slug].planning[index]}.</dd></div>`).join('')}</dl></div></section>
 
-  <section class="section service-intro" id="details"><div class="container service-intro-grid"><div><h2>When ${service.shortName} makes sense</h2><p>${service.ideal}</p><p>Star helps you make a rental inquiry to a local provider. The provider confirms the model, inventory, delivery, servicing, and final quote for your address.</p><a class="text-link" href="tel:${phoneHref}">Discuss your rental by phone</a></div><aside class="service-check-card"><span class="service-card-label">Features to confirm</span><h3>What to expect</h3><ul>${service.features.map((item) => `<li><span>✓</span>${item}</li>`).join('')}</ul><small>Representative equipment only. Exact models, features, and inventory are confirmed by the vendor.</small></aside></div></section>
+  <section class="cat-section cat-section--surface" id="details"><div class="cat-wrap cat-split"><div><h2>When ${service.shortName} makes sense</h2><p>${service.ideal}</p><p>Star helps you make a rental inquiry to a local provider. The provider confirms the model, inventory, delivery, servicing, and final quote for your address.</p></div><div><h3 class="cat-subhead">Features to confirm</h3><ul class="cat-list cat-list--one">${service.features.map((item) => `<li>${item}</li>`).join('')}</ul><p class="cat-fine">Representative equipment only. Exact models, features, and inventory are confirmed by the vendor.</p></div></div></section>
 
-  <section class="section surface"><div class="container"><div class="section-heading center"><h2>Rental support for sites, events, and temporary facilities</h2><p>Choose equipment around the people using it, the length of the rental, site conditions, and the service access available.</p></div><div class="service-use-grid">${service.uses.map((item, index) => `<article><h3>${item}</h3><p>${serviceGuidance[service.slug].uses[index]}</p></article>`).join('')}</div><div class="call-cta"><span class="call-cta-mark" aria-hidden="true"><svg class="icon-phone" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25c1.1.37 2.3.57 3.6.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1L6.6 10.8z"/></svg></span><div class="call-cta-copy"><small>Need a recommendation?</small><strong>Call with your ZIP code, dates, and expected usage.</strong><span>We’ll help you compare quantities, servicing, placement, and availability.</span></div><a class="call-cta-phone" href="tel:${phoneHref}"><span class="call-cta-phone-icon" aria-hidden="true"><svg class="icon-phone" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25c1.1.37 2.3.57 3.6.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1L6.6 10.8z"/></svg></span><span><small>Call the rental desk</small><strong>${phoneDisplay}</strong></span></a></div></div></section>
+  <section class="cat-section"><div class="cat-wrap"><h2>Rental support for sites, events, and temporary facilities</h2><p>Choose equipment around the people using it, the length of the rental, site conditions, and the service access available.</p><ul class="cat-list">${service.uses.map((item, index) => `<li><h3>${item}</h3><p>${serviceGuidance[service.slug].uses[index]}</p></li>`).join('')}</ul></div></section>
 
+  ${service.price ? `<section class="cat-section" id="cost"><div class="cat-wrap"><div class="section-heading"><h2>${service.price.heading}</h2>${service.price.intro.map((p) => `<p>${p}</p>`).join('')}</div><div class="post-table-wrap"><table class="post-table"><caption>${service.price.table.caption}</caption><thead><tr>${service.price.table.head.map((h) => `<th scope="col">${h}</th>`).join('')}</tr></thead><tbody>${service.price.table.rows.map((r) => `<tr>${r.map((c, i) => (i === 0 ? `<th scope="row">${c}</th>` : `<td>${c}</td>`)).join('')}</tr>`).join('')}</tbody></table></div><p class="service-price-sources">Sources, checked ${pricesChecked}: ${service.price.sources.map(([label, href]) => `<a href="${href}" target="_blank" rel="noopener">${label}</a>`).join(' · ')}. Your vendor confirms the actual price.</p></div></section>` : ''}
 
-  ${service.price ? `<section class="section" id="cost"><div class="container"><div class="section-heading"><h2>${service.price.heading}</h2>${service.price.intro.map((p) => `<p>${p}</p>`).join('')}</div><div class="post-table-wrap"><table class="post-table"><caption>${service.price.table.caption}</caption><thead><tr>${service.price.table.head.map((h) => `<th scope="col">${h}</th>`).join('')}</tr></thead><tbody>${service.price.table.rows.map((r) => `<tr>${r.map((c, i) => (i === 0 ? `<th scope="row">${c}</th>` : `<td>${c}</td>`)).join('')}</tr>`).join('')}</tbody></table></div><p class="service-price-sources">Sources, checked ${pricesChecked}: ${service.price.sources.map(([label, href]) => `<a href="${href}" target="_blank" rel="noopener">${label}</a>`).join(' · ')}. Your vendor confirms the actual price.</p></div></section>` : ''}
-  <section class="section"><div class="container"><div class="section-heading"><h2>Compare specifications and quote inclusions</h2><p>Request the specification sheet and written terms for the actual equipment proposed. Star does not own equipment or set vendor rental rates.</p></div><div class="post-table-wrap"><table class="post-table"><caption>Questions for your ${service.shortName} provider</caption><thead><tr><th scope="col">Detail</th><th scope="col">What to confirm</th></tr></thead><tbody>${serviceGuidance[service.slug].rows.map(([label, answer]) => `<tr><th scope="row">${label}</th><td>${answer}</td></tr>`).join('')}</tbody></table></div></div></section>
-  <section class="section surface"><div class="container"><div class="section-heading"><h2>Useful guides before requesting a quote</h2></div><div class="service-hub-guides">${serviceGuidance[service.slug].guides.map(slug => { const post = posts.find(p => p.slug === slug); return `<a href="/blog/${slug}/"><span>${post.category}</span><h3>${post.title}</h3><strong>Read the guide</strong></a>`; }).join('')}</div></div></section>
+  <section class="cat-section cat-section--surface"><div class="cat-wrap"><div class="section-heading"><h2>Compare specifications and quote inclusions</h2><p>Request the specification sheet and written terms for the actual equipment proposed. Star does not own equipment or set vendor rental rates.</p></div><div class="post-table-wrap"><table class="post-table"><caption>Questions for your ${service.shortName} provider</caption><thead><tr><th scope="col">Detail</th><th scope="col">What to confirm</th></tr></thead><tbody>${serviceGuidance[service.slug].rows.map(([label, answer]) => `<tr><th scope="row">${label}</th><td>${answer}</td></tr>`).join('')}</tbody></table></div></div></section>
 
-  <section class="section service-process"><div class="container service-process-grid"><div><h2>From availability check to final pickup</h2><p>Share the request with Star, then confirm the equipment, written quote, and service arrangements with the selected provider.</p></div><ol><li><span>01</span><div><h3>Share the site details</h3><p>Provide the ZIP code, dates, expected usage, surface, gate, and truck-access information.</p></div></li><li><span>02</span><div><h3>Confirm equipment and service</h3><p>Review availability, quantity, delivery timing, servicing frequency, and project-specific pricing.</p></div></li><li><span>03</span><div><h3>Coordinate delivery and pickup</h3><p>Keep the placement area accessible and notify the team if site conditions or timing change.</p></div></li></ol></div></section>
+  <section class="cat-section"><div class="cat-wrap cat-split"><div><h2>Useful guides before requesting a quote</h2><p>Plan the count, the budget and the site before you call.</p></div><ul class="cat-links">${serviceGuidance[service.slug].guides.map(slug => { const post = posts.find(p => p.slug === slug); return `<li><a href="/blog/${slug}/"><span>${post.category}</span><strong>${post.title}</strong></a></li>`; }).join('')}</ul></div></section>
 
-  <section class="section surface"><div class="container faq-wrap"><div><h2>${service.name} FAQs</h2><p>Clear answers for planning quantities, placement, service, delivery, and pricing.</p><a class="btn btn-call" href="tel:${phoneHref}"><svg class="icon-phone" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25c1.1.37 2.3.57 3.6.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1L6.6 10.8z"/></svg>Call ${phoneDisplay}</a></div><div class="faq-list">${service.faqs.map(([question, answer], index) => `<article class="faq-item${index === 0 ? ' open' : ''}" data-faq-item><button class="faq-question" type="button" aria-expanded="${index === 0}" data-faq-button>${question}<span class="faq-plus">+</span></button><div class="faq-answer"><div><p>${answer}</p></div></div></article>`).join('')}</div></div></section>
+  <section class="cat-section cat-section--surface"><div class="cat-wrap cat-split"><div><h2>From availability check to final pickup</h2><p>Share the request with Star, then confirm the equipment, written quote, and service arrangements with the selected provider.</p></div><ol class="cat-steps"><li><h3>Share the site details</h3><p>Provide the ZIP code, dates, expected usage, surface, gate, and truck-access information.</p></li><li><h3>Confirm equipment and service</h3><p>Review availability, quantity, delivery timing, servicing frequency, and project-specific pricing.</p></li><li><h3>Coordinate delivery and pickup</h3><p>Keep the placement area accessible and notify the team if site conditions or timing change.</p></li></ol></div></section>
 
-  <section class="section service-related"><div class="container"><div class="section-heading"><h2>Related portable sanitation rentals</h2><p>Build a complete setup with the unit types, accessibility, comfort, and hygiene support your site needs.</p></div><div class="service-related-grid">${related.map((item) => `<a href="/service/${item.slug}/"><img src="${item.image}" alt="" loading="lazy" /><span>${item.kicker}</span><h3>${item.shortName}</h3><strong>View rental details</strong></a>`).join('')}</div></div></section>
+  <section class="cat-section" id="faq"><div class="cat-wrap cat-split"><div><h2>${service.name} FAQs</h2><p>Clear answers for planning quantities, placement, service, delivery, and pricing.</p></div><div class="faq-list">${service.faqs.map(([question, answer], index) => `<article class="faq-item${index === 0 ? ' open' : ''}" data-faq-item><button class="faq-question" type="button" aria-expanded="${index === 0}" data-faq-button>${question}<span class="faq-plus">+</span></button><div class="faq-answer"><div><p>${answer}</p></div></div></article>`).join('')}</div></div></section>
 
-  <section class="section-sm"><div class="container cta-panel service-final-cta" style="--cta-image: url('${service.image}');"><div class="cta-panel-inner"><div><h2>Check ${service.shortName} availability</h2><p>Call with your delivery ZIP code, dates, project type, and estimated attendance or crew size.</p></div><a class="btn btn-white cta-phone" href="tel:${phoneHref}"><span>Call the rental desk</span><strong>${phoneDisplay}</strong></a></div></div></section>
+  ${unitStrip({ heading: 'Related portable sanitation rentals', intro: 'Build a complete setup with the unit types, accessibility, comfort, and hygiene support your site needs.', exclude: service.slug })}
+
+  ${callSheet()}
 </main>
 ${footer}
 <script type="module" src="/script.js"></script>
@@ -222,38 +220,20 @@ const renderHub = () => {
 </head>
 <body class="service-hub-page">
 ${header('/service/')}
-<main id="main">
-  <section class="page-hero service-hub-hero">
-    <div class="container page-hero-inner">
-      <div class="breadcrumb"><a href="/">Home</a><span>/</span><span>Rental services</span></div>
-      <h1>Portable restroom rental services</h1>
-      <p>Four rental categories covering job sites, events, accessibility requirements, and hygiene support. Availability and pricing are confirmed by delivery ZIP code.</p>
-      <div class="page-hero-actions"><a class="btn btn-call" href="tel:${phoneHref}"><svg class="icon-phone" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25c1.1.37 2.3.57 3.6.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1L6.6 10.8z"/></svg>Call ${phoneDisplay}</a><a class="btn btn-outline" href="#all-services">Compare options</a></div>
-      <div class="page-hero-proof"><span>✓ Vendor coverage by ZIP</span><span>✓ Flexible rental periods</span><span>✓ Vendor-confirmed delivery</span></div>
-    </div>
-  </section>
+<main id="main" class="catalogue cat-page">
+  ${pageHead({
+    crumbs: [['/', 'Home'], ['', 'Rental services']],
+    title: 'Portable restroom rental services',
+    lede: 'Four rental categories covering job sites, events, accessibility requirements, and hygiene support. Availability and pricing are confirmed by delivery ZIP code.',
+    actions: `${callButton(`Call ${phoneDisplay}`, 'hub_head')}${sheetLink()}`,
+    extraClass: 'cat-head--text',
+  })}
 
-  <section class="section" id="all-services">
-    <div class="container">
-      <div class="section-heading"><h2>Compare rental options</h2><p>Most sites use a mix. Pick per zone based on who uses the area, how long they are there, and what the site can support.</p></div>
-      <div class="service-hub-grid">
-        ${services.map((item) => `<article class="service-hub-card"><img src="${item.image}" alt="${item.alt}" loading="lazy" width="600" height="400" /><div><h3><a href="/service/${item.slug}/">${item.name}</a></h3><p>${item.lead}</p><ul>${item.features.slice(0, 3).map((f) => `<li>${f}</li>`).join('')}</ul><a class="text-link" href="/service/${item.slug}/">View rental details</a></div></article>`).join('')}
-      </div>
-    </div>
-  </section>
+  <section class="cat-section" id="all-services" aria-labelledby="compare-title"><div class="cat-wrap"><h2 id="compare-title">Compare rental options</h2><p>Most sites use a mix. Pick per zone based on who uses the area, how long they are there, and what the site can support.</p><ul class="cat-hub">${units.map((unit) => `<li class="cat-hub__item${unit.wide ? ' is-wide' : ''}">${unitFigure(unit, '(max-width: 860px) 60vw, 22vw')}${unitLabel(unit, { level: 'h3' })}</li>`).join('')}</ul></div></section>
 
-  <section class="section surface">
-    <div class="container">
-      <div class="section-heading center"><h2>Guides that help you size a rental</h2><p>Work out unit counts, budget, and placement before booking.</p></div>
-      <div class="service-hub-guides">
-        <a href="/blog/porta-potty-ratio-guide/"><span>Planning</span><h3>How many units do you need?</h3><strong>Read the guide</strong></a>
-        <a href="/blog/portable-toilet-rental-checklist/"><span>Planning</span><h3>Rental planning checklist</h3><strong>Read the guide</strong></a>
-        <a href="/location/"><span>Coverage</span><h3>Rental availability by state</h3><strong>Browse locations</strong></a>
-      </div>
-    </div>
-  </section>
+  <section class="cat-section cat-section--surface"><div class="cat-wrap cat-split"><div><h2>Guides that help you size a rental</h2><p>Work out unit counts, budget, and placement before booking.</p></div><ul class="cat-links"><li><a href="/blog/porta-potty-ratio-guide/"><span>Planning</span><strong>How many units do you need?</strong></a></li><li><a href="/blog/portable-toilet-rental-checklist/"><span>Planning</span><strong>Rental planning checklist</strong></a></li><li><a href="/location/"><span>Coverage</span><strong>Rental availability by state</strong></a></li></ul></div></section>
 
-  <section class="section-sm"><div class="container cta-panel" style="--cta-image: url('/assets/homepage/final-cta.webp');"><div class="cta-panel-inner"><div><h2>Check availability for your site</h2><p>Call with your delivery ZIP code, dates, project type, and estimated attendance or crew size.</p></div><a class="btn btn-white cta-phone" href="tel:${phoneHref}"><span>Call the rental desk</span><strong>${phoneDisplay}</strong></a></div></div></section>
+  ${callSheet()}
 </main>
 ${footer}
 <script type="module" src="/script.js"></script>

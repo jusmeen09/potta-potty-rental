@@ -38,7 +38,7 @@ const deskStatus = () => {
   const [opens, closes] = deskHours[weekdays.indexOf(parts.weekday)];
   const hour = Number(parts.hour) + Number(parts.minute) / 60;
 
-  if (hour >= opens && hour < closes) return { open: true, label: 'Open now · Call us' };
+  if (hour >= opens && hour < closes) return { open: true, label: 'Open now' };
   return { open: false, label: hour < opens ? 'Opens today 7 AM CT' : 'Opens tomorrow 7 AM CT' };
 };
 
@@ -189,3 +189,263 @@ document.querySelectorAll('[data-sizing-calc]').forEach((calc) => {
   calc.addEventListener('change', update);
   update();
 });
+
+// Homepage catalogue: scroll engine, hero depth, rail jumps, and the call sheet.
+// The call sheet is a note for the caller. It lives in this browser only and is
+// never sent anywhere; the only analytics event carries a unit count, no input.
+const catalogue = document.querySelector('main.catalogue');
+
+if (catalogue) {
+  const header = document.querySelector('.site-header');
+  const index = catalogue.querySelector('.cat-index');
+  const setOffsets = () => {
+    catalogue.style.setProperty('--cat-hdr', `${header ? header.offsetHeight : 0}px`);
+    catalogue.style.setProperty('--cat-index', `${index ? index.offsetHeight : 0}px`);
+  };
+  setOffsets();
+  if ('ResizeObserver' in window && header) new ResizeObserver(setOffsets).observe(header);
+
+  if (window.ScrollCraft) window.ScrollCraft.mount(catalogue);
+
+  const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+
+  // Hero depth: the field lags, the unit grows toward the viewer from its base, the type holds.
+  const hero = catalogue.querySelector('[data-cat-hero]');
+  const far = hero?.querySelector('[data-depth="far"]');
+  const unit = hero?.querySelector('[data-depth="subject"]');
+  if (hero && far && unit && !reducedMotion) {
+    const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    let heroVisible = true;
+    let pointerX = 0;
+    let pointerY = 0;
+    let easedX = 0;
+    let easedY = 0;
+    let frame = 0;
+    const paint = () => {
+      frame = 0;
+      easedX += (pointerX - easedX) * 0.12;
+      easedY += (pointerY - easedY) * 0.12;
+      const p = clamp(window.scrollY / Math.max(hero.offsetHeight, 1), 0, 1);
+      far.style.transform = `translate3d(${(easedX * -10).toFixed(2)}px, ${(p * 56 + easedY * -6).toFixed(2)}px, 0) scale(1.04)`;
+      // The unit keeps its base on the floor line: it grows from its base toward the viewer instead of lifting.
+      unit.style.transform = `translate3d(${(easedX * 18).toFixed(2)}px, 0, 0) scale(${(1 + p * 0.07 + easedY * 0.01).toFixed(4)})`;
+      if (finePointer && heroVisible && (Math.abs(pointerX - easedX) > 0.001 || Math.abs(pointerY - easedY) > 0.001)) frame = requestAnimationFrame(paint);
+    };
+    const request = () => { if (!frame && heroVisible) frame = requestAnimationFrame(paint); };
+    new IntersectionObserver(([entry]) => { heroVisible = entry.isIntersecting; request(); }).observe(hero);
+    window.addEventListener('scroll', request, { passive: true });
+    if (finePointer) {
+      hero.addEventListener('pointermove', (event) => {
+        pointerX = event.clientX / window.innerWidth - 0.5;
+        pointerY = event.clientY / window.innerHeight - 0.5;
+        request();
+      });
+      hero.addEventListener('pointerleave', () => { pointerX = 0; pointerY = 0; request(); });
+    }
+    paint();
+  }
+
+  // Rail: index links and keyboard focus bring the right unit to the centre.
+  const panAct = catalogue.querySelector('[data-sc-act="pan"]');
+  const rail = panAct?.querySelector('[data-sc-pan]');
+  const scrollToRailItem = (item) => {
+    if (!panAct || !rail || !item) return;
+    const over = rail.scrollWidth - window.innerWidth;
+    const travel = over * (1 + (parseFloat(rail.getAttribute('data-sc-pan')) || 0));
+    const actTop = panAct.getBoundingClientRect().top + window.scrollY;
+    if (reducedMotion || travel <= 0) {
+      window.scrollTo({ top: actTop, behavior: 'instant' });
+      item.scrollIntoView({ block: 'nearest', inline: 'center', behavior: 'instant' });
+      return;
+    }
+    const centre = item.offsetLeft + item.offsetWidth / 2;
+    const p = clamp((centre - window.innerWidth / 2) / travel, 0, 1);
+    window.scrollTo({ top: actTop + p * (panAct.offsetHeight - window.innerHeight), behavior: 'instant' });
+  };
+  catalogue.querySelectorAll('[data-rail-jump]').forEach((link) => {
+    link.addEventListener('click', (event) => {
+      const item = catalogue.querySelector(link.getAttribute('href'));
+      if (!item) return;
+      event.preventDefault();
+      scrollToRailItem(item);
+      history.replaceState(null, '', link.getAttribute('href'));
+    });
+  });
+  panAct?.addEventListener('focusin', (event) => {
+    const item = event.target.closest('.cat-object, .cat-rail__lead, .cat-rail__note');
+    const box = item?.getBoundingClientRect();
+    if (box && (box.left < 0 || box.right > window.innerWidth)) scrollToRailItem(item);
+  });
+
+  // Index: mark where the reader is.
+  const indexLinks = [...catalogue.querySelectorAll('.cat-index a')];
+  const railItems = rail ? [...rail.querySelectorAll('.cat-object')] : [];
+  const markIndex = () => {
+    const mid = window.innerHeight * 0.5;
+    let current = '';
+    ['standard', 'how-many', 'prices', 'call-sheet'].forEach((id) => {
+      const box = document.getElementById(id)?.getBoundingClientRect();
+      if (box && box.top < mid && box.bottom > mid) current = id;
+    });
+    const stage = panAct?.getBoundingClientRect();
+    if (stage && stage.top <= 1 && stage.bottom >= window.innerHeight - 1) {
+      let best = Infinity;
+      railItems.forEach((item) => {
+        const box = item.getBoundingClientRect();
+        const distance = Math.abs(box.left + box.width / 2 - window.innerWidth / 2);
+        if (distance < best && box.right > 0 && box.left < window.innerWidth) { best = distance; current = item.id; }
+      });
+    }
+    indexLinks.forEach((link) => link.setAttribute('aria-current', String(link.getAttribute('href') === `#${current}`)));
+  };
+  let indexFrame = 0;
+  window.addEventListener('scroll', () => { if (!indexFrame) indexFrame = requestAnimationFrame(() => { indexFrame = 0; markIndex(); }); }, { passive: true });
+  markIndex();
+
+}
+
+// The call sheet, on every page that has pickers, a sheet panel or the summary chip.
+// It is a note for the caller. It lives in this browser only and is never sent
+// anywhere; the only analytics event carries a unit count, no input values.
+{
+  const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+  const storeKey = 'star-call-sheet-v1';
+  const blank = () => ({ units: {}, people: null, hours: null, chart: null, zip: '', date: '' });
+  let sheet = blank();
+  try { sheet = { ...blank(), ...JSON.parse(window.localStorage.getItem(storeKey) || '{}') }; } catch { sheet = blank(); }
+  const save = () => { try { window.localStorage.setItem(storeKey, JSON.stringify(sheet)); } catch { /* private mode: the sheet still works for this visit */ } };
+
+  const picks = [...document.querySelectorAll('[data-pick]')];
+  const sheetScript = document.querySelector('[data-sheet-script]');
+  const sheetUnits = document.querySelector('[data-sheet-units]');
+  const sheetCrowd = document.querySelector('[data-sheet-crowd]');
+  const zipInput = document.querySelector('[data-sheet-zip]');
+  const dateInput = document.querySelector('[data-sheet-date]');
+  const sheetCounts = [...document.querySelectorAll('[data-sheet-count]')];
+  const sheetLinks = [...document.querySelectorAll('.cat-index__sheet')];
+  const mini = document.querySelector('[data-cat-mini]');
+  const miniText = document.querySelector('[data-mini-text]');
+  const miniLink = document.querySelector('[data-mini-link]');
+  const sheetSection = document.getElementById('call-sheet');
+  const stateName = document.body.dataset.locationState || '';
+  if (miniLink && sheetSection) miniLink.setAttribute('href', '#call-sheet');
+
+  const plural = (count, one, many) => `${count} ${count === 1 ? one : many}`;
+  const listPhrase = (items) => (items.length < 2 ? items.join('') : `${items.slice(0, -1).join(', ')} and ${items.at(-1)}`);
+  const formatDate = (value) => {
+    const date = new Date(`${value}T12:00:00`);
+    return Number.isNaN(date.getTime()) ? '' : date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+  };
+  const unitNames = { standard: ['standard unit', 'standard units'], ada: ['ADA unit', 'ADA units'], trailer: ['restroom trailer', 'restroom trailers'], handwash: ['handwashing station', 'handwashing stations'] };
+  const totalUnits = () => Object.values(sheet.units).reduce((sum, qty) => sum + qty, 0);
+  let headInView = false;
+  let sheetInView = false;
+
+  const updateMini = () => {
+    if (!mini) return;
+    const phone = window.matchMedia('(max-width: 860px)').matches;
+    const total = totalUnits();
+    mini.hidden = headInView || sheetInView || (phone && total === 0) || (!sheetSection && total === 0);
+  };
+
+  const render = () => {
+    picks.forEach((pick) => {
+      const qty = sheet.units[pick.dataset.pick] || 0;
+      pick.querySelector('[data-qty]').textContent = qty;
+      pick.querySelector('[data-step="-1"]').disabled = qty === 0;
+      pick.classList.toggle('has-units', qty > 0);
+    });
+    const phrases = Object.entries(unitNames).filter(([key]) => sheet.units[key] > 0).map(([key, [one, many]]) => plural(sheet.units[key], one, many));
+    const total = totalUnits();
+    const crowd = sheet.people && sheet.hours ? `about ${sheet.people.toLocaleString('en-US')} people over ${plural(sheet.hours, 'hour', 'hours')}` : '';
+    const when = sheet.date ? formatDate(sheet.date) : '';
+    let line = `Hi, I'm looking for ${phrases.length ? listPhrase(phrases) : 'a porta potty rental'}`;
+    if (crowd) line += ` for ${crowd}`;
+    if (sheet.zip.length === 5) line += `, delivered to ZIP ${sheet.zip}${stateName ? ` in ${stateName}` : ''}`;
+    else if (stateName) line += ` in ${stateName}`;
+    if (when) line += ` on ${when}`;
+    line += ". What's available, and what would it cost?";
+    if (sheetScript) sheetScript.textContent = line;
+    if (sheetUnits) sheetUnits.textContent = phrases.length ? listPhrase(phrases) : 'None picked yet. You can add units on this page or ask on the call.';
+    if (sheetCrowd) sheetCrowd.textContent = crowd ? `${crowd.charAt(0).toUpperCase()}${crowd.slice(1)}${sheet.chart ? `. The PSAI chart starts at ${plural(sheet.chart, 'unit', 'units')}.` : ''}` : 'Not set';
+    sheetCounts.forEach((el) => { el.textContent = total; });
+    sheetLinks.forEach((el) => el.classList.toggle('has-units', total > 0));
+    if (miniText) miniText.textContent = total ? `Call sheet: ${plural(total, 'unit', 'units')}` : 'Call sheet';
+    if (zipInput && document.activeElement !== zipInput) zipInput.value = sheet.zip;
+    if (dateInput && document.activeElement !== dateInput) dateInput.value = sheet.date;
+    updateMini();
+  };
+
+  picks.forEach((pick) => {
+    pick.addEventListener('click', (event) => {
+      const button = event.target.closest('[data-step]');
+      if (!button) return;
+      const key = pick.dataset.pick;
+      sheet.units[key] = clamp((sheet.units[key] || 0) + Number(button.dataset.step), 0, 99);
+      save();
+      render();
+      window.dataLayer.push({ event: 'call_sheet_update', units_total: totalUnits(), page_path: window.location.pathname });
+    });
+  });
+  zipInput?.addEventListener('input', () => { sheet.zip = zipInput.value.replace(/\D/g, '').slice(0, 5); zipInput.value = sheet.zip; save(); render(); });
+  dateInput?.addEventListener('change', () => { sheet.date = dateInput.value; save(); render(); });
+  document.querySelector('[data-sheet-clear]')?.addEventListener('click', () => { sheet = blank(); save(); render(); });
+  const copyButton = document.querySelector('[data-sheet-copy]');
+  copyButton?.addEventListener('click', async () => {
+    const text = `${sheetScript.textContent}\nCall +1 (833) 920-1299`;
+    try {
+      await navigator.clipboard.writeText(text);
+      copyButton.textContent = 'Copied';
+    } catch {
+      copyButton.textContent = 'Copy failed. Select the text instead.';
+    }
+    window.setTimeout(() => { copyButton.textContent = 'Copy the sheet'; }, 2200);
+  });
+
+  // Sizing from the PSAI special-event chart: the smallest row at or above the crowd.
+  const size = document.querySelector('[data-size]');
+  if (size) {
+    const chart = JSON.parse(size.dataset.psaiChart);
+    const people = size.querySelector('[data-size-people]');
+    const hours = size.querySelector('[data-size-hours]');
+    const result = size.querySelector('[data-size-result]');
+    const apply = size.querySelector('[data-size-apply]');
+    let current = null;
+    const compute = () => {
+      const crowd = Math.max(1, Math.floor(Number(people.value)) || 1);
+      const h = Number(hours.value);
+      const row = chart.find(([rowCrowd]) => rowCrowd >= crowd);
+      if (!row) {
+        current = null;
+        result.innerHTML = '<strong>Over 20,000 people</strong><small>Ask the vendor for a site plan; the chart here stops at 20,000.</small>';
+        apply.disabled = true;
+        return;
+      }
+      const units = row[h];
+      const accessible = Math.max(1, Math.ceil(units * 0.05));
+      current = { people: crowd, hours: h, chart: units };
+      result.innerHTML = `<strong>${plural(units, 'unit', 'units')}</strong><small>Including at least ${plural(accessible, 'accessible unit', 'accessible units')}. PSAI chart, ${row[0].toLocaleString('en-US')}-person row, ${plural(h, 'hour', 'hours')}, no pumping during the event.</small>`;
+      apply.disabled = false;
+    };
+    size.addEventListener('input', compute);
+    size.addEventListener('change', compute);
+    apply.addEventListener('click', () => {
+      if (!current) return;
+      Object.assign(sheet, current);
+      save();
+      render();
+      apply.textContent = 'Added to your call sheet';
+      window.setTimeout(() => { apply.textContent = 'Put this on my call sheet'; }, 2200);
+    });
+    if (sheet.people) people.value = sheet.people;
+    if (sheet.hours) hours.value = sheet.hours;
+    compute();
+  }
+
+  // The summary chip shows between the page head and the sheet itself.
+  const head = document.querySelector('[data-cat-hero], [data-page-head]');
+  if (head) new IntersectionObserver(([entry]) => { headInView = entry.isIntersecting; updateMini(); }, { threshold: 0.15 }).observe(head);
+  if (sheetSection) new IntersectionObserver(([entry]) => { sheetInView = entry.isIntersecting; updateMini(); }).observe(sheetSection);
+
+  render();
+}

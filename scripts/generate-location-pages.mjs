@@ -1,6 +1,8 @@
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { seasonFor, oshaFor } from './lib/state-data.mjs';
 import { priceSummary, priceSources, pricesChecked } from './lib/price-data.mjs';
+import { pageHead, unitStrip, callSheet, callButton, sheetLink } from './lib/catalogue.mjs';
+import { phoneIcon } from './lib/site.mjs';
 import { header, footer, organization } from './lib/site.mjs';
 import { posts as blogPosts } from './lib/blog-posts.mjs';
 import { dirname, resolve } from 'node:path';
@@ -185,68 +187,32 @@ const statePage = (state) => {
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="manifest" href="/site.webmanifest" />
   <meta name="theme-color" content="#091426" />
-  <link rel="preload" as="image" href="/assets/homepage/cover.webp" fetchpriority="high" />
   <link rel="stylesheet" href="/styles.css" />
   ${clarityTrackingScript}
   <script type="application/ld+json">${serializeSchema(schema)}</script>
 </head>
 <body class="location-page state-location-page" data-location-state="${escapeHtml(state.name)}">
 ${header('/location/')}
-<main id="main">
-  <section class="location-hero state-location-hero">
-    <div class="container location-hero-grid">
-      <div class="location-hero-copy">
-        <div class="breadcrumb location-breadcrumb"><a href="/">Home</a><span>/</span><a href="/location/">Locations</a><span>/</span><span>${escapeHtml(state.name)}</span></div>
-        <h1>Porta Potty Rental in ${escapeHtml(state.name)}</h1>
-        <p>Request information about portable toilet rental for an address in ${escapeHtml(state.name)}. Planning requests may involve ${escapeHtml(listSentence(state.cities))}; exact inventory, delivery, servicing, and pickup are confirmed by ZIP code.</p>
-        <div class="location-hero-actions"><a class="btn btn-call" href="tel:${phoneHref}"><svg class="icon-phone" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25c1.1.37 2.3.57 3.6.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1L6.6 10.8z"/></svg>Call ${phoneDisplay}</a><a class="btn btn-location-secondary" href="#rental-options">Explore rental options</a></div>
-        <div class="location-hero-proof"><span>✓ Vendor coverage by ZIP</span><span>✓ Event & job-site rentals</span><span>✓ Flexible service plans</span></div>
-      </div>
-      <aside class="location-call-card">
-        <span class="location-call-label">Call for ${state.name} availability</span>
-        <h2>Get rental answers in one call.</h2>
-        <p>Have your delivery ZIP, dates, unit count, attendance or crew size, and site-access notes ready.</p>
-        <a href="tel:${phoneHref}" class="location-card-phone"><span aria-hidden="true"><svg class="icon-phone" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25c1.1.37 2.3.57 3.6.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1L6.6 10.8z"/></svg></span><span><small>Talk to the rental desk</small>${phoneDisplay}</span></a>
-        <small class="coverage-disclosure">A vendor must confirm coverage and inventory for the exact address. This page does not represent a staffed office in ${state.name}.</small>
-      </aside>
-    </div>
-  </section>
+<main id="main" class="catalogue cat-page">
+  ${pageHead({
+    crumbs: [['/', 'Home'], ['/location/', 'Locations'], ['', escapeHtml(state.name)]],
+    title: `Porta Potty Rental in ${escapeHtml(state.name)}`,
+    lede: `Request information about portable toilet rental for an address in ${escapeHtml(state.name)}. Planning requests may involve ${escapeHtml(listSentence(state.cities))}; exact inventory, delivery, servicing, and pickup are confirmed by ZIP code.`,
+    actions: `${callButton(`Call ${phoneDisplay}`, 'state_head')}${sheetLink()}`,
+    aside: `<div class="cat-label"><h2 class="cat-label__name">${escapeHtml(state.name)} at a glance</h2><dl class="cat-spec"><div><dt>Job sites</dt><dd>${osha.kind === 'state-plan' ? `${escapeHtml(osha.agency)} State Plan` : osha.kind === 'public-only' ? 'Federal OSHA (private sector)' : 'Federal OSHA'}</dd></div><div><dt>Region</dt><dd>${escapeHtml(state.region)}</dd></div><div><dt>Capital</dt><dd>${escapeHtml(state.capital)}</dd></div><div><dt>Season</dt><dd>${escapeHtml(season.label.charAt(0).toUpperCase() + season.label.slice(1))}</dd></div><div><dt>One day</dt><dd><strong>About ${priceSummary.standardDay.replace('–', ' to ')}</strong> per standard unit in published guides</dd></div></dl>${callButton(`Call ${phoneDisplay}`, 'state_plate')}<p class="cat-fine">This page does not represent a staffed office in ${escapeHtml(state.name)}. A vendor must confirm coverage and inventory for the exact address.</p></div>`,
+  })}
 
-  <section class="location-call-strip" aria-label="Rental information to have ready">
-    <div class="container location-call-strip-grid">
-      <div><strong>Delivery ZIP code</strong><small>Confirms route availability</small></div>
-      <div><strong>Rental dates</strong><small>Checks equipment scheduling</small></div>
-      <div><strong>Attendance or crew</strong><small>Helps estimate quantity</small></div>
-      <div><strong>Site access</strong><small>Plans placement and service</small></div>
-    </div>
-  </section>
+  <section class="cat-section" aria-labelledby="ready-title"><div class="cat-wrap"><h2 id="ready-title">Have these ready when you call</h2><dl class="cat-facts"><div><dt>Delivery ZIP code</dt><dd>Confirms route availability.</dd></div><div><dt>Rental dates</dt><dd>Checks equipment scheduling.</dd></div><div><dt>Attendance or crew</dt><dd>Helps estimate quantity.</dd></div><div><dt>Site access</dt><dd>Plans placement and service.</dd></div></dl></div></section>
 
-  <section class="section state-intro-section">
-    <div class="container state-intro-grid">
-      <figure class="state-intro-photo"><img src="/assets/homepage/delivery-setup.webp" alt="Portable restroom delivery and setup planning" loading="lazy" /><figcaption><strong>Delivery planned around your site</strong><span>Address, access, surface, placement, and service clearances are reviewed before arrival.</span></figcaption></figure>
-      <div class="state-intro-copy">
-        <h2>Planning for events and job sites in ${escapeHtml(state.name)}</h2>
-        <p>Portable restroom needs vary across ${escapeHtml(state.name)}. Projects in ${escapeHtml(state.cities.slice(0, 3).join(', '))}, and surrounding communities may need different quantities, delivery windows, and service schedules based on attendance, crew size, rental length, and site access.</p>
+  ${unitStrip({ heading: 'Choose equipment for the site', intro: `Match the unit type to your guests, crew, site conditions, comfort expectations, accessibility needs, utilities, and budget. Add what you need to your call sheet for ${escapeHtml(state.name)}.`, names: { standard: variant('standard'), ada: variant('ada'), trailer: variant('trailer'), handwash: variant('handwash') } })}
+
+  <section class="cat-section cat-section--surface" aria-labelledby="planning-title"><div class="cat-wrap cat-split"><div><h2 id="planning-title">Planning for events and job sites in ${escapeHtml(state.name)}</h2></div><div><p>Portable restroom needs vary across ${escapeHtml(state.name)}. Projects in ${escapeHtml(state.cities.slice(0, 3).join(', '))}, and surrounding communities may need different quantities, delivery windows, and service schedules based on attendance, crew size, rental length, and site access.</p>
         <p>${escapeHtml(state.note)}</p>
         <p>Planning here works around ${escapeHtml(season.label)}. ${escapeHtml(season.body)}</p>${season.source ? `<p><a href="${season.source}" target="_blank" rel="noopener">National Weather Service regional weather guide</a></p>` : ''}
-        <p>Your inquiry may involve ${escapeHtml(state.focus)}. Share the exact address so a local provider can assess coverage and availability for your part of ${escapeHtml(state.name)}.</p>
-        <a class="text-link location-text-link" href="tel:${phoneHref}">Call ${phoneDisplay} for ${escapeHtml(state.name)} availability</a>
-      </div>
-    </div>
-  </section>
+        <p>Your inquiry may involve ${escapeHtml(state.focus)}. Share the exact address so a local provider can assess coverage and availability for your part of ${escapeHtml(state.name)}.</p><h3 class="cat-subhead">Requesting a quote in ${escapeHtml(state.name)}</h3><ul class="cat-list cat-cities">${marketLabels.map((label) => `<li>${escapeHtml(label)}</li>`).join('')}</ul><p class="cat-fine">This is a planning directory, not a promise of statewide delivery. Vendor coverage, equipment, and timing must be confirmed for each address, including ${escapeHtml(state.capital)} and rural areas.</p></div></div></section>
 
-  <section class="section surface" id="metro-coverage">
-    <div class="container">
-      <div class="section-heading"><h2>Requesting a quote in ${escapeHtml(state.name)}</h2><p>Availability is confirmed per ZIP code, but use the exact delivery address when asking about these ${escapeHtml(state.name)} markets.</p></div>
-      <div class="metro-grid">
-        ${state.cities.map(city => `<article class="metro-card"><h3>${escapeHtml(city)}</h3><p>For a request in ${escapeHtml(city)}, share the exact address, dates, equipment needs, and access details. A local vendor must confirm coverage, lead time, and the service schedule.</p></article>`).join('')}
-      </div>
-      <p class="metro-note">This is a planning directory, not a promise of statewide delivery. Vendor coverage, equipment, and timing must be confirmed for each address, including ${escapeHtml(state.capital)} and rural areas.</p>
-    </div>
-  </section>
-
-  <section class="section" id="prices-permits">
-    <div class="container">
+  <section class="cat-section cat-section--surface" id="prices-permits">
+    <div class="cat-wrap">
       <div class="section-heading"><h2>Porta Potty Rental Prices and Permits in ${escapeHtml(state.name)}</h2><p>Star does not publish ${escapeHtml(state.name)} rates. The ranges below come from published national and regional guides, so use them to sanity-check a vendor quote for your address.</p></div>
       <div class="post-table-wrap"><table class="post-table"><caption>Published price ranges, checked ${pricesChecked}. Not ${escapeHtml(state.name)}-specific and not Star rates.</caption><thead><tr><th scope="col">Rental</th><th scope="col">Published range</th></tr></thead><tbody>
         <tr><th scope="row">Standard unit, one day</th><td>About ${priceSummary.standardDay}</td></tr>
@@ -260,8 +226,8 @@ ${header('/location/')}
     </div>
   </section>
 
-  <section class="section" id="job-site-rules">
-    <div class="container state-rules-grid">
+  <section class="cat-section" id="job-site-rules">
+    <div class="cat-wrap cat-rules">
       <div>
         <h2>Construction Sanitation Rules in ${escapeHtml(state.name)}</h2>
         ${osha.kind === 'state-plan' ? `
@@ -274,88 +240,20 @@ ${header('/location/')}
         <p>Accessibility is federal everywhere: where portable toilets are clustered, the 2010 ADA Standards require at least 5% and never fewer than one accessible unit per cluster. Local permit conditions in ${escapeHtml(state.capital)} and other ${escapeHtml(state.name)} jurisdictions may add requirements on top.</p>
         <a class="text-link" href="/blog/porta-potty-ratio-guide/">${variant('units')}</a>
       </div>
-      <aside class="state-rules-card">
-        <span class="service-card-label">${escapeHtml(state.name)} at a glance</span>
-        <ul>
-          <li><span>Jurisdiction</span><strong>${osha.kind === 'state-plan' ? escapeHtml(osha.agency) + ' State Plan' : osha.kind === 'public-only' ? 'Federal OSHA (private sector)' : 'Federal OSHA'}</strong></li>
-          <li><span>Region</span><strong>${escapeHtml(state.region)}</strong></li>
-          <li><span>Capital</span><strong>${escapeHtml(state.capital)}</strong></li>
-          <li><span>Season</span><strong>${escapeHtml(season.label.replace(/^an? /, ''))}</strong></li>
-        </ul>
-        <p><a href="https://www.osha.gov/stateplans${osha.kind === 'federal' ? '' : '/' + state.slug}" target="_blank" rel="noopener">${osha.kind === 'federal' ? 'Find the OSHA jurisdiction for your site' : 'OSHA’s ' + escapeHtml(state.name) + ' State Plan information'}</a> · <a href="https://www.usa.gov/local-governments" target="_blank" rel="noopener">Find the local authority</a></p>
-        <small>Rules change and local permit conditions vary. Confirm current requirements with the authority having jurisdiction for your site.</small>
-      </aside>
     </div>
   </section>
 
-  <section class="section surface" id="rental-options">
-    <div class="container">
-      <div class="section-heading center"><h2>Choose equipment for the site</h2><p>Match the unit type to your guests, crew, site conditions, comfort expectations, accessibility needs, utilities, and budget.</p></div>
-      <div class="location-options-grid">
-        <article class="location-option-card"><img src="/assets/homepage/standard-restroom.webp" alt="Standard portable restroom rental unit" loading="lazy" /><div><span>Most requested</span><h3><a href="/service/standard-porta-potty-rental/">${variant('standard')}</a></h3><p>Durable, ventilated portable toilets for construction sites, festivals, parks, home projects, and general use.</p></div></article>
-        <article class="location-option-card"><img src="/assets/homepage/ada-restroom.webp" alt="Portable restroom unit in an outdoor rental setting" loading="lazy" /><div><span>Accessible option</span><h3><a href="/service/ada-portable-toilet-rental/">${variant('ada')}</a></h3><p>Ground-level entry and additional interior space for events, public sites, and inclusive sanitation plans.</p></div></article>
-        <article class="location-option-card"><img src="/assets/homepage/restroom-trailer.webp" alt="Portable restroom trailer rental" loading="lazy" /><div><span>Upgraded comfort</span><h3><a href="/service/restroom-trailer-rental/">${variant('trailer')}</a></h3><p>Restroom trailers for weddings, corporate events, VIP areas, and projects with suitable power, water, and access.</p></div></article>
-        <article class="location-option-card"><img src="/assets/homepage/handwash-station.webp" alt="Portable handwashing station rental" loading="lazy" /><div><span>Hygiene add-on</span><h3><a href="/service/portable-handwashing-station-rental/">${variant('handwash')}</a></h3><p>Standalone sinks with fresh water, soap dispensers, and hands-free operation for events and job sites.</p></div></article>
-      </div>
-      <div class="call-cta">
-        <span class="call-cta-mark" aria-hidden="true"><svg class="icon-phone" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25c1.1.37 2.3.57 3.6.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1L6.6 10.8z"/></svg></span>
-        <div class="call-cta-copy"><small>Which rental fits your ${escapeHtml(state.name)} site?</small><strong>Get availability, recommendations, and pricing by phone.</strong><span>Share the delivery ZIP code, dates, and expected guest or crew count.</span></div>
-        <a class="call-cta-phone" href="tel:${phoneHref}" aria-label="Call Star Portable Restrooms at ${phoneDisplay}"><span class="call-cta-phone-icon" aria-hidden="true"><svg class="icon-phone" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25c1.1.37 2.3.57 3.6.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1L6.6 10.8z"/></svg></span><span><small>Call the rental desk</small><strong>${phoneDisplay}</strong></span></a>
-      </div>
-    </div>
-  </section>
+  <section class="cat-section cat-section--surface"><div class="cat-wrap cat-split"><div><h2>Details to confirm with the vendor</h2><p>Requests may come from major metros, smaller communities, rural properties, event venues, and active job sites. Because route capacity and equipment inventory change, every order begins with the delivery address.</p></div><div><h3 class="cat-subhead">What affects delivery and pricing?</h3><ul class="cat-list cat-list--one"><li>Distance and current route availability</li><li>Unit type, quantity, and rental duration</li><li>Delivery surface, gate, and truck clearance</li><li>Cleaning, pumping, and restocking frequency</li><li>Event timing, pickup window, and special access</li></ul></div></div></section>
 
-  <section class="section state-markets-section">
-    <div class="container state-markets-grid">
-      <div>
-        <h2>Details to confirm with the vendor</h2>
-        <p>Requests may come from major metros, smaller communities, rural properties, event venues, and active job sites. Because route capacity and equipment inventory change, every order begins with the delivery address.</p>
-        <div class="market-chips">${marketLabels.map((label) => `<span>${escapeHtml(label)}</span>`).join('')}</div>
-      </div>
-      <aside class="state-planning-card">
-        <span class="state-planning-icon">◎</span>
-        <h3>What affects delivery and pricing?</h3>
-        <ul><li>Distance and current route availability</li><li>Unit type, quantity, and rental duration</li><li>Delivery surface, gate, and truck clearance</li><li>Cleaning, pumping, and restocking frequency</li><li>Event timing, pickup window, and special access</li></ul>
-        <a class="btn btn-call" href="tel:${phoneHref}"><svg class="icon-phone" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25c1.1.37 2.3.57 3.6.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1L6.6 10.8z"/></svg>Call ${phoneDisplay}</a>
-      </aside>
-    </div>
-  </section>
+  <section class="cat-section"><div class="cat-wrap"><h2>Match the setup to your project</h2><p>Choose a sanitation plan around the people using the site, how long units will remain, and how service trucks can safely reach them.</p><ul class="cat-list"><li><h3>Construction & Long-Term Work</h3><p>Job-site porta potties, handwashing stations, recurring pumping, cleaning, deodorizing, and supply restocking.</p></li><li><h3>Weddings & Private Events</h3><p>Clean standard units, accessible restrooms, or upgraded trailers planned around venue access and guest count.</p></li><li><h3>Festivals & Public Gatherings</h3><p>Quantity planning for attendance, duration, food and alcohol service, accessible use, and high-traffic placement.</p></li><li><h3>Commercial & Temporary Facilities</h3><p>Portable sanitation for warehouses, outages, renovations, seasonal operations, and remote or temporary work areas.</p></li></ul></div></section>
 
-  <section class="section dark-section location-use-section">
-    <div class="container">
-      <div class="section-heading"><h2>Match the setup to your project</h2><p>Choose a sanitation plan around the people using the site, how long units will remain, and how service trucks can safely reach them.</p></div>
-      <div class="location-use-grid">
-        <article><h3>Construction & Long-Term Work</h3><p>Job-site porta potties, handwashing stations, recurring pumping, cleaning, deodorizing, and supply restocking.</p></article>
-        <article><h3>Weddings & Private Events</h3><p>Clean standard units, accessible restrooms, or upgraded trailers planned around venue access and guest count.</p></article>
-        <article><h3>Festivals & Public Gatherings</h3><p>Quantity planning for attendance, duration, food and alcohol service, accessible use, and high-traffic placement.</p></article>
-        <article><h3>Commercial & Temporary Facilities</h3><p>Portable sanitation for warehouses, outages, renovations, seasonal operations, and remote or temporary work areas.</p></article>
-      </div>
-    </div>
-  </section>
+  <section class="cat-section cat-section--surface"><div class="cat-wrap cat-split"><div><h2>From inquiry to a confirmed vendor booking</h2><p>Share the request with Star, then confirm coverage, equipment, price, and service arrangements with the selected vendor.</p></div><ol class="cat-steps"><li><h3>Share the address and dates</h3><p>Provide the ZIP code, delivery and pickup dates, site type, and access notes.</p></li><li><h3>Review units and pricing</h3><p>Discuss quantities, accessible options, trailers, handwashing, and service frequency.</p></li><li><h3>Coordinate delivery and service</h3><p>Confirm placement, arrival timing, recurring maintenance when needed, and pickup.</p></li></ol></div></section>
 
-  <section class="section">
-    <div class="container location-process-layout">
-      <div><h2>From inquiry to a confirmed vendor booking</h2><p>Share the request with Star, then confirm coverage, equipment, price, and service arrangements with the selected vendor.</p></div>
-      <div class="location-process-steps">
-        <article><span>01</span><div><h3>Share the address and dates</h3><p>Provide the ZIP code, delivery and pickup dates, site type, and access notes.</p></div></article>
-        <article><span>02</span><div><h3>Review units and pricing</h3><p>Discuss quantities, accessible options, trailers, handwashing, and service frequency.</p></div></article>
-        <article><span>03</span><div><h3>Coordinate delivery and service</h3><p>Confirm placement, arrival timing, recurring maintenance when needed, and pickup.</p></div></article>
-      </div>
-    </div>
-  </section>
+  <section class="cat-section" id="state-faqs"><div class="cat-wrap cat-split"><div><h2>Porta Potty Rental FAQs for ${escapeHtml(state.name)}</h2><p>Answers about pricing, local availability, event quantities, construction rentals, restroom trailers, and call preparation.</p></div><div class="faq-list">${faqs.map(({ q, a }, index) => `<article class="faq-item${index === 0 ? ' open' : ''}" data-faq-item><button class="faq-question" type="button" aria-expanded="${index === 0}" data-faq-button>${escapeHtml(q)}<span class="faq-plus">+</span></button><div class="faq-answer"><div><p>${escapeHtml(a)}</p></div></div></article>`).join('')}</div></div></section>
 
-  <section class="section surface" id="state-faqs">
-    <div class="container location-faq-layout">
-      <div><h2>Porta Potty Rental FAQs for ${escapeHtml(state.name)}</h2><p>Answers about pricing, local availability, event quantities, construction rentals, restroom trailers, and call preparation.</p><a class="btn btn-call" href="tel:${phoneHref}"><svg class="icon-phone" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25c1.1.37 2.3.57 3.6.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1L6.6 10.8z"/></svg>Call ${phoneDisplay}</a></div>
-      <div class="faq-list">${faqs.map(({ q, a }, index) => `<article class="faq-item${index === 0 ? ' open' : ''}" data-faq-item><button class="faq-question" type="button" aria-expanded="${index === 0}" data-faq-button>${escapeHtml(q)}<span class="faq-plus">+</span></button><div class="faq-answer"><div><p>${escapeHtml(a)}</p></div></div></article>`).join('')}</div>
-    </div>
-  </section>
+  <section class="cat-section cat-section--surface" aria-labelledby="related-title"><div class="cat-wrap cat-split"><div><h2 id="related-title">Related Porta Potty Rental Locations</h2><p>More ${escapeHtml(state.region)} planning pages, or <a href="/location/">view all states</a>.</p></div><ul class="cat-links">${related.map((item) => `<li><a href="/location/${item.slug}/"><span>${item.code}</span><strong>Porta Potty Rental in ${escapeHtml(item.name)}</strong></a></li>`).join('')}</ul></div></section>
 
-  <section class="section-sm related-locations-section">
-    <div class="container"><div class="related-locations-head"><div><h2>Related Porta Potty Rental Locations</h2></div><a class="text-link" href="/location/">View all states</a></div><div class="related-location-links">${related.map((item) => `<a href="/location/${item.slug}/"><span>${item.code}</span><strong>Porta Potty Rental in ${escapeHtml(item.name)}</strong><small>View location</small></a>`).join('')}</div></div>
-  </section>
-
-  <section class="section-sm"><div class="container cta-panel location-final-cta" style="--cta-image: url('/assets/homepage/final-cta.webp');"><div class="cta-panel-inner"><div><h2>Call for Porta Potty Rental in ${escapeHtml(state.name)}</h2><p>Have your ZIP code, dates, estimated attendance or crew size, and site-access details ready for a faster availability check.</p></div><a class="btn btn-white cta-phone" href="tel:${phoneHref}"><span>Call the rental desk</span><strong>${phoneDisplay}</strong></a></div></div></section>
+  ${callSheet({ note: `The sheet adds ${escapeHtml(state.name)} to your request.` })}
 </main>
 ${footer}
 <script type="module" src="/script.js"></script>
@@ -398,30 +296,28 @@ const hubPage = `<!doctype html>
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="manifest" href="/site.webmanifest" />
   <meta name="theme-color" content="#091426" />
-  <link rel="preload" as="image" href="/assets/homepage/cover.webp" fetchpriority="high" />
   <link rel="stylesheet" href="/styles.css" />
   ${clarityTrackingScript}
   <script type="application/ld+json">${serializeSchema(hubSchema)}</script>
 </head>
 <body class="location-page location-hub-page">
 ${header('/location/')}
-<main id="main">
-  <section class="location-hero location-hub-hero">
-    <div class="container location-hero-grid">
-      <div class="location-hero-copy"><div class="breadcrumb location-breadcrumb"><a href="/">Home</a><span>/</span><span>Locations</span></div><h1>Porta Potty Rental Locations Across the USA</h1><p>Explore portable toilet and portable restroom rental planning by state. Select a location, then call with the exact delivery ZIP code to confirm current inventory, route availability, service options, and pricing.</p><div class="location-hero-actions"><a class="btn btn-call" href="tel:${phoneHref}"><svg class="icon-phone" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25c1.1.37 2.3.57 3.6.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1L6.6 10.8z"/></svg>Call ${phoneDisplay}</a><a class="btn btn-location-secondary" href="#state-directory">Browse all states</a></div><div class="location-hero-proof"><span>✓ 50 state guides</span><span>✓ Availability confirmed by ZIP</span><span>✓ Rental inquiry service</span></div></div>
-      <aside class="location-call-card hub-call-card"><span class="location-call-label">Need a rental near you?</span><h2>Tell us where and when.</h2><p>Call with the delivery ZIP code, dates, project type, attendance or crew size, and site-access information.</p><a href="tel:${phoneHref}" class="location-card-phone"><span aria-hidden="true"><svg class="icon-phone" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25c1.1.37 2.3.57 3.6.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1L6.6 10.8z"/></svg></span><span><small>Call for availability</small>${phoneDisplay}</span></a><small class="coverage-disclosure">The directory provides state-level planning information. Service is confirmed for each delivery address.</small></aside>
-    </div>
+<main id="main" class="catalogue cat-page">
+  ${pageHead({
+    crumbs: [['/', 'Home'], ['', 'Locations']],
+    title: 'Porta Potty Rental Locations Across the USA',
+    lede: `Explore portable toilet and portable restroom rental planning by state. Select a location, then call with the exact delivery ZIP code to confirm current inventory, route availability, service options, and pricing.`,
+    actions: `${callButton(`Call ${phoneDisplay}`, 'hub_head')}${sheetLink()}`,
+    aside: `<div class="cat-label"><h2 class="cat-label__name">How state pages work</h2><dl class="cat-spec"><div><dt>Pick a state</dt><dd>Review local planning guidance and the OSHA jurisdiction.</dd></div><div><dt>Share the ZIP</dt><dd>Coverage is confirmed for the exact delivery address.</dd></div><div><dt>Describe the job</dt><dd>Units, dates, crowd or crew, and site access.</dd></div><div><dt>Get the quote</dt><dd>A local vendor confirms price, delivery and service.</dd></div></dl>${callButton(`Call ${phoneDisplay}`, 'hub_plate')}<p class="cat-fine">The directory provides state-level planning information. Service is confirmed for each delivery address.</p></div>`,
+  })}
+
+  <section class="cat-section state-directory-section" id="state-directory">
+    <div class="cat-wrap"><div class="state-directory-head"><div><h2>Find a Porta Potty Rental Location by State</h2><p>Each state page covers portable toilet options, common event and construction needs, delivery considerations, major markets, FAQs, and a direct call path.</p></div><label class="state-search"><span>Search states</span><input type="search" placeholder="Enter a state name" autocomplete="off" data-state-search /></label></div><p class="state-search-empty" data-state-empty hidden>No states match that search.</p><div class="state-region-groups">${groupedStates.map(({ region, states: regionStates }) => `<section class="state-region-group" data-state-region><div class="state-region-title"><h3>${region}</h3><small>${regionStates.length} states</small></div><div class="state-card-grid">${regionStates.map((state) => `<a class="state-link-card" href="/location/${state.slug}/" data-state-card data-state-name="${state.name.toLowerCase()}"><span>${state.code}</span><div><strong>${escapeHtml(state.name)}</strong><small>Porta potty rental</small></div></a>`).join('')}</div></section>`).join('')}</div></div>
   </section>
 
-  <section class="location-call-strip" aria-label="How state availability checks work"><div class="container location-call-strip-grid"><div><span>01</span><strong>Choose a state</strong><small>Review local planning guidance</small></div><div><span>02</span><strong>Share the ZIP code</strong><small>Confirm route availability</small></div><div><span>03</span><strong>Describe the project</strong><small>Estimate unit types and quantity</small></div><div><span>04</span><strong>Review service</strong><small>Discuss delivery and pricing</small></div></div></section>
+  <section class="cat-section cat-section--surface"><div class="cat-wrap cat-split"><div><h2>Portable Toilet Rental Help for Events and Job Sites</h2><p>Customers searching for a “porta potty rental near me” usually need fast answers about nearby inventory, delivery timing, rental cost, unit quantity, and servicing. State pages help organize that information, but the exact address is what determines real availability.</p><p>Rental options may include standard portable toilets, accessible portable restrooms, restroom trailers, and handwashing stations for construction, festivals, weddings, commercial sites, private gatherings, and temporary facilities.</p></div><ul class="cat-list cat-list--one"><li><h3>Event rentals</h3><p>Plan around attendance, duration, food and alcohol service, accessibility, and venue access.</p></li><li><h3>Construction rentals</h3><p>Coordinate job-site placement, recurring cleaning, pumping, restocking, and pickup.</p></li><li><h3>Trailer rentals</h3><p>Review power, water, level ground, truck access, guest expectations, and utilities.</p></li></ul></div></section>
 
-  <section class="section state-directory-section" id="state-directory">
-    <div class="container"><div class="state-directory-head"><div><h2>Find a Porta Potty Rental Location by State</h2><p>Each state page covers portable toilet options, common event and construction needs, delivery considerations, major markets, FAQs, and a direct call path.</p></div><label class="state-search"><span>Search states</span><input type="search" placeholder="Enter a state name" autocomplete="off" data-state-search /></label></div><p class="state-search-empty" data-state-empty hidden>No states match that search.</p><div class="state-region-groups">${groupedStates.map(({ region, states: regionStates }) => `<section class="state-region-group" data-state-region><div class="state-region-title"><h3>${region}</h3><small>${regionStates.length} states</small></div><div class="state-card-grid">${regionStates.map((state) => `<a class="state-link-card" href="/location/${state.slug}/" data-state-card data-state-name="${state.name.toLowerCase()}"><span>${state.code}</span><div><strong>${escapeHtml(state.name)}</strong><small>Porta potty rental</small></div></a>`).join('')}</div></section>`).join('')}</div><div class="call-cta"><span class="call-cta-mark" aria-hidden="true"><svg class="icon-phone" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25c1.1.37 2.3.57 3.6.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1L6.6 10.8z"/></svg></span><div class="call-cta-copy"><small>Not sure which page to choose?</small><strong>Call with the delivery ZIP code for a direct availability check.</strong><span>We’ll help with unit options, quantities, service frequency, and pricing.</span></div><a class="call-cta-phone" href="tel:${phoneHref}" aria-label="Call Star Portable Restrooms at ${phoneDisplay}"><span class="call-cta-phone-icon" aria-hidden="true"><svg class="icon-phone" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25c1.1.37 2.3.57 3.6.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1L6.6 10.8z"/></svg></span><span><small>Call the rental desk</small><strong>${phoneDisplay}</strong></span></a></div></div>
-  </section>
-
-  <section class="section surface"><div class="container location-hub-content"><div><h2>Portable Toilet Rental Help for Events and Job Sites</h2><p>Customers searching for a “porta potty rental near me” usually need fast answers about nearby inventory, delivery timing, rental cost, unit quantity, and servicing. State pages help organize that information, but the exact address is what determines real availability.</p><p>Rental options may include standard portable toilets, accessible portable restrooms, restroom trailers, and handwashing stations for construction, festivals, weddings, commercial sites, private gatherings, and temporary facilities.</p></div><div class="hub-content-points"><article><h3>Event rentals</h3><p>Plan around attendance, duration, food and alcohol service, accessibility, and venue access.</p></article><article><h3>Construction rentals</h3><p>Coordinate job-site placement, recurring cleaning, pumping, restocking, and pickup.</p></article><article><h3>Trailer rentals</h3><p>Review power, water, level ground, truck access, guest expectations, and utilities.</p></article></div></div></section>
-
-  <section class="section-sm"><div class="container cta-panel location-final-cta" style="--cta-image: url('/assets/homepage/final-cta.webp');"><div class="cta-panel-inner"><div><h2>Find Porta Potty Rental Availability Near You</h2><p>Call with your delivery ZIP code, dates, project details, and estimated attendance or crew size.</p></div><a class="btn btn-white cta-phone" href="tel:${phoneHref}"><span>Call the rental desk</span><strong>${phoneDisplay}</strong></a></div></div></section>
+  ${callSheet()}
 </main>
 ${footer}
 <script type="module" src="/script.js"></script><script type="module" src="/location.js"></script>

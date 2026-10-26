@@ -46,8 +46,9 @@ walk(root);
 for (const file of htmlFiles) {
   let html = readFileSync(file, 'utf8');
   const pagePath = relative(root, file).replaceAll('\\', '/');
-  const backgroundSource = pagePath === 'index.html' || pagePath.startsWith('location/') ? '/assets/homepage/cover.webp'
-    : ({'about/index.html':'/assets/about/hero.webp','blog/index.html':'/assets/blog/hero.webp','contact/index.html':'/assets/contact/hero.webp'})[pagePath];
+  // Page heads are light now (the homepage and service heads use cutout <img>s
+  // with their own preloads), so no page preloads a CSS background hero.
+  const backgroundSource = null;
   if (backgroundSource) html = html.replace(/<link\b[^>]*rel="preload"[^>]*as="image"[^>]*>\s*/g, '');
   html = html.replace(/<link[^>]+href="https:\/\/fonts\.(?:googleapis|gstatic)\.com[^>]*>\s*/g, '');
   html = html.replace(/href="(?:\/?styles\.css|\/assets\/site-[a-f0-9]+\.css)"/g, `href="${stylePath}"`);
@@ -74,7 +75,7 @@ for (const file of htmlFiles) {
     const path = src?.startsWith('/') ? src : '/' + src;
     const variants = manifest[sourceFor.get(path) || path];
     if (!variants) return tag;
-    const backgroundHero = file === resolve(root, 'index.html') || file.includes('/location/');
+    const backgroundHero = file.includes('/location/');
     if (backgroundHero) return tag.replace(/\s(?:href|imagesrcset|imagesizes)="[^"]*"/g, '').replace(/\s*\/?>$/, ` href="${variants.at(-2)?.src || variants[0].src}" imagesrcset="${variants.at(-2)?.src || variants[0].src} 1x, ${variants.at(-1).src} 2x" />`);
     const hero = html.match(/<figure class="post-figure">[\s\S]*?(<img\b[^>]*>)/)?.[1];
     const imageSizes = hero?.match(/\bsizes="([^"]+)"/)?.[1] || '(max-width: 1240px) calc(100vw - 32px), 1240px';
